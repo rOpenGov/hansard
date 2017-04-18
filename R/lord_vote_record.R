@@ -1,13 +1,13 @@
 
-#' lord_vote_record
-#'
-#' Accepts an ID number for a member of the House of Commons, and returns a data frame of their votes.
-#' @param peer_id The ID number of a member of the House of Lords.
+
+#' Accepts an ID number for a member of the House of Commons, and returns a tibble of their votes.
+#' @param peer_id The ID number of a member of the House of Lords. Defaults to NULL, but cannot be empty.
 #' @param lobby Accepts one of 'all', 'content', 'notcontent'. 'content' returns votes where the peer voted 'content', 'notcontent' returns votes where the peer voted 'notcontent', 'all' returns all available votes by the peer. Defaults to 'all'.
-#' @param start_date The earliest date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame. Defaults to current system date.
+#' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'.
+#' @param end_date The latest date to include in the tibble. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details on the voting record of a member of the House of Lords
 #' @keywords divisions
 #' @export
 #' @examples \dontrun{
@@ -19,8 +19,7 @@
 #' }
 
 
-lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
+lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE) {
     
     if (is.null(peer_id) == TRUE) {
         stop("peer_id must not be empty", call. = FALSE)
@@ -45,13 +44,14 @@ lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-0
         pages <- list()
         
         for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), 
-                flatten = TRUE)
+            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), flatten = TRUE)
             message("Retrieving page ", i + 1, " of ", jpage + 1)
             pages[[i + 1]] <- mydata$result$items
         }
         
         df <- dplyr::bind_rows(pages)
+        
+        df <- tibble::as_tibble(df)
         
         df$date._datatype <- as.factor(df$date._datatype)
         df$date._value <- as.Date(df$date._value)
@@ -73,13 +73,14 @@ lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-0
         pages <- list()
         
         for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), 
-                flatten = TRUE)
+            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), flatten = TRUE)
             message("Retrieving page ", i + 1, " of ", jpage + 1)
             pages[[i + 1]] <- mydata$result$items
         }
         
         df <- dplyr::bind_rows(pages)
+        
+        df <- tibble::as_tibble(df)
         
         df$date._datatype <- as.factor(df$date._datatype)
         df$date._value <- as.Date(df$date._value)
@@ -103,8 +104,7 @@ lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-0
         pages <- list()
         
         for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), 
-                flatten = TRUE)
+            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), flatten = TRUE)
             message("Retrieving page ", i + 1, " of ", jpage + 1)
             pages[[i + 1]] <- mydata$result$items
         }
@@ -130,8 +130,7 @@ lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-0
         pages <- list()
         
         for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), 
-                flatten = TRUE)
+            mydata <- jsonlite::fromJSON(paste0(baseurl, peer_id, "&_pageSize=500", dates, "&_page=", i, extra_args), flatten = TRUE)
             message("Retrieving page ", i + 1, " of ", jpage + 1)
             pages[[i + 1]] <- mydata$result$items
         }
@@ -168,8 +167,3 @@ lord_vote_record <- function(peer_id = NULL, lobby = "all", start_date = "1900-0
 }
 
 
-
-lords_vote_record <- function(lord.id, lordsRecord = c("all", "content", "notContent")) {
-    .Deprecated("lord_vote_record")
-    lord_vote_record(peer_id = lord.id, lobby = tolower(lordsRecord))
-}

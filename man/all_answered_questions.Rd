@@ -2,24 +2,27 @@
 % Please edit documentation in R/all_answered_questions.R
 \name{all_answered_questions}
 \alias{all_answered_questions}
-\title{all_answered_questions}
+\title{Imports data on all answered parliamentary questions.}
 \usage{
 all_answered_questions(mp_id = NULL, start_date = "1900-01-01",
   end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
 }
 \arguments{
-\item{mp_id}{Accepts a member ID, and returns a data frame with all available questions asked by that member. If NULL, returns  a data frame with all available answered questions.}
+\item{mp_id}{Accepts a member ID, and returns a tibble with all available questions asked by that member. If NULL, returns a tibble with all available answered questions.}
 
-\item{start_date}{The earliest date to include in the data frame. Defaults to '1900-01-01'.}
+\item{start_date}{The earliest date to include in the tibble. Defaults to '1900-01-01'.}
 
-\item{end_date}{The latest date to include in the data frame. Defaults to current system date.}
+\item{end_date}{The latest date to include in the tibble. Defaults to current system date.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+}
+\value{
+A tibble with details on all answered questions in the House of Commons and the House of Lords.
 }
 \description{
-Imports data on answered parliamentary questions
+Imports data on all answered parliamentary questions.
 }
 \examples{
 \dontrun{

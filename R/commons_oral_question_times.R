@@ -1,11 +1,11 @@
 
-#' commons_oral_question_times
-#'
+
 #' Imports data on House of Commons oral question times
-#' @param session Accepts a session in format yyyy/yy (e.g. 2016/17) and returns a data frame of all oral question times from that session
-#' @param question_id Accepts a question time ID, and returns a data frame of that question time.
+#' @param session Accepts a session in format yyyy/yy (e.g. 2016/17) and returns a tibble of all oral question times from that session
+#' @param question_id Accepts a question time ID, and returns a tibble of that question time.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with information on oral question times in the House of Commons.
 #' @keywords Oral Questions Time
 #' @export
 #' @examples \dontrun{
@@ -55,13 +55,14 @@ commons_oral_question_times <- function(session = NULL, question_id = NULL, extr
         pages <- list()
         
         for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, question_id, ".json", session, page_size, "&_page=", i, extra_args), 
-                flatten = TRUE)
+            mydata <- jsonlite::fromJSON(paste0(baseurl, question_id, ".json", session, page_size, "&_page=", i, extra_args), flatten = TRUE)
             message("Retrieving page ", i + 1, " of ", jpage + 1)
             pages[[i + 1]] <- mydata$result$items
         }
         
         df <- dplyr::bind_rows(pages)
+        
+        df <- tibble::as_tibble(df)
         
     }
     

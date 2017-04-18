@@ -8,3 +8,5 @@
 ^README-.*\.png$
 ^data-raw$
 ^codecov\.yml$
+^docs$
+^mp_edms_cleanbit\.txt$

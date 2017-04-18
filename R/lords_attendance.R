@@ -1,12 +1,12 @@
 
-#' lords_attendance
-#'
-#' Imports data on House of Lords attendance. Please note that the attendance data frames are not as tidy as some of the others that are accessible through this API.
+
+#' Imports data on House of Lords attendance. Please note that the attendance data is not as tidy as some of the others that are accessible through this API, and so additional work to prepare this data in a way that you want may be required.
 #' @param session_id The ID of the House of Lords session. If NULL, returns a list of all sessions. Defaults to NULL.
-#' @param start_date The earliest date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame. Defaults to current system date.
+#' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'.
+#' @param end_date The latest date to include in the tibble. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return Returns a tibble with details on the lords who attended a given session.
 #' @keywords House of Lords Attendance
 #' @export
 #' @examples \dontrun{
@@ -14,8 +14,7 @@
 #' x <- lords_attendance(session_id = 706178)
 #' }
 #'
-lords_attendance <- function(session_id = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
+lords_attendance <- function(session_id = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE) {
     
     if (is.null(session_id) == FALSE) {
         query <- paste0("/", session_id, ".json?")
@@ -35,6 +34,8 @@ lords_attendance <- function(session_id = NULL, start_date = "1900-01-01", end_d
         
         df <- as.data.frame(attend$result$primaryTopic)
         
+        df <- tibble::as_tibble(df)
+        
     } else {
         
         jpage <- round(attend$result$totalResults/attend$result$itemsPerPage, digits = 0)
@@ -48,6 +49,9 @@ lords_attendance <- function(session_id = NULL, start_date = "1900-01-01", end_d
         }
         
         df <- dplyr::bind_rows(pages)
+        
+        df <- tibble::as_tibble(df)
+        
     }
     
     if (nrow(df) == 0) {
@@ -57,6 +61,10 @@ lords_attendance <- function(session_id = NULL, start_date = "1900-01-01", end_d
         if (tidy == TRUE) {
             
             df <- hansard_tidy(df)
+            
+            names(df)[names(df) == "x_about"] <- "about"
+            
+            names(df)[names(df) == "x_value"] <- "value"
             
             df
             
@@ -68,4 +76,3 @@ lords_attendance <- function(session_id = NULL, start_date = "1900-01-01", end_d
         
     }
 }
-

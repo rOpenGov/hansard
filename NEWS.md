@@ -1,3 +1,26 @@
+
+
+# hansard 0.4.3
+
+## Voting margins
+
+Added optional 'calculate_percent' parameter to `election_result` function. If TRUE, 'calculate_percent' calculates the turnout percentage for each constituency in the tibble and the majority of the winning candidate to one decimal place, and includes this information in the tibble in columns labelled 'turnout_percentage' and 'majortity_percentage'. Defaults to FALSE.
+
+
+# hansard 0.4.2
+
+## tibbling
+
+`hansard` now uses tibbles instead of data frames as the data class returned from API calls.
+
+
+# hansard 0.4.1
+
+Fixes discrepency between output displayed and vignette and actual package output (#7, @pssguy)
+
+tidy parameter in `members_search` now does some additional tidying up.
+
+
 # hansard 0.4.0
 
 Major re-write, breaks compatibility with previous versions, please check your code to ensure it still works with the new package, as console input functionality has been removed from all functions. These changes ensure greater consistency in syntax across the package, in both the body and formals of the functions.
@@ -26,7 +49,7 @@ Changes have been made to most functions, including:
 
 `constituencies`: Simplified formals.
 
-`early_day_motions`: Changed all camelCase to snake_case; STILL OUTSTANDING!
+`early_day_motions`: Changed all camelCase to snake_case.
 
 `election_results`: Removed console input, simplified formals.
 
@@ -35,7 +58,7 @@ Changes have been made to most functions, including:
 `lords_attendance`: Removed console input, simplified formals.
 
 `lord_vote_record`: Removed console input, simplified formals.
- 
+
 `lords_divisions`: Removed console input, simplified formals.
 
 `members`: Added additional `commons_members`, `commons_interests`, `lords_members` and `lords_interests` functions.
@@ -73,7 +96,7 @@ Fixed spelling of amendments, so that `lords_ammendments` is now `lords_amendmen
 
 ## hansard_basic()
 
-As part of a move towards calling the api through function parameters rather than console input for most functions, I have introduced `hansard_basic()` which uses console input to walk through the various steps of calling to the API. 
+As part of a move towards calling the api through function parameters rather than console input for most functions, I have introduced `hansard_basic()` which uses console input to walk through the various steps of calling to the API.
 
 # hansard 0.3.2
 
@@ -94,7 +117,7 @@ In response to a request, I've added three new functions that allow you to reque
 
 `mp_edms`
 
-The option to use console input has been preserved in `commons_divisions`, `lords_divisions`, `commons_written_questions` and `commons_oral_questions`, along with other features not available in the new functions. 
+The option to use console input has been preserved in `commons_divisions`, `lords_divisions`, `commons_written_questions` and `commons_oral_questions`, along with other features not available in the new functions.
 
 ## Bug fixes
 

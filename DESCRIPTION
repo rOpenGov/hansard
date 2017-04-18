@@ -1,8 +1,8 @@
 Package: hansard
 Type: Package
 Title: Provides Easy Downloading Capabilities for the UK Parliament API
-Version: 0.4.0
-Date: 2017-03-24
+Version: 0.4.2
+Date: 2017-04-18
 Authors@R: person("Evan Odell", email="evanodell91@gmail.com", role=c("aut", "cre"))
 Author: Evan Odell [aut, cre]
 Maintainer: Evan Odell <evanodell91@gmail.com>
@@ -15,7 +15,8 @@ Depends: R(>= 2.10.0)
 Imports:
     httr,
     jsonlite,
-    dplyr
+    dplyr,
+    tibble
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,

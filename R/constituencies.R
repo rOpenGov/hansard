@@ -1,10 +1,9 @@
 
-#' constituencies
-#'
-#' Imports data on House of Commons constituencies, returning a data frame of all current and former Westminster constituencies.
+#' Imports data on House of Commons constituencies, returning a tibble of all current and former Westminster constituencies.
 #' @param current If TRUE, returns only current constituencies. If FALSE, returns all current and former constituencies. Due to the structure of the API, this function has to request all available data, and then subset that data.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details of Westminster constituencies.
 #' @keywords Constituencies
 #' @export
 #' @examples \dontrun{
@@ -35,6 +34,8 @@ constituencies <- function(current = TRUE, extra_args = NULL, tidy = TRUE) {
     }
     
     df <- dplyr::bind_rows(pages)
+    
+    df <- tibble::as_tibble(df)
     
     df$endedDate._value <- as.Date(df$endedDate._value)
     df$startedDate._value <- as.Date(df$startedDate._value)

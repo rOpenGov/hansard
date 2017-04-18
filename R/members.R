@@ -1,10 +1,10 @@
 
-#' members
-#'
+
 #' Imports data on all current and former Members of Parliament including the Lords and the Commons
-#' @param ID The ID of a member of the House of Commons or the House of Lords. Defaults to NULL. If NULL, returns a data frame of all members. If not NULL, returns a data frame with basic information on that member.
+#' @param ID The ID of a member of the House of Commons or the House of Lords. Defaults to NULL. If NULL, returns a tibble of all members. If not NULL, returns a tibble with basic information on that member.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with data on members of the House of Commons and/or the House of Lords.
 #' @keywords All Members of Parliament
 #' @export
 #' @examples \dontrun{
@@ -45,9 +45,11 @@ members <- function(ID = NULL, extra_args = NULL, tidy = TRUE) {
         
         df <- dplyr::bind_rows(pages)
         
+        df <- tibble::as_tibble(df)
+        
     } else {
         
-        df <- as.data.frame(members$result$primaryTopic)
+        df <- tibble::as_tibble(members$result$primaryTopic)
         
     }
     
@@ -95,6 +97,8 @@ commons_members <- function(extra_args = NULL, tidy = TRUE) {
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -140,6 +144,8 @@ lords_members <- function(extra_args = NULL, tidy = TRUE) {
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -161,7 +167,8 @@ lords_members <- function(extra_args = NULL, tidy = TRUE) {
 
 
 # lords_interests
-#' @param peer_id The ID of a member of the house of lords. If NULL, returns a data frame with all listed financial interests for all members. Defaults to NULL.
+#' @param peer_id The ID of a member of the House of lords. If NULL, returns a tibble with all listed financial interests for all members. Defaults to NULL.
+#' @return A tibble with details on the interests of peers in the House of Lords.
 #' @rdname members
 #' @export
 lords_interests <- function(peer_id = NULL, extra_args = NULL, tidy = TRUE) {
@@ -190,6 +197,8 @@ lords_interests <- function(peer_id = NULL, extra_args = NULL, tidy = TRUE) {
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -208,7 +217,3 @@ lords_interests <- function(peer_id = NULL, extra_args = NULL, tidy = TRUE) {
         
     }
 }
-
-
-
-

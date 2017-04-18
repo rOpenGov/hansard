@@ -1,20 +1,20 @@
-#' lords_amendments
-#'
-#' Imports data on House of Lords Amendments. Returns a data frame with all available House of Lords Amendments. Defaults to TRUE.
-#' @param decision The decision on the amendements. Accepts one of 'Withdrawn', 'Agreed', 'Disagreed', 'Pending', 'NotMoved', 'Disposed'.
-#' @param start_date The earliest date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame. Defaults to current system date.
+
+#' Imports data on House of Lords Amendments. Returns a tibble with all available House of Lords amendments.
+#' @param decision The decision on the amendments. Accepts one of 'Withdrawn', 'Agreed', 'Disagreed', 'Pending', 'NotMoved', 'Disposed'. Defaults to NULL.
+#' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'.
+#' @param end_date The latest date to include in the tibble. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details on amendments proposed by the House of Lords.
 #' @keywords House of Lords Amendments
 #' @export
 #' @examples \dontrun{
+#'
 #' x <- lords_amendments()
+#'
 #' }
 
-
 lords_amendments <- function(decision = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE) {
-    
     
     dates <- paste0("&min-bill.date=", start_date, "&max-bill.date=", end_date)
     
@@ -42,6 +42,8 @@ lords_amendments <- function(decision = NULL, start_date = "1900-01-01", end_dat
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -59,10 +61,4 @@ lords_amendments <- function(decision = NULL, start_date = "1900-01-01", end_dat
         }
         
     }
-}
-
-
-lords_ammendments <- function(all = TRUE) {
-    .Deprecated("lords_amendments")
-    lords_amendments()
 }

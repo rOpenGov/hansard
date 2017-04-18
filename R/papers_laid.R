@@ -1,13 +1,13 @@
 
-#' papers_laid
-#'
-#' Imports data on Papers Laid
+
+#' Imports data on papers laid before the House.
 #' @param withdrawn If TRUE, only returns withdrawn papers. Defaults to FALSE.
-#' @param house The house the paper was laid in. Accepts 'commons' and 'lords'. If NULL, returns both House of Commons and House of Lords. Defaults to NULL.
-#' @param start_date The earliest paper laying date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest paper laying date to include in the data frame. Defaults to current system date.
+#' @param house The house the paper was laid in. Accepts 'commons' and 'lords'. If NULL, returns both House of Commons and House of Lords. This parameter is case-insensitive. Defaults to NULL.
+#' @param start_date The earliest paper laying date to include in the tibble. Defaults to '1900-01-01'.
+#' @param end_date The latest paper laying date to include in the tibble. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details on papers laid before the given House.
 #' @keywords Papers Laid
 #' @export
 #' @examples \dontrun{
@@ -17,8 +17,7 @@
 #' }
 #'
 
-papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
+papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE) {
     
     house <- tolower(house)
     
@@ -58,6 +57,8 @@ papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-0
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -76,5 +77,3 @@ papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-0
         
     }
 }
-
-

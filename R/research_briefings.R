@@ -1,13 +1,12 @@
 
-#' research_briefings
-#'
 #' Imports data on  Parliamentary Research Briefings. To see a list of possible topics call \code{\link{research_topics_list}} or \code{\link{research_subtopics_list}} for both topics and subtopics. To see a list of briefing types, call \code{\link{research_types_list}}.
 #' @param topic The topic of the parliamentary briefing.
 #' @param subtopic The subtopic of the parliamentary briefing.
 #' @param type The type of research briefing.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords  Parliamentary Research Briefings
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details on parliamentary research briefings on the given topic.
+#' @keywords Parliamentary Research Briefings
 #' @seealso research_topics
 #' @export
 #' @examples \dontrun{
@@ -55,6 +54,8 @@ research_briefings <- function(topic = NULL, subtopic = NULL, type = NULL, extra
         
         df <- dplyr::bind_rows(pages)
         
+        df <- tibble::as_tibble(df)
+        
     } else {
         
         if (is.null(topic) == TRUE & is.null(subtopic) == FALSE) {
@@ -85,21 +86,21 @@ research_briefings <- function(topic = NULL, subtopic = NULL, type = NULL, extra
         
         baseurl <- "http://lda.data.parliament.uk/researchbriefings/bridgeterm/"
         
-        research <- jsonlite::fromJSON(paste0(baseurl, topic_query, subtopic_query, ".json?&_pageSize=500", query, extra_args), 
-            flatten = TRUE)
+        research <- jsonlite::fromJSON(paste0(baseurl, topic_query, subtopic_query, ".json?&_pageSize=500", query, extra_args), flatten = TRUE)
         
         jpage <- round(research$result$totalResults/research$result$itemsPerPage, digits = 0)
         
         pages <- list()
         
         for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, topic_query, subtopic_query, ".json?", query, "&_pageSize=500&_page=", 
-                i, extra_args), flatten = TRUE)
+            mydata <- jsonlite::fromJSON(paste0(baseurl, topic_query, subtopic_query, ".json?", query, "&_pageSize=500&_page=", i, extra_args), flatten = TRUE)
             message("Retrieving page ", i + 1, " of ", jpage + 1)
             pages[[i + 1]] <- mydata$result$items
         }
         
         df <- dplyr::bind_rows(pages)
+        
+        df <- tibble::as_tibble(df)
         
     }
     
@@ -111,8 +112,6 @@ research_briefings <- function(topic = NULL, subtopic = NULL, type = NULL, extra
             
             df <- hansard_tidy(df)
             
-            df
-            
         } else {
             
             df
@@ -122,9 +121,3 @@ research_briefings <- function(topic = NULL, subtopic = NULL, type = NULL, extra
     }
     
 }
-
-
-
-
-
-

@@ -2,28 +2,31 @@
 % Please edit documentation in R/mp_edms.R
 \name{mp_edms}
 \alias{mp_edms}
-\title{mp_edms}
+\title{Imports data on early day motions in signed, sponsored or primarily sponsored by a given MP.}
 \usage{
 mp_edms(mp_id = NULL, primary_sponsor = TRUE, sponsor = FALSE,
   signatory = FALSE, full_data = FALSE, extra_args = NULL, tidy = TRUE)
 }
 \arguments{
-\item{mp_id}{The ID number of an MP. Required parameter.}
+\item{mp_id}{The ID number of an MP. Required parameter, defaults to NULL.}
 
-\item{primary_sponsor}{Returns a data frame of all early day motions where the given member is the primary sponsor. Defaults to TRUE.}
+\item{primary_sponsor}{Returns a tibble of all early day motions where the given member is the primary sponsor. Defaults to TRUE.}
 
-\item{sponsor}{Returns a data frame of early day motions where the given member is the primary sponsor or a sponsor. Defaults to FALSE.}
+\item{sponsor}{Returns a tibble of early day motions where the given member is the primary sponsor or a sponsor. Defaults to FALSE.}
 
-\item{signatory}{Returns a data frame of all early day motions signed by the given member. Because of the structure of the API, there is less information contained in the data frame return if signatory is TRUE, unless full_data is also TRUE. Defaults to FALSE.}
+\item{signatory}{Returns a tibble of all early day motions signed by the given member. Because of the structure of the API, there is less information contained in the tibble return if signatory is TRUE, unless full_data is also TRUE. Defaults to FALSE.}
 
-\item{full_data}{Requests all available data on the EDMs signed or sponsored by a member. Defaults to FALSE. Note that this can be a very slow process.}
+\item{full_data}{If TRUE, returns all available data on the EDMs signed or sponsored by a member. Defaults to FALSE. Note that this can be a very slow process compared to other \code{hansard} functions.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+}
+\value{
+A tibble with information on the tibbles signed, sponsored or primarily sponsored by the given MP.
 }
 \description{
-Imports data on early day motions
+Imports data on early day motions in signed, sponsored or primarily sponsored by a given MP.
 }
 \examples{
 \dontrun{

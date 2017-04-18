@@ -1,13 +1,13 @@
 
-#' bills
-#'
+
 #' Imports data on House of Commons and House of Lords bills
 #' @param ID The ID of a given bill to return data on. If NULL, returns all bills, subject to other parameters. Defaults to NULL.
 #' @param amendments If TRUE, returns all bills with amendments. Defaults to FALSE.
-#' @param start_date The earliest date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame. Defaults to current system date.
+#' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'.
+#' @param end_date The latest date to include in the tibble. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details on bills before the House of Lords and the House of Commons.
 #' @keywords bills
 #' @export
 #' @examples \dontrun{
@@ -21,8 +21,7 @@
 #'
 #' }
 
-bills <- function(ID = NULL, amendments = FALSE, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
+bills <- function(ID = NULL, amendments = FALSE, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE) {
     
     dates <- paste0("&_properties=date&max-date=", end_date, "&min-date=", start_date)
     
@@ -56,6 +55,8 @@ bills <- function(ID = NULL, amendments = FALSE, start_date = "1900-01-01", end_
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -79,7 +80,7 @@ bills <- function(ID = NULL, amendments = FALSE, start_date = "1900-01-01", end_
 
 #' bill_stage_types
 #'
-#' Returns a data frames with all possible bill stage types.
+#' Returns a tibble with all possible bill stage types.
 #' @keywords bills
 #' @rdname bills
 #' @export
@@ -93,7 +94,7 @@ bill_stage_types <- function(tidy = TRUE) {
     
     stages <- jsonlite::fromJSON("http://lda.data.parliament.uk/billstagetypes.json?_pageSize=500", flatten = TRUE)
     
-    df <- stages$result$items
+    df <- tibble::as_tibble(stages$result$items)
     
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")

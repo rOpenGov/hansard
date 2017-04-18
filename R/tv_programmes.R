@@ -1,13 +1,11 @@
 
-
-#' tv_programmes
-#'
 #' Imports data on TV broadcasts. To import information on TV channel options,
 #' @param legislature Accepts one of either 'commons' or 'lords'. If NULL, returns all TV programmes for all chambers.
-#' @param start_date The earliest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to current system date.
+#' @param start_date The earliest date to include in the tibble, if calling all divisions, using the date the question was tabled. Defaults to '1900-01-01'.
+#' @param end_date The latest date to include in the tibble, if calling all divisions, using the date the question was tabled. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with details on TV broadcasts.
 #' @keywords TV
 #' @export
 #' @examples \dontrun{
@@ -24,7 +22,9 @@ tv_programmes <- function(legislature = NULL, start_date = "1900-01-01", end_dat
         legislature <- tolower(legislature)
     }
     
-    if (legislature == "commons") {
+    if (is.null(legislature) == TRUE) {
+        query <- NULL
+    } else if (legislature == "commons") {
         query <- "&legislature.prefLabel=House of Commons"
         query <- utils::URLencode(query)
     } else if (legislature == "lords") {
@@ -51,6 +51,8 @@ tv_programmes <- function(legislature = NULL, start_date = "1900-01-01", end_dat
     }
     
     df <- dplyr::bind_rows(pages)
+    
+    df <- tibble::as_tibble(df)
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -76,6 +78,7 @@ tv_programmes <- function(legislature = NULL, start_date = "1900-01-01", end_dat
 #'
 #' Imports data on TV broadcasts. To import information on TV channel options,
 #' @param mp_id Accepts the ID of an MP or peer, and returns all clips featuring that MP or peer. If NULL, returns data on all available clips. Defaults to NULL.
+#' @return A tibble with details on TV broadcasts featuring the given MP, or all available clips.
 #' @keywords TV
 #' @export
 #' @rdname tv_programmes
@@ -108,6 +111,8 @@ tv_clips <- function(mp_id = NULL, start_date = "1900-01-01", end_date = Sys.Dat
     }
     
     df <- dplyr::bind_rows(pages)
+    
+    df <- tibble::as_tibble(df)
     if (nrow(df) == 0) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
@@ -130,6 +135,7 @@ tv_clips <- function(mp_id = NULL, start_date = "1900-01-01", end_date = Sys.Dat
 #'
 #' Imports data on TV broadcasts
 #' @rdname tv_programmes
+#' @return A tibble with details on the different broadcasting channels.
 #' @keywords TV
 #' @export
 
@@ -137,7 +143,7 @@ tv_channels <- function(tidy = TRUE) {
     
     x <- jsonlite::fromJSON("http://lda.data.parliament.uk/tvchannels.json?_pageSize=500", flatten = TRUE)
     
-    df <- x$result$items
+    df <- tibble::as_tibble(x$result$items)
     
     if (tidy == TRUE) {
         
@@ -147,12 +153,11 @@ tv_channels <- function(tidy = TRUE) {
         
     } else {
         
+        
+        
         df
         
     }
     
     
 }
-
-
-

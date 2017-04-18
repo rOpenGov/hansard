@@ -33,6 +33,8 @@ hansard_generic <- function(path) {
     
     df <- dplyr::bind_rows(pages)
     
+    df <- tibble::as_tibble(df)
+    
     df
     
 }

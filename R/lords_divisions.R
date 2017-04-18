@@ -1,14 +1,12 @@
 
-
-#' lords_divisions
-#'
 #' Imports data on House of Lords divisions
-#' @param division_id The id of a particular vote. If empty, returns a data frame with information on all lords divisions. Defaults to NULL.
-#' @param summary If TRUE, returns a small data frame summarising a division outcome. Otherwise returns a data frame with details on how each peer voted. Has no effect if `division_id` is empty. Defaults to FALSE.
-#' @param start_date The earliest date to include in the data frame, if calling all divisions. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame, if calling all divisions. Defaults to current system date.
+#' @param division_id The id of a particular vote. If empty, returns a tibble with information on all lords divisions. Defaults to NULL.
+#' @param summary If TRUE, returns a small tibble summarising a division outcome. Otherwise returns a tibble with details on how each peer voted. Has no effect if `division_id` is empty. Defaults to FALSE.
+#' @param start_date The earliest date to include in the tibble, if calling all divisions. Defaults to '1900-01-01'.
+#' @param end_date The latest date to include in the tibble, if calling all divisions. Defaults to current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @param tidy Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
+#' @return A tibble with the results of divisions in the House of Lords.
 #' @keywords Lords Divisions
 #' @export
 #' @examples \dontrun{
@@ -22,12 +20,11 @@
 #'
 #' }
 
-lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
+lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE) {
     
     dates <- paste0("&_properties=date&max-date=", end_date, "&min-date=", start_date)
     
-    if (is.null(division_id) == TRUE) {
+    if (missing(division_id)) {
         
         baseurl <- "http://lda.data.parliament.uk/lordsdivisions"
         
@@ -47,13 +44,7 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
         
         df <- dplyr::bind_rows(pages)
         
-        if (nrow(df) == 0) {
-            message("The request did not return any data. Please check your search parameters.")
-        } else {
-            df
-        }
-        
-    } else if (is.null(division_id) == FALSE) {
+    } else {
         
         division_id <- as.character(division_id)
         
@@ -80,11 +71,9 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
             df$session <- y$session
             df$uin <- y$uin
             
-            df <- as.data.frame(df)
-            
         } else {
             
-            df <- as.data.frame(divis$result$primaryTopic$vote)
+            df <- divis$result$primaryTopic$vote
             
         }
         
@@ -98,9 +87,13 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
             
             df <- hansard_tidy(df)
             
+            df <- tibble::as_tibble(df)
+            
             df
             
         } else {
+            
+            df <- tibble::as_tibble(df)
             
             df
             
@@ -108,4 +101,3 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
         
     }
 }
-
