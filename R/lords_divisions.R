@@ -24,7 +24,7 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
 
     dates <- paste0("&_properties=date&max-date=", end_date, "&min-date=", start_date)
 
-    if (missing(division_id)) {
+    if (is.null(division_id)==TRUE) {
 
         baseurl <- "http://lda.data.parliament.uk/lordsdivisions"
 
@@ -42,7 +42,7 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
             pages[[i + 1]] <- mydata$result$items
         }
 
-        df <- dplyr::bind_rows(pages)
+        df <- tibble::as_tibble(dplyr::bind_rows(pages))
 
     } else {
 
@@ -77,7 +77,7 @@ lords_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1
 
             df <- divis$result$primaryTopic$vote
 
-            df <- as.data.frame(df)
+            df <- tibble::as_tibble(as.data.frame(df))
 
         }
 
