@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date</code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates. — sessions_info • hansard</title>
+<title>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date </code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates. — sessions_info • hansard</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +63,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/EvanOdell/hansard">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -79,15 +75,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date</code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates.</h1>
+    <h1>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date </code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates.</h1>
     </div>
 
     
-    <p>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date</code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates.</p>
+    <p>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date </code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates.</p>
     
 
     <pre class="usage"><span class='fu'>sessions_info</span>(<span class='kw'>days</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>,
-  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -98,11 +95,11 @@
     </tr>
     <tr>
       <th>start_date</th>
-      <td><p>The earliest date to include in the tibble. Defaults to '1900-01-01'.</p></td>
+      <td><p>The earliest date to include in the tibble. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>end_date</th>
-      <td><p>The latest date to include in the tibble. Defaults to current system date.</p></td>
+      <td><p>The latest date to include in the tibble. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>extra_args</th>
@@ -110,7 +107,11 @@
     </tr>
     <tr>
       <th>tidy</th>
-      <td><p>Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.</p></td>
+      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>tidy_style</th>
+      <td><p>The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.</p></td>
     </tr>
     </table>
     
@@ -124,7 +125,7 @@
 
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>sessions_info</span>(<span class='kw'>days</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
-  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>sessions_info</span>(<span class='kw'>days</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+  <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>sessions_info</span>(<span class='kw'>days</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 
 })</div></pre>
   </div>

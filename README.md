@@ -1,9 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- rmarkdown v1 -->
+<!--to accomodate pandoc bug on windows-->
 hansard: Accessing Westminster Parliament Data
 ==============================================
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]() [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/hansard)](https://cran.r-project.org/package=hansard) [![GitHub tag](https://img.shields.io/github/tag/evanodell/hansard.svg)](https://github.com/evanodell/hansard) [![](http://cranlogs.r-pkg.org/badges/grand-total/hansard)](https://dgrtwo.shinyapps.io/cranview/) [![Build Status](https://travis-ci.org/EvanOdell/hansard.png?branch=master)](https://travis-ci.org/EvanOdell/hansard) [![DOI](https://zenodo.org/badge/72111315.svg)](https://zenodo.org/badge/latestdoi/72111315) [![Coverage Status](https://img.shields.io/codecov/c/github/EvanOdell/hansard/master.svg)](https://codecov.io/github/EvanOdell/hansard?branch=master)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/EvanOdell/hansard/blob/master/LICENSE) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/hansard)](https://cran.r-project.org/package=hansard) [![GitHub tag](https://img.shields.io/github/tag/evanodell/hansard.svg)](https://github.com/evanodell/hansard) [![](http://cranlogs.r-pkg.org/badges/grand-total/hansard)](https://dgrtwo.shinyapps.io/cranview/) [![Build Status](https://travis-ci.org/EvanOdell/hansard.png?branch=master)](https://travis-ci.org/EvanOdell/hansard) [![DOI](https://zenodo.org/badge/72111315.svg)](https://zenodo.org/badge/latestdoi/72111315) [![Coverage Status](https://img.shields.io/codecov/c/github/EvanOdell/hansard/master.svg)](https://codecov.io/github/EvanOdell/hansard?branch=master) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/EvanOdell/hansard?branch=master&svg=true)](https://ci.appveyor.com/project/EvanOdell/hansard)
 
 An R package to automatically fetch data from the UK Parliament API. Ironically, Hansard data is not yet accessible through the API. To explore all available data see <http://www.data.parliament.uk/>. Help on the API itself is here: <http://api.data.parliament.uk/help/>.
 
@@ -13,6 +15,10 @@ To install from CRAN run:
 
     install.packages("hansard")
 
+Or, if using the [`pacman`](https://CRAN.R-project.org/package=pacman) package:
+
+    pacman::p_load(hansard)
+
 To install the development version run:
 
     install.packages("devtools")
@@ -21,7 +27,7 @@ To install the development version run:
 Using hansard
 -------------
 
-For an introduction to `hansard`, the [vignette](http://ropengov.github.io/hansard/articles/introduction.html) is the best place to start. If you are unfamiliar with APIs [https://zapier.com/learn/apis/](this%20introductory%20course) is a helpful introduction.
+For an introduction to `hansard`, please see the [vignette](http://ropengov.github.io/hansard/articles/introduction.html). If you are unfamiliar with APIs [https://zapier.com/learn/apis/](this%20introductory%20course) is useful.
 
 ### Tests and test coverage
 

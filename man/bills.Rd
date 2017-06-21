@@ -6,22 +6,25 @@
 \title{Imports data on House of Commons and House of Lords bills}
 \usage{
 bills(ID = NULL, amendments = FALSE, start_date = "1900-01-01",
-  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case")
 
-bill_stage_types(tidy = TRUE)
+bill_stage_types(tidy = TRUE, tidy_style = "snake_case")
 }
 \arguments{
 \item{ID}{The ID of a given bill to return data on. If NULL, returns all bills, subject to other parameters. Defaults to NULL.}
 
 \item{amendments}{If TRUE, returns all bills with amendments. Defaults to FALSE.}
 
-\item{start_date}{The earliest date to include in the tibble. Defaults to '1900-01-01'.}
+\item{start_date}{The earliest date to include in the tibble. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.}
 
-\item{end_date}{The latest date to include in the tibble. Defaults to current system date.}
+\item{end_date}{The latest date to include in the tibble. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
 
-\item{tidy}{Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.}
+
+\item{tidy_style}{The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.}
 }
 \value{
 A tibble with details on bills before the House of Lords and the House of Commons.
@@ -39,6 +42,8 @@ x <- bills()
 x <- bills(amendments=TRUE)
 
 x <- bills(1719)
+
+x <- bills(start_date ='2016-01-01')
 
 }
 \dontrun{

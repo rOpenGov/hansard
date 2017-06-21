@@ -34,17 +34,17 @@ test_that("lords functions return expected format", {
     expect_true(tibble::is_tibble(lamendnu))
 
     # Divisions
-    ldivsum <- lords_divisions(division_id = 705891, summary = TRUE)
+    ldivsum <- lords_divisions(division_id = 705891, summary = TRUE, tidy = FALSE)
     expect_length(ldivsum, 11)
     expect_type(ldivsum, "list")
     expect_true(tibble::is_tibble(ldivsum))
 
-    ldiv <- lords_divisions(division_id = 705891, summary = FALSE)
-    expect_length(ldiv, 6)
+    ldiv <- lords_divisions(division_id = 705891, summary = FALSE, tidy = FALSE)
+    expect_length(ldiv, 19)
     expect_type(ldiv, "list")
     expect_true(tibble::is_tibble(ldiv))
 
-    ldivdec <- lords_divisions(division_id =  NULL, FALSE, start_date = "2016-12-01", end_date = "2016-12-31")
+    ldivdec <- lords_divisions(division_id = NULL, FALSE, start_date = "2016-12-01", end_date = "2016-12-31")
     expect_length(ldivdec, 5)
     expect_type(ldivdec, "list")
     expect_true(tibble::is_tibble(ldivdec))

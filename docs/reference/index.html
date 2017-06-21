@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +63,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/EvanOdell/hansard">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -81,7 +77,7 @@
     <div class="page-header">
       <h1>
         Reference
-        <small>version&nbsp;0.4.4</small>
+        <small>version&nbsp;0.4.8</small>
       </h1>
     </div>
 
@@ -165,25 +161,37 @@
           <td>
             <p><code><a href="early_day_motions.html">early_day_motions</a></code> </p>
           </td>
-          <td><p>Imports data on early day motions</p></td>
+          <td><p>Imports data on early day motions, including the content, signatories, and sponsors of early day motions.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="election_candidates.html">election_candidates</a></code> </p>
+          </td>
+          <td><p>Returns the name of all candidates standing in an election.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="election_results.html">election_results</a></code> </p>
           </td>
-          <td><p>Imports data on general election and by-election results</p></td>
+          <td><p>Imports data on general election and by-election results from the 2010 general election onwards.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="elections.html">elections</a></code> </p>
           </td>
-          <td><p>Imports data on elections</p></td>
+          <td><p>Imports data on general and by-elections from the 2010 General Election onwards.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="epetition_tibble.html">epetition_tibble</a></code> </p>
+          </td>
+          <td><p>Get data on epetitions submitted to parliament, with the label, sponsor, number of signatures, date created and epetition ID.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="epetition.html">epetition</a></code> </p>
           </td>
-          <td><p>Imports data on Epetitions</p></td>
+          <td><p>Imports data on a given epetition.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -195,7 +203,7 @@
           <td>
             <p><code><a href="hansard_tidy.html">hansard_tidy</a></code> </p>
           </td>
-          <td><p>hansard_tidy</p></td>
+          <td><p>A function to make the results of calls to the API easier to work with, mostly though fixing variable names, which by default contain non alpha-numeric characters and appear to use an inconsistent/idiosyncratic naming convention, at least by the standards of the various naming conventions used in R. Dates and datetimes are converted to POSIXct class. Some extra URL data included in the API is also stripped out.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -285,25 +293,25 @@
           <td>
             <p><code><a href="research_briefings_lists.html">research_topics_list</a></code> <code><a href="research_briefings_lists.html">research_subtopics_list</a></code> <code><a href="research_briefings_lists.html">research_types_list</a></code> </p>
           </td>
-          <td><p>research_topics_list</p></td>
+          <td><p>Functions to retrieve lists of research briefing topics, subtopics and types. These functions do not accept any arguments.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="research_briefings.html">research_briefings</a></code> </p>
           </td>
-          <td><p>Imports data on  Parliamentary Research Briefings. To see a list of possible topics call <code>research_topics_list</code> or <code>research_subtopics_list</code> for both topics and subtopics. To see a list of briefing types, call <code>research_types_list</code>.</p></td>
+          <td><p>Imports data on  Parliamentary Research Briefings. To see a list of possible topics call <code>research_topics_list</code> or <code>research_subtopics_list</code> for both topics and subtopics. To see a list of briefing types, call <code>research_types_list</code>. This function can return results with newlines in the text of the abstract or description of the research briefing, represented as '\n'.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="sessions_info.html">sessions_info</a></code> </p>
           </td>
-          <td><p>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date</code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates.</p></td>
+          <td><p>Imports data on Parliamentary Sessions. Note that due to the date format used by the API, if <code>days</code>==TRUE and the <code>end_date</code> and <code>start_date </code> parameters are not set to the default values, the function downloads all available data and then subsets the tibble between the two given dates.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="tv_programmes.html">tv_programmes</a></code> <code><a href="tv_programmes.html">tv_clips</a></code> <code><a href="tv_programmes.html">tv_channels</a></code> </p>
           </td>
-          <td><p>Imports data on TV broadcasts. To import information on TV channel options,</p></td>
+          <td><p>Imports data on TV broadcasts.</p></td>
         </tr>
       </tbody>
       </table>

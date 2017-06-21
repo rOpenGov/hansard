@@ -38,14 +38,7 @@
   <a href="news/index.html">News</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/EvanOdell/hansard">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -62,6 +55,8 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- rmarkdown v1 -->
+<!--to accomodate pandoc bug on windows-->
 <div id="hansard-accessing-westminster-parliament-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#hansard-accessing-westminster-parliament-data" class="anchor"></a>hansard: Accessing Westminster Parliament Data</h1></div>
@@ -70,13 +65,15 @@
 <p>Like the UK parliament API, this package is a work in progress. Additional functionalities will be added to the package as they are developed in the API. The most up-to-date documentation for this package will always be available at <a href="http://ropengov.github.io/hansard" class="uri">http://ropengov.github.io/hansard</a> and at <a href="http://evanodell.com/hansard/" class="uri">http://evanodell.com/hansard/</a>.</p>
 <p>To install from CRAN run:</p>
 <pre><code>install.packages("hansard")</code></pre>
+<p>Or, if using the <a href="https://CRAN.R-project.org/package=pacman"><code>pacman</code></a> package:</p>
+<pre><code>pacman::p_load(hansard)</code></pre>
 <p>To install the development version run:</p>
 <pre><code>install.packages("devtools")
 devtools::install_github("EvanOdell/hansard")</code></pre>
 <div id="using-hansard" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-hansard" class="anchor"></a>Using hansard</h2>
-<p>For an introduction to <code>hansard</code>, the <a href="http://ropengov.github.io/hansard/articles/introduction.html">vignette</a> is the best place to start. If you are unfamiliar with APIs <a href="this%20introductory%20course">https://zapier.com/learn/apis/</a> is a helpful introduction.</p>
+<p>For an introduction to <code>hansard</code>, please see the <a href="http://ropengov.github.io/hansard/articles/introduction.html">vignette</a>. If you are unfamiliar with APIs <a href="this%20introductory%20course">https://zapier.com/learn/apis/</a> is useful.</p>
 <div id="tests-and-test-coverage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tests-and-test-coverage" class="anchor"></a>Tests and test coverage</h3>
@@ -103,28 +100,34 @@ devtools::install_github("EvanOdell/hansard")</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Links</h2>
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/EvanOdell/hansard">https://​github.com/​EvanOdell/​hansard</a>
+<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=hansard">https://​cran.r-project.org/​package=hansard</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/EvanOdell/hansard/issues">https://​github.com/​EvanOdell/​hansard/​issues</a>
 </li>
 </ul>
 <h2>License</h2>
-<p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
+<p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE.html">LICENSE</a></p>
+<h2>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html">Citing hansard</a></li>
+</ul>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Evan Odell <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href=""><img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license"></a></li>
+<li><a href="https://github.com/EvanOdell/hansard/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license"></a></li>
 <li><a href="https://cran.r-project.org/package=hansard"><img src="https://www.r-pkg.org/badges/version/hansard" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://github.com/evanodell/hansard"><img src="https://img.shields.io/github/tag/evanodell/hansard.svg" alt="GitHub tag"></a></li>
 <li><a href="https://dgrtwo.shinyapps.io/cranview/"><img src="http://cranlogs.r-pkg.org/badges/grand-total/hansard"></a></li>
 <li><a href="https://travis-ci.org/EvanOdell/hansard"><img src="https://travis-ci.org/EvanOdell/hansard.png?branch=master" alt="Build Status"></a></li>
 <li><a href="https://zenodo.org/badge/latestdoi/72111315"><img src="https://zenodo.org/badge/72111315.svg" alt="DOI"></a></li>
 <li><a href="https://codecov.io/github/EvanOdell/hansard?branch=master"><img src="https://img.shields.io/codecov/c/github/EvanOdell/hansard/master.svg" alt="Coverage Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/EvanOdell/hansard"><img src="https://ci.appveyor.com/api/projects/status/github/EvanOdell/hansard?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 </ul>
 </div>
 

@@ -21,7 +21,7 @@ hansard_generic <- function(path) {
     
     mydata <- jsonlite::fromJSON(url)
     
-    genericJPages <- round(mydata$result$totalResults/mydata$result$itemsPerPage, digits = 0)
+    genericJPages <- floor(mydata$result$totalResults/mydata$result$itemsPerPage)
     
     pages <- list()
     

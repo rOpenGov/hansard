@@ -2,25 +2,27 @@
 % Please edit documentation in R/epetition.R
 \name{epetition}
 \alias{epetition}
-\title{Imports data on Epetitions}
+\title{Imports data on a given epetition.}
 \usage{
 epetition(ID = NULL, by_constituency = FALSE, extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case")
 }
 \arguments{
-\item{ID}{The ID of a given petition. If NULL, returns all petitions. Defaults to NULL.}
+\item{ID}{The ID of a given petition. If NULL, returns all petitions. Defaults to NULL. See \code{\link{epetition_tibble}} for a greater degree of flexibility when querying all petitions.}
 
 \item{by_constituency}{Accepts either TRUE or FALSE. If TRUE, provides a tibble with a breakdown of signatures for each petition, by constituency. Defaults to FALSE.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
 
-\item{tidy}{Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.}
+
+\item{tidy_style}{The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.}
 }
 \value{
 A tibble with details on electronic petitions submitted to parliament.
 }
 \description{
-Imports data on Epetitions
+Imports data on a given epetition.
 }
 \examples{
 \dontrun{
@@ -28,5 +30,8 @@ Imports data on Epetitions
 x <- epetition(ID = 706964, by_constituency=TRUE)
 
 }
+}
+\seealso{
+\code{\link{epetition_tibble}}
 }
 \keyword{ePetitions}

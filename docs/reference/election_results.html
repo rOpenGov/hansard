@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports data on general election and by-election results — election_results • hansard</title>
+<title>Imports data on general election and by-election results from the 2010 general election onwards. — election_results • hansard</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +63,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/EvanOdell/hansard">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -79,15 +75,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports data on general election and by-election results</h1>
+    <h1>Imports data on general election and by-election results from the 2010 general election onwards.</h1>
     </div>
 
     
-    <p>Imports data on general election and by-election results</p>
+    <p>Imports data on general election and by-election results from the 2010 general election onwards.</p>
     
 
-    <pre class="usage"><span class='fu'>election_results</span>(<span class='kw'>ID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>calculate_percent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>constit_details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>election_results</span>(<span class='kw'>ID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>all_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>calculate_percent</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>constit_details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -95,6 +92,10 @@
     <tr>
       <th>ID</th>
       <td><p>Accepts an ID for a general or by-election from the 2010 general election onwards, and returns the results. If NULL, returns all available election results. Defaults to NULL.</p></td>
+    </tr>
+    <tr>
+      <th>all_data</th>
+      <td><p>If TRUE, returns vote share for all parties standing in any constituency in the election/elections returned. Defaults to FALSE. Note that aside from shorthand for the Conservatives, Labour, Liberal Democrat and Independent (Con, Lab, Lib and Ind, respectively) being converted to their full names, party names are not tidied, so will contain spaces in the case of parties with multiple words in their name, such as the Liberal Democrats. If a party did not stand in a constituency its vote count is listed as NA. There is a drawback to using this parameter, as multiple candidates from the same party in a constituency, or multiple independent candidates, have their vote totals combined.</p></td>
     </tr>
     <tr>
       <th>calculate_percent</th>
@@ -110,7 +111,11 @@
     </tr>
     <tr>
       <th>tidy</th>
-      <td><p>Fix the variable names in the tibble to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.</p></td>
+      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>tidy_style</th>
+      <td><p>The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.</p></td>
     </tr>
     </table>
     
@@ -118,11 +123,21 @@
 
     <p>A tibble with the results of all general and by-elections, or of a specified general election or by-election.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='elections.html'>elections</a></code> <code><a href='election_candidates.html'>election_candidates</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
 
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>election_results</span>(<span class='kw'>ID</span><span class='kw'>=</span><span class='fl'>382037</span>)
+
+  <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>election_results</span>()
+
+  <span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>election_results</span>(<span class='kw'>calculate_percent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>constit_details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+  <span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'>election_results</span>(<span class='kw'>ID</span><span class='kw'>=</span><span class='fl'>730039</span>, <span class='kw'>all_data</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
 })</div></pre>
   </div>
@@ -132,6 +147,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
