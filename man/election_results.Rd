@@ -2,11 +2,16 @@
 % Please edit documentation in R/election_results.R
 \name{election_results}
 \alias{election_results}
+\alias{hansard_election_results}
 \title{Imports data on general election and by-election results from the 2010 general election onwards.}
 \usage{
 election_results(ID = NULL, all_data = FALSE, calculate_percent = FALSE,
   constit_details = FALSE, extra_args = NULL, tidy = TRUE,
   tidy_style = "snake_case")
+
+hansard_election_results(ID = NULL, all_data = FALSE,
+  calculate_percent = FALSE, constit_details = FALSE, extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case")
 }
 \arguments{
 \item{ID}{Accepts an ID for a general or by-election from the 2010 general election onwards, and returns the results. If NULL, returns all available election results. Defaults to NULL.}
@@ -43,7 +48,9 @@ w <- election_results(ID=730039, all_data=TRUE)
 }
 }
 \seealso{
-\code{\link{elections}} \code{\link{election_candidates}}
+\code{\link{elections}}
+
+\code{\link{election_candidates}}
 }
 \keyword{Election}
 \keyword{Results}

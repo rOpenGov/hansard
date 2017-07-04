@@ -10,7 +10,8 @@
 #' @param tidy_style The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.
 #' @return A tibble with details on all elections from the 2010 general election onwards, subject to function parameters. Includes the election ID, the date, and the type of election(s).
 #' @keywords Elections
-#' @seealso \code{\link{election_results}} \code{\link{election_candidates}}
+#' @seealso \code{\link{election_results}}
+#' @seealso \code{\link{election_candidates}}
 #' @export
 #' @examples \dontrun{
 #'
@@ -83,5 +84,15 @@ elections <- function(ID = NULL, type = NULL, start_date = "1900-01-01", end_dat
         }
 
     }
+
+}
+
+#' @rdname elections
+#' @export
+hansard_elections <- function(ID = NULL, type = NULL, start_date = "1900-01-01", end_date = Sys.Date(), label = NULL, tidy = TRUE, tidy_style = "snake_case") {
+
+  df <- elections(ID = ID, type = type, start_date = start_date, end_date = end_date, label = label, tidy = tidy, tidy_style = tidy_style)
+
+  df
 
 }

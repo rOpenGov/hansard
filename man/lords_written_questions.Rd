@@ -2,9 +2,14 @@
 % Please edit documentation in R/lords_written_questions.R
 \name{lords_written_questions}
 \alias{lords_written_questions}
+\alias{hansard_lords_written_questions}
 \title{Imports data on House of Lords written questions}
 \usage{
 lords_written_questions(peer_id = NULL, answering_department = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case")
+
+hansard_lords_written_questions(peer_id = NULL, answering_department = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
   tidy = TRUE, tidy_style = "snake_case")
 }
@@ -39,7 +44,17 @@ x <- lords_written_questions(peer_id = 3526, answering_department = 'cabinet')
 }
 }
 \seealso{
-\code{\link{all_answered_questions}} \code{\link{commons_answered_questions}} \code{\link{commons_oral_questions}} \code{\link{commons_oral_question_times}} \code{\link{commons_written_questions}} \code{\link{mp_questions}}
+\code{\link{all_answered_questions}}
+
+\code{\link{commons_answered_questions}}
+
+\code{\link{commons_oral_questions}}
+
+\code{\link{commons_oral_question_times}}
+
+\code{\link{commons_written_questions}}
+
+\code{\link{mp_questions}}
 }
 \keyword{House}
 \keyword{Lords}

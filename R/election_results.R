@@ -11,7 +11,8 @@
 #'
 #' @return A tibble with the results of all general and by-elections, or of a specified general election or by-election.
 #' @keywords Election Results
-#' @seealso \code{\link{elections}} \code{\link{election_candidates}}
+#' @seealso \code{\link{elections}}
+#' @seealso \code{\link{election_candidates}}
 #' @export
 #' @examples \dontrun{
 #'
@@ -25,8 +26,7 @@
 #'
 #' }
 
-election_results <- function(ID = NULL, all_data = FALSE, calculate_percent = FALSE, constit_details = FALSE, extra_args = NULL,
-    tidy = TRUE, tidy_style = "snake_case") {
+election_results <- function(ID = NULL, all_data = FALSE, calculate_percent = FALSE, constit_details = FALSE, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case") {
 
     if (is.null(ID) == TRUE) {
         id_query <- NULL
@@ -86,12 +86,12 @@ election_results <- function(ID = NULL, all_data = FALSE, calculate_percent = FA
 
         names(df2)[names(df2) == "_about"] <- "about"
 
-        df3 <- tidyr::spread(df2, party._value, numberOfVotes)
+        df3 <- tidyr::spread_(df2, "party._value", "numberOfVotes")
 
         df3$about <- gsub("http://data.parliament.uk/resources/", "", df3$about)
         df3$about <- gsub("/.*", "", df3$about)
 
-        df3 <- dplyr::group_by(df3, about)
+        df3 <- dplyr::grouped_df(df3, "about")
 
         df4 <- dplyr::summarise_all(df3, sum, na.rm = TRUE)
 
@@ -101,6 +101,8 @@ election_results <- function(ID = NULL, all_data = FALSE, calculate_percent = FA
         names(df4)[names(df4)=="Lab"] <- "Labour"
         names(df4)[names(df4)=="Lib"] <- "Liberal Democrat"
         names(df4)[names(df4)=="Ind"] <- "Independent"
+
+        df4 <- df4[,order(colnames(df4))]
 
     }
 
@@ -146,4 +148,16 @@ election_results <- function(ID = NULL, all_data = FALSE, calculate_percent = FA
 
         }
     }
+}
+
+
+
+#' @rdname election_results
+#' @export
+hansard_election_results <- function(ID = NULL, all_data = FALSE, calculate_percent = FALSE, constit_details = FALSE, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case") {
+
+  df <- election_results(ID = ID, all_data = all_data, calculate_percent = calculate_percent, constit_details = constit_details, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style)
+
+  df
+
 }

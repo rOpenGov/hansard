@@ -2,11 +2,16 @@
 % Please edit documentation in R/commons_answered_questions.R
 \name{commons_answered_questions}
 \alias{commons_answered_questions}
+\alias{hansard_commons_answered_questions}
 \title{Imports data on House of Commons answered questions. If all parameters are left empty, imports all available answered questions in a tibble.}
 \usage{
 commons_answered_questions(answering_department = NULL, answered_by = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
   tidy = TRUE, tidy_style = "snake_case")
+
+hansard_commons_answered_questions(answering_department = NULL,
+  answered_by = NULL, start_date = "1900-01-01", end_date = Sys.Date(),
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case")
 }
 \arguments{
 \item{answering_department}{Returns a tibble with all answered questions in the House of Commons from the given department. Defaults to NULL.}
@@ -39,6 +44,16 @@ x <- commons_answered_questions(start_date = '2017-03-26', end_date='2017-04-01'
 }
 }
 \seealso{
-\code{\link{all_answered_questions}} \code{\link{commons_oral_questions}} \code{\link{commons_oral_question_times}} \code{\link{commons_written_questions}}  \code{\link{lords_written_questions}} \code{\link{mp_questions}}
+\code{\link{all_answered_questions}}
+
+\code{\link{commons_oral_questions}}
+
+\code{\link{commons_oral_question_times}}
+
+\code{\link{commons_written_questions}}
+
+\code{\link{lords_written_questions}}
+
+\code{\link{mp_questions}}
 }
 \keyword{bills}

@@ -2,9 +2,14 @@
 % Please edit documentation in R/commons_oral_questions.R
 \name{commons_oral_questions}
 \alias{commons_oral_questions}
+\alias{hansard_commons_oral_questions}
 \title{Imports data on House of Commons oral questions}
 \usage{
 commons_oral_questions(mp_id = NULL, answering_department = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case")
+
+hansard_commons_oral_questions(mp_id = NULL, answering_department = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
   tidy = TRUE, tidy_style = "snake_case")
 }
@@ -37,6 +42,16 @@ x <- commons_oral_questions(mp_id=4019, answering_department = 'education')
 }
 }
 \seealso{
-\code{\link{all_answered_questions}} \code{\link{commons_answered_questions}} \code{\link{commons_oral_question_times}} \code{\link{commons_written_questions}}  \code{\link{lords_written_questions}} \code{\link{mp_questions}}
+\code{\link{all_answered_questions}}
+
+\code{\link{commons_answered_questions}}
+
+\code{\link{commons_oral_question_times}}
+
+\code{\link{commons_written_questions}}
+
+\code{\link{lords_written_questions}}
+
+\code{\link{mp_questions}}
 }
 \keyword{questions}
