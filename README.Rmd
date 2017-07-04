@@ -64,4 +64,4 @@ This package is in no way officially related to or endorsed by the UK Parliament
 
 ### Acknowledgements
 
-This package is part of [rOpenGov](http://ropengov.github.io). It was written by [Evan Odell](http://evanodell.com).
+This package is part of [rOpenGov](http://ropengov.github.io). It was written by [Evan Odell](https://evanodell.com).
