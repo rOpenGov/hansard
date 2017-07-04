@@ -80,14 +80,15 @@
 
     
     <p>Imports data on House of Commons and House of Lords bills</p>
-<p>Returns a tibble with all possible bill stage types.</p>
     
 
     <pre class="usage"><span class='fu'>bills</span>(<span class='kw'>ID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>amendments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>,
   <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)
 
-<span class='fu'>bill_stage_types</span>(<span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
+<span class='fu'>hansard_bills</span>(<span class='kw'>ID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>amendments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>,
+  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -126,6 +127,10 @@
 
     <p>A tibble with details on bills before the House of Lords and the House of Commons.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='bill_stage_types.html'>bill_stage_types</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
@@ -138,9 +143,6 @@
 
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>bills</span>(<span class='kw'>start_date</span> <span class='kw'>=</span><span class='st'>'2016-01-01'</span>)
 
-})
-<span class='fu'>not_run</span>({
-  <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>bill_stage_types</span>()
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -149,6 +151,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

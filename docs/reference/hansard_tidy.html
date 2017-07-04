@@ -82,14 +82,14 @@
     <p>A function to make the results of calls to the API easier to work with, mostly though fixing variable names, which by default contain non alpha-numeric characters and appear to use an inconsistent/idiosyncratic naming convention, at least by the standards of the various naming conventions used in R. Dates and datetimes are converted to POSIXct class. Some extra URL data included in the API is also stripped out.</p>
     
 
-    <pre class="usage"><span class='fu'>hansard_tidy</span>(<span class='no'>df</span>, <span class='no'>tidy_style</span>)</pre>
+    <pre class="usage"><span class='fu'>hansard_tidy</span>(<span class='no'>df</span>, <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"snake_case"</span>, <span class='st'>"camelCase"</span>, <span class='st'>"period.case"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>The tibble to tidy</p></td>
+      <td><p>The tibble to tidy.</p></td>
     </tr>
     <tr>
       <th>tidy_style</th>

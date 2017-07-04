@@ -53,13 +53,13 @@
       <h1>Introduction to hansard</h1>
                         <h4 class="author">Evan Odell</h4>
             
-            <h4 class="date">2017-06-21</h4>
+            <h4 class="date">2017-07-04</h4>
           </div>
 
     
     
 <div class="contents">
-<p><code>hansard</code> is an R package to pull data from the UK parliament through the <a href="http://www.data.parliament.uk/" class="uri">http://www.data.parliament.uk/</a> API. It emphasises simplicity and ease of use, so that users unfamiliar with APIs can easily retrieve large volumes of high quality data. Each function accepts a single argument at a time, and functions that require additional information to retrieve the data you requested will ask for it after you execute the function. Functions retrieve data in json format and convert it to a data frame. The <code>hansard_generic</code> function supports the building of API requests for XML, csv or HTML formats if required. Note that the API is rate limited to returning 5500 rows per request in some circumstances.</p>
+<p><code>hansard</code> is an R package to pull data from the UK parliament through the <a href="http://www.data.parliament.uk/" class="uri">http://www.data.parliament.uk/</a> API. It emphasises simplicity and ease of use, so that users unfamiliar with APIs can easily retrieve large volumes of high quality data. Each function accepts a single argument at a time, and functions that require additional information to retrieve the data you requested will ask for it after you execute the function. Functions retrieve data in json format and convert it to a tibble. The <code>hansard_generic</code> function supports the building of API requests for XML, csv or HTML formats if required. Note that the API is rate limited to returning 5500 rows per request in some circumstances.</p>
 <div id="installing-hansard" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-hansard" class="anchor"></a>Installing hansard</h2>
@@ -86,6 +86,7 @@ devtools::install_github("EvanOdell/hansard")</code></pre>
 <p><code>hansard</code> contains functions for calling data for the UK Parliament API. The functions are designed to call data from a specific <a href="http://www.data.parliament.uk/" class="uri">http://www.data.parliament.uk/</a> API. The parameter options for each function vary, depending on the specific information available from each API, but there are two constant parameters in every function (with the exception of the <code><a href="../reference/hansard_generic.html">hansard_generic()</a></code> and <code><a href="../reference/research_briefings_lists.html">research_topics_list()</a></code> functions <a href="#special-functions">described below</a>): <code>tidy</code> and <code>tidy_style</code>.</p>
 <p><code>tidy</code> is a logical parameter accepting either TRUE or FALSE, defaulting to TRUE. If TRUE, <code>hansard</code> will fix variable names, which by default contain non alpha-numeric characters and appear to use an inconsistent/idiosyncratic naming convention, at least by the standards of the various naming conventions used in R. Dates and datetimes are converted to POSIXct class. Some extra URL data included in the API is also stripped out.</p>
 <p>The naming convention for variables used if <code>tidy</code>==TRUE is indicated by <code>tidy_style</code>. <code>tidy_style</code> accepts one of <code>"snake_case"</code>, <code>"camelCase"</code> and <code>"period.case"</code>, defaulting to <code>"snake_case"</code>. All variable names will be converted to match the given naming convention.</p>
+<p>In addition to the more generic sounding function names, each function in hansard has a wrapper where the name is prefixed with ‘hansard_’. For example, both <code><a href="../reference/bills.html">bills()</a></code> and <code><a href="../reference/bills.html">hansard_bills()</a></code> will return the same result.</p>
 <div id="example-using-the-commons_divisions-and-mp_vote_record-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-using-the-commons_divisions-and-mp_vote_record-functions" class="anchor"></a>Example using the <code><a href="../reference/commons_divisions.html">commons_divisions()</a></code> and <code><a href="../reference/mp_vote_record.html">mp_vote_record()</a></code> functions</h3>
@@ -182,11 +183,11 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 <span class="kw">system.time</span>(without_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">subtopic =</span> research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.422   0.092  13.919</code></pre>
+##   0.610   0.087   3.123</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(with_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">topic =</span> research_topics_list[[<span class="dv">7</span>]], <span class="dt">subtopic=</span>research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.034   0.002   0.215</code></pre>
+##   0.030   0.002   0.116</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">identical</span>(with_topic, without_topic)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>If a specified subtopic is not a subtopic of the specified topic, the function will not return any data.</p>
