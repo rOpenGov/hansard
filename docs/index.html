@@ -29,10 +29,25 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="/index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="articles/index.html">Articles</a>
+  <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/introduction.html">Introduction to hansard</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">News</a>
@@ -65,7 +80,7 @@
 <p>To install from CRAN run:</p>
 <pre><code>install.packages("hansard")</code></pre>
 <p>Or, if using the <a href="https://CRAN.R-project.org/package=pacman"><code>pacman</code></a> package:</p>
-<pre><code>pacman::p_load(hansard)</code></pre>
+<pre><code><a href="http://www.rdocumentation.org/packages/pacman/topics/p_load">pacman::p_load(hansard)</a></code></pre>
 <p>To install the development version run:</p>
 <pre><code>install.packages("devtools")
 devtools::install_github("evanodell/hansard")</code></pre>
@@ -103,6 +118,8 @@ devtools::install_github("evanodell/hansard")</code></pre>
 <a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cran.r-project.org/package=hansard">https://​cran.r-project.org/​package=hansard</a>
+</li>
+<li>Browse source code at <br><a href="https://ropengov.github.io/hansard">https://​ropengov.github.io/​hansard</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/EvanOdell/hansard/issues">https://​github.com/​EvanOdell/​hansard/​issues</a>
 </li>

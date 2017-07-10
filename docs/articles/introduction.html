@@ -29,10 +29,25 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/introduction.html">Introduction to hansard</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -53,7 +68,7 @@
       <h1>Introduction to hansard</h1>
                         <h4 class="author">Evan Odell</h4>
             
-            <h4 class="date">2017-07-04</h4>
+            <h4 class="date">2017-07-10</h4>
           </div>
 
     
@@ -86,7 +101,7 @@ devtools::install_github("EvanOdell/hansard")</code></pre>
 <p><code>hansard</code> contains functions for calling data for the UK Parliament API. The functions are designed to call data from a specific <a href="http://www.data.parliament.uk/" class="uri">http://www.data.parliament.uk/</a> API. The parameter options for each function vary, depending on the specific information available from each API, but there are two constant parameters in every function (with the exception of the <code><a href="../reference/hansard_generic.html">hansard_generic()</a></code> and <code><a href="../reference/research_briefings_lists.html">research_topics_list()</a></code> functions <a href="#special-functions">described below</a>): <code>tidy</code> and <code>tidy_style</code>.</p>
 <p><code>tidy</code> is a logical parameter accepting either TRUE or FALSE, defaulting to TRUE. If TRUE, <code>hansard</code> will fix variable names, which by default contain non alpha-numeric characters and appear to use an inconsistent/idiosyncratic naming convention, at least by the standards of the various naming conventions used in R. Dates and datetimes are converted to POSIXct class. Some extra URL data included in the API is also stripped out.</p>
 <p>The naming convention for variables used if <code>tidy</code>==TRUE is indicated by <code>tidy_style</code>. <code>tidy_style</code> accepts one of <code>"snake_case"</code>, <code>"camelCase"</code> and <code>"period.case"</code>, defaulting to <code>"snake_case"</code>. All variable names will be converted to match the given naming convention.</p>
-<p>In addition to the more generic sounding function names, each function in hansard has a wrapper where the name is prefixed with ‘hansard_’. For example, both <code><a href="../reference/bills.html">bills()</a></code> and <code><a href="../reference/bills.html">hansard_bills()</a></code> will return the same result.</p>
+<p>In addition to the more generic sounding function names, each function in hansard has a wrapper where the name is prefixed with <code>hansard_</code>. For example, both <code><a href="../reference/bills.html">bills()</a></code> and <code><a href="../reference/bills.html">hansard_bills()</a></code> will return the same result.</p>
 <div id="example-using-the-commons_divisions-and-mp_vote_record-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-using-the-commons_divisions-and-mp_vote_record-functions" class="anchor"></a>Example using the <code><a href="../reference/commons_divisions.html">commons_divisions()</a></code> and <code><a href="../reference/mp_vote_record.html">mp_vote_record()</a></code> functions</h3>
@@ -96,7 +111,7 @@ devtools::install_github("EvanOdell/hansard")</code></pre>
 z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mp_vote_record.html">mp_vote_record</a></span>(<span class="dv">172</span>, <span class="st">"aye"</span>, <span class="dt">start_date =</span> <span class="st">"2017-01-01"</span>, <span class="dt">end_date =</span> <span class="st">"2017-05-03"</span>)</code></pre></div>
 <pre><code>## Connecting to API</code></pre>
 <pre><code>## Retrieving page 1 of 1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(z)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/glimpse">glimpse</a></span>(z)</code></pre></div>
 <pre><code>## Observations: 38
 ## Variables: 5
 ## $ about         &lt;chr&gt; "http://data.parliament.uk/resources/722300", "h...
@@ -107,7 +122,7 @@ z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mp_vote_r
 <p>Using <code><a href="../reference/commons_divisions.html">commons_divisions()</a></code>, we can see the result of one of those votes, ID 722300, the Early Parliamentary General Election bill that dissolved parliament for the 2017 General Election. The function default is to return a list of every MP and how they voted:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/commons_divisions.html">commons_divisions</a></span>(<span class="dv">722300</span>)</code></pre></div>
 <pre><code>## Connecting to API</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(x)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/glimpse">glimpse</a></span>(x)</code></pre></div>
 <pre><code>## Observations: 535
 ## Variables: 6
 ## $ vote_id              &lt;chr&gt; "722300/vote/1", "722300/vote/10", "72230...
@@ -119,7 +134,7 @@ z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mp_vote_r
 <p>With the <code>summary</code> parameter, we can return a brief summary table of votes:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw"><a href="../reference/commons_divisions.html">commons_divisions</a></span>(<span class="dv">722300</span>, <span class="dt">summary=</span><span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Connecting to API</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(y)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/glimpse">glimpse</a></span>(y)</code></pre></div>
 <pre><code>## Observations: 2
 ## Variables: 17
 ## $ about                         &lt;chr&gt; "http://data.parliament.uk/resou...
@@ -183,11 +198,11 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 <span class="kw">system.time</span>(without_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">subtopic =</span> research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.429   0.092   9.349</code></pre>
+##   0.427   0.089  19.383</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(with_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">topic =</span> research_topics_list[[<span class="dv">7</span>]], <span class="dt">subtopic=</span>research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.026   0.001   0.165</code></pre>
+##   0.027   0.001   0.186</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">identical</span>(with_topic, without_topic)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>If a specified subtopic is not a subtopic of the specified topic, the function will not return any data.</p>
@@ -251,7 +266,7 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 ## #   constituency.label.value &lt;chr&gt;, family.name.value &lt;chr&gt;,
 ## #   full.name.value &lt;chr&gt;, gender.value &lt;chr&gt;, given.name.value &lt;chr&gt;,
 ## #   label.value &lt;chr&gt;, party.value &lt;chr&gt;, twitter.value &lt;chr&gt;</code></pre>
-<p>The search function is not case sensitive, and searchs in the names and constituencies of all MPs and Lords. So even though we spelled her surname incorrectly, we can still find her. This API provides limited biographical details, to retrieve more detailed biographical information, use the <a href="https://cran.r-project.org/package=mnis"><code>mnis</code></a> package to retrives data from the Members’ Names Information Service.</p>
+<p>The search function is not case sensitive, and searchs in the names and constituencies of all MPs and Lords. So even though we spelled her surname incorrectly, we can still find her. This API provides limited biographical details, to retrieve more detailed biographical information, use the <a href="https://cran.r-project.org/package=mnis"><code>mnis</code></a> package to retrive data from the Members’ Names Information Service.</p>
 </div>
 </div>
 </div>
