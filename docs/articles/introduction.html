@@ -68,7 +68,7 @@
       <h1>Introduction to hansard</h1>
                         <h4 class="author">Evan Odell</h4>
             
-            <h4 class="date">2017-07-10</h4>
+            <h4 class="date">2017-07-18</h4>
           </div>
 
     
@@ -198,11 +198,11 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 <span class="kw">system.time</span>(without_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">subtopic =</span> research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.432   0.075  10.192</code></pre>
+##   0.414   0.086  20.560</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(with_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">topic =</span> research_topics_list[[<span class="dv">7</span>]], <span class="dt">subtopic=</span>research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.027   0.002   0.187</code></pre>
+##   0.027   0.003   0.474</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">identical</span>(with_topic, without_topic)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>If a specified subtopic is not a subtopic of the specified topic, the function will not return any data.</p>

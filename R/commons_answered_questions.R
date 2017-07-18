@@ -1,7 +1,7 @@
 
 
-#' Imports data on House of Commons answered questions. 
-#' 
+#' Imports data on House of Commons answered questions.
+#'
 #' Imports data on House of Commons answered questions. If all parameters are left empty, imports all available answered questions in a tibble.
 #' @param answering_department Returns a tibble with all answered questions in the House of Commons from the given department. Defaults to NULL.
 #' @param answered_by Returns a tibble with all answered questions in the House of Commons by the given MP. Defaults to NULL.
@@ -12,15 +12,10 @@
 #' @param tidy_style The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.
 #' @return A tibble with details on all answered questions in the House of Commons.
 #' @seealso \code{\link{all_answered_questions}}
-#' 
 #' @seealso \code{\link{commons_oral_questions}}
-#' 
 #' @seealso \code{\link{commons_oral_question_times}}
-#' 
 #' @seealso \code{\link{commons_written_questions}}
-#' 
 #' @seealso \code{\link{lords_written_questions}}
-#' 
 #' @seealso \code{\link{mp_questions}}
 #' @keywords bills
 #' @export
