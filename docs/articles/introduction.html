@@ -198,11 +198,11 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 <span class="kw">system.time</span>(without_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">subtopic =</span> research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.414   0.086  20.560</code></pre>
+##   0.420   0.086  24.991</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(with_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">topic =</span> research_topics_list[[<span class="dv">7</span>]], <span class="dt">subtopic=</span>research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>## Retrieving page 1 of 1</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.027   0.003   0.474</code></pre>
+##   0.027   0.002   0.258</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">identical</span>(with_topic, without_topic)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>If a specified subtopic is not a subtopic of the specified topic, the function will not return any data.</p>
@@ -250,7 +250,7 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 ## #   familyName._value &lt;chr&gt;, fullName._value &lt;chr&gt;, gender._value &lt;chr&gt;,
 ## #   givenName._value &lt;chr&gt;, label._value &lt;chr&gt;, party._value &lt;chr&gt;,
 ## #   twitter._value &lt;chr&gt;</code></pre>
-<p>The same function as above, but with <code>tidy_style = "period.case"</code>, so it returns a different</p>
+<p>The same function as above, but with <code>tidy_style = "period.case"</code>, so it returns variables with a different naming convention.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(hansard)
 <span class="kw"><a href="../reference/members_search.html">members_search</a></span>(<span class="st">"abbot"</span>, <span class="dt">tidy =</span> <span class="ot">TRUE</span>, <span class="dt">tidy_style =</span> <span class="st">"period.case"</span>)</code></pre></div>
 <pre><code>## Connecting to API</code></pre>
