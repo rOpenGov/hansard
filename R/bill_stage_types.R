@@ -1,4 +1,4 @@
-#' bill_stage_types
+#' Bill Stage Types
 #'
 #' Returns a tibble with all possible bill stage types.
 #' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.
@@ -22,7 +22,7 @@ bill_stage_types <- function(tidy = TRUE, tidy_style = "snake_case") {
 
     if (tidy == TRUE) {
 
-      df <- hansard::hansard_tidy(df, tidy_style)
+      df <- hansard_tidy(df, tidy_style)
 
       df
 

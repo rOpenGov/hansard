@@ -1,4 +1,6 @@
 
+#' TV broadcast data
+#'
 #' Imports data on TV broadcasts.
 #' @param legislature Accepts one of either 'commons' or 'lords'. If NULL, returns all TV programmes for all chambers.
 #' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.
@@ -81,7 +83,7 @@ tv_programmes <- function(legislature = NULL, start_date = "1900-01-01", end_dat
 
             df$legislature <- NULL
 
-            df <- hansard::hansard_tidy(df, tidy_style)
+            df <- hansard_tidy(df, tidy_style)
 
             df
 
@@ -106,7 +108,7 @@ hansard_tv_programmes <- function(legislature = NULL, start_date = "1900-01-01",
 
 
 
-#' Imports data on TV broadcasts
+#' Clips of individual members
 #' @param mp_id Accepts the ID of an MP or peer, and returns all clips featuring that MP or peer. If NULL, returns data on all available clips. Defaults to NULL.
 #' @return A tibble with details on TV broadcasts featuring the given MP, or all available clips.
 #' @keywords TV
@@ -167,7 +169,7 @@ tv_clips <- function(mp_id = NULL, start_date = "1900-01-01", end_date = Sys.Dat
                 }
             }
 
-            df <- tibble::as.tibble(hansard::hansard_tidy(df, tidy_style))
+            df <- tibble::as.tibble(hansard_tidy(df, tidy_style))
 
             df
 
@@ -192,6 +194,8 @@ hansard_tv_clips <- function(mp_id = NULL, start_date = "1900-01-01", end_date =
 
 }
 
+#' TV Channels
+#'
 #' Returns data on the different parliamentary broadcasting channels.
 #' @rdname tv_programmes
 #' @return A tibble with details on the different broadcasting channels.
@@ -206,7 +210,7 @@ tv_channels <- function(tidy = TRUE, tidy_style = "snake_case") {
 
     if (tidy == TRUE) {
 
-        df <- hansard::hansard_tidy(df, tidy_style)
+        df <- hansard_tidy(df, tidy_style)
 
         df
 

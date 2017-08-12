@@ -1,5 +1,23 @@
 
 
+# hansard 0.5.2
+
+## New features
+
+`mp_edms()` now accepts lists and character vectors of MP IDs, and returns them all in one tibble.
+
+`mp_edms()` now includes `start_date` and `end_date` parameters
+
+## Bug Fixes
+
+Fixed `mp_edms()` to return more useful error if the requested MP does not have any Early Day Motions that meet the search parameters.
+
+The `signatory` parameter in `mp_edms()` is now behaving properly.
+
+## Documentation updates
+
+General improvement to documentation
+
 # hansard 0.5.0
 
 ## New features

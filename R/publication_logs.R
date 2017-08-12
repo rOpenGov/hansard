@@ -1,5 +1,7 @@
 
 
+#' House publications
+#'
 #' Imports data on House of Commons and House of Lords publications.
 #' @param ID Publication ID. Defaults to NULL. If not NULL, requests a tibble with information on the given publication.
 #' @param house The house that produced the particular publication. Accepts 'commons' and 'lords'. If NULL or not 'commons' or 'lords', returns publications from both House of Commons and House of Lords. This parameter is case-insensitive. Defaults to NULL.
@@ -78,7 +80,7 @@ publication_logs <- function(ID = NULL, house = NULL, start_date = "1900-01-01",
 
             df$publicationDate._datatype <- "POSIXct"
 
-            df <- hansard::hansard_tidy(df, tidy_style)
+            df <- hansard_tidy(df, tidy_style)
 
             df
 

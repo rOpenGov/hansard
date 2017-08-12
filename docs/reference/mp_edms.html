@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports data on early day motions in signed, sponsored or primarily sponsored by a given MP. — mp_edms • hansard</title>
+<title>Imports data on early day motions signed, sponsored or primarily sponsored by a given MP. — mp_edms • hansard</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -90,19 +90,21 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports data on early day motions in signed, sponsored or primarily sponsored by a given MP.</h1>
+    <h1>Imports data on early day motions signed, sponsored or primarily sponsored by a given MP.</h1>
     </div>
 
     
-    <p>Imports data on early day motions in signed, sponsored or primarily sponsored by a given MP.</p>
+    <p>Imports data on early day motions signed, sponsored or primarily sponsored by a given MP.</p>
     
 
-    <pre class="usage"><span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>signatory</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>full_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>signatory</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>,
+  <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)
 
 <span class='fu'>hansard_mp_edms</span>(<span class='kw'>mp_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>signatory</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>full_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>signatory</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>full_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>, <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -110,23 +112,31 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mp_id</th>
-      <td><p>The ID number of an MP. Required parameter, defaults to NULL.</p></td>
+      <td><p>The ID number of an MP. Required parameter, defaults to NULL. Accepts single IDs in numerical or character format, or a list, data.frame column, etc. If given multiple IDs, the results are combined into a single tibble.</p></td>
     </tr>
     <tr>
       <th>primary_sponsor</th>
-      <td><p>Returns a tibble of all early day motions where the given member is the primary sponsor. Defaults to TRUE.</p></td>
+      <td><p>Includes all early day motions where the given member is the primary sponsor in the tibble. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>sponsor</th>
-      <td><p>Returns a tibble of early day motions where the given member is the primary sponsor or a sponsor. Defaults to FALSE.</p></td>
+      <td><p>Includes all early day motions where the given member a sponsor (but not the primary sponsor) in the tibble. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>signatory</th>
-      <td><p>Returns a tibble of all early day motions signed by the given member. Because of the structure of the API, there is less information contained in the tibble return if signatory is TRUE, unless full_data is also TRUE. Defaults to FALSE.</p></td>
+      <td><p>Includes all early day motions signed (but not sponsored or primarily sponsored) by the given member in the tibble. Defaults to TRUE.</p></td>
     </tr>
     <tr>
       <th>full_data</th>
       <td><p>If TRUE, returns all available data on the EDMs signed or sponsored by a member. Defaults to FALSE. Note that this can be a very slow process compared to other <code>hansard</code> functions.</p></td>
+    </tr>
+    <tr>
+      <th>start_date</th>
+      <td><p>The earliest date to include in the tibble, based on the date the MP signed the EDM. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>end_date</th>
+      <td><p>The latest date to include in the tibble, based on the date the MP signed the EDM. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>extra_args</th>
@@ -144,7 +154,7 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with information on the tibbles signed, sponsored or primarily sponsored by the given MP.</p>
+    <p>A tibble with information on the tibbles signed, sponsored and/or primarily sponsored by the given MP.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -153,9 +163,9 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span><span class='kw'>=</span><span class='fl'>3967</span>, <span class='kw'>primary_sponsor</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>signatory</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span><span class='kw'>=</span><span class='fl'>3967</span>, <span class='kw'>primary_sponsor</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>signatory</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span><span class='kw'>=</span><span class='fl'>3967</span>, <span class='kw'>primary_sponsor</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>signatory</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>full_data</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span><span class='kw'>=</span><span class='fl'>3967</span>, <span class='kw'>primary_sponsor</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>signatory</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>full_data</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 
 <span class='co'># }</span></pre>
   </div>

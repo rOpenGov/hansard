@@ -1,5 +1,7 @@
 
-#' Imports data on House of Lords Amendments. Returns a tibble with all available House of Lords amendments.
+#' House of Lords Amendments.
+#'
+#' Returns a tibble with all available House of Lords amendments.
 #' @param decision The decision on the amendments. Accepts one of 'Withdrawn', 'Agreed', 'Disagreed', 'Pending', 'NotMoved', 'Disposed'. Defaults to NULL.
 #' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.
 #' @param end_date The latest date to include in the tibble. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.
@@ -55,7 +57,7 @@ lords_amendments <- function(decision = NULL, start_date = "1900-01-01", end_dat
 
             df$bill.date._datatype <- "POSIXct"
 
-            df <- hansard::hansard_tidy(df, tidy_style)
+            df <- hansard_tidy(df, tidy_style)
 
             df
 

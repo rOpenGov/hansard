@@ -1,5 +1,7 @@
 
 
+#' Current and former members of both houses
+#'
 #' Imports data on all current and former Members of Parliament including the Lords and the Commons
 #' @param ID The ID of a member of the House of Commons or the House of Lords. Defaults to NULL. If NULL, returns a tibble of all members. If not NULL, returns a tibble with basic information on that member.
 #' @param extra_args Additional parameters to pass to API. Defaults to NULL.
@@ -77,7 +79,7 @@ members <- function(ID = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "sna
 
             df$`_about` <- gsub("http://data.parliament.uk/members/", "", df$`_about`)
 
-            df <- hansard::hansard_tidy(df, tidy_style)
+            df <- hansard_tidy(df, tidy_style)
 
             df <- tibble::as.tibble(df)
 
@@ -135,7 +137,7 @@ commons_members <- function(extra_args = NULL, tidy = TRUE, tidy_style = "snake_
 
         if (tidy == TRUE) {
 
-            df <- hansard::hansard_tidy(df, tidy_style)
+            df <- hansard_tidy(df, tidy_style)
 
             df
 
@@ -192,7 +194,7 @@ lords_members <- function(extra_args = NULL, tidy = TRUE, tidy_style = "snake_ca
 
         if (tidy == TRUE) {
 
-            df <- hansard::hansard_tidy(df, tidy_style)
+            df <- hansard_tidy(df, tidy_style)
 
             df
 
