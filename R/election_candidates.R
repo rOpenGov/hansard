@@ -5,12 +5,12 @@
 #'
 #' Returns the name and party of all candidates standing in an election, by constituency.
 #'
-#' @param ID Accepts an ID for a general or by-election from the 2010 general election onwards, and returns the results. If NULL, returns all available election results. Defaults to NULL.
-#' @param constit_details If TRUE, returns additional details on each constituency, including its GSS (Government Statistical Service) code. Defaults to FALSE.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.
-#' @param tidy_style The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.
-#'
+#' @param ID Accepts an ID for a general or by-election from the 2010 general election onwards, and returns the results. If \code{NULL}, returns all available election results. Defaults to \code{NULL}.
+#' @param constit_details If \code{TRUE}, returns additional details on each constituency, including its GSS (Government Statistical Service) code. Defaults to \code{FALSE}.
+#' @param extra_args Additional parameters to pass to API. Defaults to \code{NULL}.
+#' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.
+#' @param tidy_style The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.
+#' @param verbose If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.
 #' @return A tibble with the names of each candidate standing in each constituency in an election or elections. If there are multiple candidates from the same party, or multiple independent candidates, their names are combined into a list.
 #' @export
 #' @seealso \code{\link{elections}}
@@ -28,7 +28,7 @@
 #' }
 #'
 
-election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case") {
+election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose=FALSE) {
 
   if (is.null(ID) == TRUE) {
     id_query <- NULL
@@ -38,17 +38,17 @@ election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args =
 
   baseurl <- "http://lda.data.parliament.uk/electionresults.json?"
 
-  message("Connecting to API")
+  if(verbose==TRUE){message("Connecting to API")}
 
-  elect <- jsonlite::fromJSON(paste0(baseurl, id_query, "&_pageSize=500", extra_args))
+  elect <- jsonlite::fromJSON(paste0(baseurl, id_query, extra_args))
 
-  jpage <- floor(elect$result$totalResults/elect$result$itemsPerPage)
+  jpage <- floor(elect$result$totalResults/500)
 
   pages <- list()
 
   for (i in 0:jpage) {
     mydata <- jsonlite::fromJSON(paste0(baseurl, id_query, "&_pageSize=500&_page=", i, extra_args), flatten = TRUE)
-    message("Retrieving page ", i + 1, " of ", jpage + 1)
+    if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
     pages[[i + 1]] <- mydata$result$items
   }
 
@@ -84,7 +84,9 @@ election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args =
 
     dat[[i]] <- tidyr::spread_(df2, key_col="party._value", value_col="fullName._value")
 
-    message("Retrieving ", i, " of ", nrow(df), ": ", df$constituency.label._value[[i]], ", ", df$election.label._value[[i]])
+    if(verbose==TRUE) {
+      message("Retrieving ", i, " of ", nrow(df), ": ", df$constituency.label._value[[i]], ", ", df$election.label._value[[i]])
+      }
 
   }
 
@@ -97,17 +99,13 @@ election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args =
 
   df4 <- df4[,order(colnames(df4))]
 
-  if (nrow(df) == 0) {
+  if (nrow(df) == 0 && verbose==TRUE) {
     message("The request did not return any data. Please check your search parameters.")
   } else {
 
     if (tidy == TRUE) {
 
-      df$election._about <- gsub("http://data.parliament.uk/resources/", "", df$election._about)
-
-      df$constituency._about <- gsub("http://data.parliament.uk/resources/", "", df$constituency._about)
-
-      df <- hansard_tidy(df, tidy_style)
+      df <- elect_can_tidy(df, tidy_style)
 
     }
 
@@ -123,9 +121,9 @@ election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args =
 
 #' @rdname election_candidates
 #' @export
-hansard_election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case") {
+hansard_election_candidates <- function(ID = NULL, constit_details = FALSE, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose=FALSE) {
 
-  df <- election_candidates(ID = ID, constit_details = constit_details, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style)
+  df <- election_candidates(ID = ID, constit_details = constit_details, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style, verbose=verbose)
 
   df
 

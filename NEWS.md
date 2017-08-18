@@ -1,4 +1,28 @@
 
+# hansard 0.5.3
+
+## New features
+
+`all_answered_questions()`, `commons_answered_questions()`, `commons_oral_questions()`, `commons_written_questions()`, `lords_written_questions()` now accept arrays of member IDs and department names.
+
+Added `verbose` parameter to all functions. If `verbose`=TRUE, messages displaying the progress of the API call are sent to the console.
+
+## General improvements
+
+Sped up edm details retrieval in `mp_edms()` where `full_data`==TRUE and there are multiple MP IDs.
+
+Major increase in speed for `constituencies(current=TRUE)`.
+
+Small increase in speed for all functions.
+
+`all_answered_questions()` can now handle departmental ID numbers passed as characters.
+
+Now uses the `stringr` package to remove case sensitivity from queries. 
+
+## Bug Fixes
+
+Fixed bug that prevented `lords_written_questions()` from retrieving more than 500 results at a time.
+
 
 # hansard 0.5.2
 

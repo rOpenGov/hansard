@@ -3,30 +3,34 @@
 \name{commons_oral_question_times}
 \alias{commons_oral_question_times}
 \alias{hansard_commons_oral_question_times}
-\title{Imports data on House of Commons oral question times}
+\title{Commons oral question times}
 \usage{
 commons_oral_question_times(session = NULL, question_id = NULL,
-  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case")
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = FALSE)
 
 hansard_commons_oral_question_times(session = NULL, question_id = NULL,
-  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case")
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = FALSE)
 }
 \arguments{
-\item{session}{Accepts a session in format yyyy/yy (e.g. 2016/17) and returns a tibble of all oral question times from that session}
+\item{session}{Accepts a session in format \code{yyyy/yy} (e.g. \code{2016/17}) and returns a tibble of all oral question times from that session}
 
 \item{question_id}{Accepts a question time ID, and returns a tibble of that question time.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters to pass to API. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.}
+\item{tidy}{Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.}
 
-\item{tidy_style}{The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.}
+\item{tidy_style}{The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.}
 }
 \value{
 A tibble with information on oral question times in the House of Commons.
 }
 \description{
-Imports data on House of Commons oral question times
+Imports data on House of Commons oral question times.
 }
 \examples{
 \dontrun{
@@ -48,6 +52,3 @@ Imports data on House of Commons oral question times
 
 \code{\link{mp_questions}}
 }
-\keyword{Oral}
-\keyword{Questions}
-\keyword{Time}

@@ -3,15 +3,17 @@
 #' Papers laid
 #'
 #' Imports data on papers laid before the House.
-#' @param withdrawn If TRUE, only returns withdrawn papers. Defaults to FALSE.
-#' @param house The house the paper was laid in. Accepts 'commons' and 'lords'. If NULL, returns both House of Commons and House of Lords. This parameter is case-insensitive. Defaults to NULL.
-#' @param start_date The earliest date to include in the tibble. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.
-#' @param end_date The latest date to include in the tibble. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with \code{as.Date()}.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.
-#' @param tidy_style The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.
-#' @return A tibble with details on papers laid before the given House.
-#' @keywords Papers Laid
+#' @param withdrawn If \code{TRUE}, only returns withdrawn papers. Defaults to \code{FALSE}.
+#' @param house The house the paper was laid in. Accepts \code{'commons'} and \code{'lords'}. If \code{NULL}, returns both House of Commons and House of Lords. This parameter is case-insensitive. Defaults to \code{NULL}.
+#' @param start_date The earliest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.
+#' @param end_date The latest date to include in the tibble. Defaults to current system date. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.
+#' @param extra_args Additional parameters to pass to API. Defaults to \code{NULL}.
+#' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.
+#' @param tidy_style The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.
+#' @param verbose If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.
+#' @return  A tibble with details on papers laid before the given House.
+#'
+### @keywords Papers Laid
 #' @export
 #' @examples \dontrun{
 #' x <- papers_laid(withdrawn = FALSE, house = 'commons')
@@ -20,7 +22,7 @@
 #' }
 #'
 
-papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,  tidy_style = "snake_case") {
+papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,  tidy_style = "snake_case", verbose=FALSE) {
 
     if (is.null(house) == FALSE) {
         house <- tolower(house)
@@ -45,25 +47,25 @@ papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-0
 
     dates <- paste0("&max-ddpModified=", as.Date(end_date), "&min-ddpModified=", as.Date(start_date))
 
-    baseurl <- "http://lda.data.parliament.uk/paperslaid.json?_pageSize=500"
+    baseurl <- "http://lda.data.parliament.uk/paperslaid.json?"
 
-    message("Connecting to API")
+    if(verbose==TRUE){message("Connecting to API")}
 
     papers <- jsonlite::fromJSON(paste0(baseurl, query, house, dates, extra_args), flatten = TRUE)
 
-    jpage <- floor(papers$result$totalResults/papers$result$itemsPerPage)
+    jpage <- floor(papers$result$totalResults/500)
 
     pages <- list()
 
     for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, query, house, dates, "&_page=", i, extra_args), flatten = TRUE)
-        message("Retrieving page ", i + 1, " of ", jpage + 1)
+        mydata <- jsonlite::fromJSON(paste0(baseurl, query, house, dates, "&_pageSize=500&_page=", i, extra_args), flatten = TRUE)
+        if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
         pages[[i + 1]] <- mydata$result$items
     }
 
     df <- tibble::as_tibble(dplyr::bind_rows(pages))
 
-    if (nrow(df) == 0) {
+    if (nrow(df) == 0 && verbose==TRUE) {
         message("The request did not return any data. Please check your search parameters.")
     } else {
 
@@ -85,13 +87,9 @@ papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-0
 
             df <- hansard_tidy(df, tidy_style)
 
-            df
-
-        } else {
-
-            df
-
         }
+
+            df
 
     }
 }
@@ -99,9 +97,9 @@ papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-0
 
 #' @rdname papers_laid
 #' @export
-hansard_papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,  tidy_style = "snake_case") {
+hansard_papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,  tidy_style = "snake_case", verbose=FALSE) {
 
-  df <- papers_laid(withdrawn = withdrawn, house= house, start_date = start_date, end_date = end_date, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style)
+  df <- papers_laid(withdrawn = withdrawn, house= house, start_date = start_date, end_date = end_date, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style, verbose=verbose)
 
   df
 

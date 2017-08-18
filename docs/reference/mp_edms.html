@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports data on early day motions signed, sponsored or primarily sponsored by a given MP. — mp_edms • hansard</title>
+<title>Early Day Motions by MP — mp_edms • hansard</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports data on early day motions signed, sponsored or primarily sponsored by a given MP.</h1>
+    <h1>Early Day Motions by MP</h1>
     </div>
 
     
@@ -100,55 +100,59 @@
     <pre class="usage"><span class='fu'>mp_edms</span>(<span class='kw'>mp_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>signatory</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>full_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>,
   <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)
+  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>hansard_mp_edms</span>(<span class='kw'>mp_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_sponsor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sponsor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>signatory</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>full_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>, <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
+  <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mp_id</th>
-      <td><p>The ID number of an MP. Required parameter, defaults to NULL. Accepts single IDs in numerical or character format, or a list, data.frame column, etc. If given multiple IDs, the results are combined into a single tibble.</p></td>
+      <td><p>The ID number of an MP. Required parameter, Defaults to <code>NULL</code>. Accepts single IDs in numerical or character format, or a list, data.frame column, etc. If given multiple IDs, the results are combined into a single tibble.</p></td>
     </tr>
     <tr>
       <th>primary_sponsor</th>
-      <td><p>Includes all early day motions where the given member is the primary sponsor in the tibble. Defaults to TRUE.</p></td>
+      <td><p>Includes all early day motions where the given member is the primary sponsor in the tibble. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>sponsor</th>
-      <td><p>Includes all early day motions where the given member a sponsor (but not the primary sponsor) in the tibble. Defaults to TRUE.</p></td>
+      <td><p>Includes all early day motions where the given member a sponsor (but not the primary sponsor) in the tibble. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>signatory</th>
-      <td><p>Includes all early day motions signed (but not sponsored or primarily sponsored) by the given member in the tibble. Defaults to TRUE.</p></td>
+      <td><p>Includes all early day motions signed (but not sponsored or primarily sponsored) by the given member in the tibble. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>full_data</th>
-      <td><p>If TRUE, returns all available data on the EDMs signed or sponsored by a member. Defaults to FALSE. Note that this can be a very slow process compared to other <code>hansard</code> functions.</p></td>
+      <td><p>If <code>TRUE</code>, returns all available data on the EDMs signed or sponsored by a member. Defaults to <code>FALSE</code>. Note that this can be a very slow process compared to other <code>hansard</code> functions.</p></td>
     </tr>
     <tr>
       <th>start_date</th>
-      <td><p>The earliest date to include in the tibble, based on the date the MP signed the EDM. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
+      <td><p>The earliest date to include in the tibble, based on the date the MP signed the EDM. Defaults to <code>'1900-01-01'</code>. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>end_date</th>
-      <td><p>The latest date to include in the tibble, based on the date the MP signed the EDM. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
+      <td><p>The latest date to include in the tibble, based on the date the MP signed the EDM. Defaults to current system date. Defaults to <code>'1900-01-01'</code>. Accepts character values in <code>'YYYY-MM-DD'</code> format and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>extra_args</th>
-      <td><p>Additional parameters to pass to API. Defaults to NULL.</p></td>
+      <td><p>Additional parameters to pass to API. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>tidy</th>
-      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.</p></td>
+      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>tidy_style</th>
-      <td><p>The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.</p></td>
+      <td><p>The style to convert variable names to, if <code>tidy = TRUE</code>. Accepts one of <code>'snake_case'</code>, <code>'camelCase'</code> and <code>'period.case'</code>. Defaults to <code>'snake_case'</code>.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>If <code>TRUE</code>, returns data to console on the progress of the API request. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     

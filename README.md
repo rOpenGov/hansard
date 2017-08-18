@@ -28,10 +28,6 @@ Using hansard
 
 For an introduction to `hansard`, please see the [vignette](http://ropengov.github.io/hansard/articles/introduction.html). If you are unfamiliar with APIs [https://zapier.com/learn/apis/](this%20introductory%20course) is useful.
 
-### Tests and test coverage
-
-The `hansard` package includes extensive tests of the different API functions. However, to reduce the impact of repeated testing and calls to the API, these tests have been disabled for both CRAN and Travis. To run these tests locally please download the development version of `hansard`.
-
 #### API calls with console input
 
 Previous versions (&lt;=0.3.4) of `hansard` included options for console-based inputs to call data and interact with the API. This feature has been removed from subsequent versions, and is available in the [https://github.com/evanodell/hansard-console](%60hansardconsole%60) package. There are no plans to submit this to CRAN, and it is not being actively maintained.

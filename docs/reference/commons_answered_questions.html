@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports data on House of Commons answered questions. — commons_answered_questions • hansard</title>
+<title>House of Commons answered questions — commons_answered_questions • hansard</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports data on House of Commons answered questions.</h1>
+    <h1>House of Commons answered questions</h1>
     </div>
 
     
@@ -99,48 +99,57 @@
 
     <pre class="usage"><span class='fu'>commons_answered_questions</span>(<span class='kw'>answering_department</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>answered_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>, <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(), <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)
+  <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>hansard_commons_answered_questions</span>(<span class='kw'>answering_department</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>answered_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>"1900-01-01"</span>, <span class='kw'>end_date</span> <span class='kw'>=</span> <span class='fu'>Sys.Date</span>(),
-  <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>)</pre>
+  <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tidy</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>tidy_style</span> <span class='kw'>=</span> <span class='st'>"snake_case"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>answering_department</th>
-      <td><p>Returns a tibble with all answered questions in the House of Commons from the given department. Defaults to NULL.</p></td>
+      <td><p>Accepts the name of a department or an array of department names.  Returns a tibble with all answered questions in the House of Commons from the given department. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>answered_by</th>
-      <td><p>Returns a tibble with all answered questions in the House of Commons by the given MP. Defaults to NULL.</p></td>
+      <td><p>Accepts the ID of an MP, or an array of IDs. Returns a tibble with all answered questions in the House of Commons by the given MP(s). Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>start_date</th>
-      <td><p>The earliest date to include in the tibble. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
+      <td><p>The earliest date to include in the tibble. Defaults to <code>'1900-01-01'</code>. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>end_date</th>
-      <td><p>The latest date to include in the tibble. Defaults to current system date. Defaults to '1900-01-01'. Accepts character values in 'YYYY-MM-DD' format, and objects of class Date, POSIXt, POSIXct, POSIXlt or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
+      <td><p>The latest date to include in the tibble. Defaults to current system date. Defaults to <code>'1900-01-01'</code>. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>.</p></td>
     </tr>
     <tr>
       <th>extra_args</th>
-      <td><p>Additional parameters to pass to API. Defaults to NULL.</p></td>
+      <td><p>Additional parameters to pass to API. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>tidy</th>
-      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to TRUE.</p></td>
+      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>tidy_style</th>
-      <td><p>The style to convert variable names to, if tidy = TRUE. Accepts one of 'snake_case', 'camelCase' and 'period.case'. Defaults to 'snake_case'.</p></td>
+      <td><p>The style to convert variable names to, if <code>tidy = TRUE</code>. Accepts one of <code>'snake_case'</code>, <code>'camelCase'</code> and <code>'period.case'</code>. Defaults to <code>'snake_case'</code>.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>If <code>TRUE</code>, returns data to console on the progress of the API request. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A tibble with details on all answered questions in the House of Commons.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If <code>answering_department</code> and/or <code>answered_by</code> are given arrays with multiple deparments/IDs, all possible combination of that criteria is returned.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -154,7 +163,8 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>commons_answered_questions</span>(<span class='kw'>answering_department</span> <span class='kw'>=</span> <span class='st'>'health'</span>, <span class='kw'>answered_by</span> <span class='kw'>=</span> <span class='st'>'4019'</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>commons_answered_questions</span>(<span class='kw'>answering_department</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'health'</span>,<span class='st'>'education'</span>),
+                                <span class='kw'>answered_by</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'4019'</span>, <span class='st'>'1542'</span>, <span class='st'>'111'</span>), <span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>'2017-01-01'</span>)
 
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>commons_answered_questions</span>(<span class='kw'>start_date</span> <span class='kw'>=</span> <span class='st'>'2017-03-26'</span>, <span class='kw'>end_date</span><span class='kw'>=</span><span class='st'>'2017-04-01'</span>)
 
@@ -166,6 +176,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

@@ -94,9 +94,7 @@
     </div>
 
     
-    <p>These functions do not accept any arguments.</p>
-<p>A list of Parliamentary Research Briefings subtopics, grouped by topic.</p>
-<p>A list of types of Parliamentary Research Briefings.</p>
+    <p>Returns lists of research briefing topics, subtopics and types. These functions do not accept any arguments.</p>
     
 
     <pre class="usage"><span class='fu'>research_topics_list</span>()
@@ -113,13 +111,16 @@
         
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with the different research topics available.</p>
-<p>A list with the different research subtopics available.</p>
-<p>A list with the different types of research briefings.</p>
+    <p>A list with the different research topics/subtopics/types available.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="member-details-functions"><a class="anchor" href="#member-details-functions"></a>Member details functions</h2>
 
-    <p>A list of Parliamentary Research Briefings topics.</p>
+    
+    <dl class='dl-horizontal'>
+<dt>research_topics_list</dt><dd><p>A list with the different research topics available</p></dd>
+<dt>research_subtopics_list</dt><dd><p>A list of Parliamentary Research Briefings topics</p></dd>
+<dt>research_types_list</dt><dd><p>A list of types of Parliamentary Research Briefings</p></dd>
+</dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -129,14 +130,13 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'> </div><span class='co'># NOT RUN {</span>
 <span class='no'>research_topics_list</span> <span class='kw'>&lt;-</span> <span class='fu'>research_topics_list</span>()
-<span class='co'># }</span><div class='input'>
- </div><span class='co'># NOT RUN {</span>
+
 <span class='no'>research_subtopics_list</span> <span class='kw'>&lt;-</span> <span class='fu'>research_subtopics_list</span>()
 
-<span class='co'># }</span><div class='input'> </div><span class='co'># NOT RUN {</span>
 <span class='no'>research_types_list</span> <span class='kw'>&lt;-</span> <span class='fu'>research_types_list</span>()
 
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -144,7 +144,7 @@
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#member-details-functions">Member details functions</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
