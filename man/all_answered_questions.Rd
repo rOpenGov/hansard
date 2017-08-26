@@ -3,7 +3,7 @@
 \name{all_answered_questions}
 \alias{all_answered_questions}
 \alias{hansard_all_answered_questions}
-\title{All answered parliamentary questions.}
+\title{All answered parliamentary questions}
 \usage{
 all_answered_questions(mp_id = NULL, tabling_mp_id = NULL, house = NULL,
   answering_body = NULL, start_date = "1900-01-01", end_date = Sys.Date(),
@@ -16,17 +16,17 @@ hansard_all_answered_questions(mp_id = NULL, tabling_mp_id = NULL,
   tidy_style = "snake_case", verbose = FALSE)
 }
 \arguments{
-\item{mp_id}{Accepts a member ID or array of member IDs, and returns a tibble with all available questions answered by that member. Includes both oral and written questions, and includes members of the House of Commons and the House of Lords. If \code{NULL}, returns a tibble with all available answered questions, subject to other parameters. Defaults to \code{NULL}.}
+\item{mp_id}{Accepts a member ID or vector of member IDs, and returns a tibble with all available questions answered by that member. Includes both oral and written questions, and includes members of the House of Commons and the House of Lords. If \code{NULL}, returns a tibble with all available answered questions, subject to other parameters. Defaults to \code{NULL}.}
 
-\item{tabling_mp_id}{Accepts a member ID or array of member IDs, and returns a tibble with all available questions asked by that member, subject to all other parameters. Includes both oral and written questions, and includes members of the House of Commons and the House of Lords. If \code{NULL}, returns a tibble with all available answered questions, subject to other parameters. Defaults to \code{NULL}.}
+\item{tabling_mp_id}{Accepts a member ID or vector of member IDs, and returns a tibble with all available questions asked by that member, subject to all other parameters. Includes both oral and written questions, and includes members of the House of Commons and the House of Lords. If \code{NULL}, returns a tibble with all available answered questions, subject to other parameters. Defaults to \code{NULL}.}
 
 \item{house}{The house to return questions from. Accepts either the short name of the legislature (e.g. \code{'commons'} or \code{'lords'}) or the ID of the legislature (1 for the House of Commons, 2 for the House of Lords). The short names are not case sensitive. If \code{NULL}, returns answers from both houses, subject to other parameters. Defaults to \code{NULL}.}
 
 \item{answering_body}{The government department that answers the question. Accepts either the short name name of a department (e.g. \code{'Education'} for the Department for Education, \code{'Digital, Culture, Media and Sport'} for the Department for Digital, Culture, Media and Sport), or the ID of a particular department (e.g. 60 for education.) If \code{NULL}, returns answers from all departments, subject to other parameters. Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.}
+\item{start_date}{The earliest date to include in the tibble. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the tibble. Defaults to current system date. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.}
+\item{end_date}{The latest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to the current system date.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to \code{NULL}.}
 
@@ -40,14 +40,13 @@ hansard_all_answered_questions(mp_id = NULL, tabling_mp_id = NULL,
 A tibble with details on all answered questions in the House of Commons and the House of Lords.
 }
 \description{
-Imports data on all answered parliamentary questions in the House of Commons and/or in the House of Lords.
+Imports data on all answered parliamentary questions in the House of Commons and/or in the House of Lords. The \code{mp_id}, \code{tabling_mp_id} and \code{answering_body} parameters accept a single ID or department names, or a vector of IDs or department names, respectively.
 }
 \details{
-This is the most flexible of the various functions that look up questions, as it queries all types of questions in both houses with a wide selection of parameters. The member who asks the question, the member who answers it and the relevant department can all be used to query the API.
+This is the most flexible of the various functions that look up questions, as it queries all types of questions in both houses with a wide selection of parameters: The member who asks the question, the member who answers it and the relevant department can all be used to query the API.
 }
 \examples{
 \dontrun{
-
 x <- all_answered_questions(4019, start_date ='2017-01-01')
 
 y <- all_answered_questions(4019, start_date ='2017-01-01', tidy_style='camelCase')
@@ -63,9 +62,7 @@ b <- hansard_all_answered_questions(house=2, answering_body="Education")
 w <- hansard_all_answered_questions(mp_id = c(4019, 3980), tabling_mp_id = c(338, 172),
                                     answering_body = c("health", "justice"),
                                      start_date = "2016-12-18", end_date = "2017-03-12")
-
 ## Accepts multiple inputs for mp_id, tabling_mp_id and answering_body
-
 }
 }
 \seealso{

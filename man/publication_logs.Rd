@@ -18,9 +18,9 @@ hansard_publication_logs(ID = NULL, house = NULL,
 
 \item{house}{The house that produced the particular publication. Accepts \code{'commons'} and \code{'lords'}. If \code{NULL} or not \code{'commons'} or \code{'lords'}, returns publications from both House of Commons and House of Lords. This parameter is case-insensitive. Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.}
+\item{start_date}{The earliest date to include in the tibble. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the tibble. Defaults to current system date. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.}
+\item{end_date}{The latest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to the current system date.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to \code{NULL}.}
 
@@ -30,12 +30,14 @@ hansard_publication_logs(ID = NULL, house = NULL,
 
 \item{verbose}{If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.}
 }
+\value{
+A tibble with details from publications in the House of Commons and House of Lords
+}
 \description{
 Imports data on House of Commons and House of Lords publications.
 }
 \examples{
 \dontrun{
-
 x <- publication_logs(house='commons')
 
 x <- publication_logs(683267)

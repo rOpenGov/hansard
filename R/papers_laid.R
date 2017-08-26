@@ -6,21 +6,18 @@
 #' @param withdrawn If \code{TRUE}, only returns withdrawn papers. Defaults to \code{FALSE}.
 #' @param house The house the paper was laid in. Accepts \code{'commons'} and \code{'lords'}. If \code{NULL}, returns both House of Commons and House of Lords. This parameter is case-insensitive. Defaults to \code{NULL}.
 #' @param start_date The earliest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.
-#' @param end_date The latest date to include in the tibble. Defaults to current system date. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.
+#' @param end_date The latest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to the current system date.
 #' @param extra_args Additional parameters to pass to API. Defaults to \code{NULL}.
 #' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.
 #' @param tidy_style The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.
 #' @param verbose If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.
-#' @return  A tibble with details on papers laid before the given House.
-#'
-### @keywords Papers Laid
+#' @return A tibble with details on papers laid before the given House.
 #' @export
 #' @examples \dontrun{
 #' x <- papers_laid(withdrawn = FALSE, house = 'commons')
 #'
 #' x <- papers_laid(withdrawn = TRUE, house = NULL)
 #' }
-#'
 
 papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,  tidy_style = "snake_case", verbose=FALSE) {
 
@@ -28,21 +25,29 @@ papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-0
         house <- tolower(house)
 
         if (house == "commons") {
-            house <- "&legislature.prefLabel=House of Commons"
-            house <- utils::URLencode(house)
+
+            house <- utils::URLencode("&legislature.prefLabel=House of Commons")
+
         } else if (house == "lords") {
-            house <- "&legislature.prefLabel=House of Lords"
-            house <- utils::URLencode(house)
+
+            house <- utils::URLencode("&legislature.prefLabel=House of Lords")
+
         } else {
+
             house <- NULL
+
         }
 
     }
 
     if (withdrawn == TRUE) {
+
         query <- "&withdrawn=true"
+
     } else {
+
         query <- "&withdrawn=false"
+
     }
 
     dates <- paste0("&max-ddpModified=", as.Date(end_date), "&min-ddpModified=", as.Date(start_date))
@@ -103,5 +108,4 @@ hansard_papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1
 
   df
 
-  df
 }

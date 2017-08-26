@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Access election candidate details — election_candidates • hansard</title>
+<title>Election candidate details — election_candidates • hansard</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -90,11 +90,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Access election candidate details</h1>
+    <h1>Election candidate details</h1>
     </div>
 
     
-    <p>Returns the name and party of all candidates standing in an election, by constituency.</p>
+    <p>Returns the name and party of all candidates standing in an election, for each constituency. Note that for general elections this can return a very large tibble with hundreds of variables.</p>
     
 
     <pre class="usage"><span class='fu'>election_candidates</span>(<span class='kw'>ID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>constit_details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -150,8 +150,6 @@
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>election_candidates</span>()
 
 <span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>election_candidates</span>(<span class='kw'>constit_details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

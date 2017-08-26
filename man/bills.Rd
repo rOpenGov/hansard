@@ -18,9 +18,9 @@ hansard_bills(ID = NULL, amendments = FALSE, start_date = "1900-01-01",
 
 \item{amendments}{If \code{TRUE}, returns all bills with amendments. Defaults to \code{FALSE}.}
 
-\item{start_date}{The earliest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.}
+\item{start_date}{The earliest date to include in the tibble. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the tibble. Defaults to current system date. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}.}
+\item{end_date}{The latest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to the current system date.}
 
 \item{extra_args}{Additional parameters to pass to API. Defaults to \code{NULL}.}
 
@@ -34,11 +34,10 @@ hansard_bills(ID = NULL, amendments = FALSE, start_date = "1900-01-01",
 A tibble with details on bills before the House of Lords and the House of Commons.
 }
 \description{
-Imports data on House of Commons and House of Lords bills
+Imports data on House of Commons and House of Lords bills.
 }
 \examples{
 \dontrun{
-
 x <- bills()
 
 x <- bills(amendments=TRUE)
@@ -46,7 +45,6 @@ x <- bills(amendments=TRUE)
 x <- bills(1719)
 
 x <- bills(start_date ='2016-01-01')
-
 }
 }
 \seealso{
