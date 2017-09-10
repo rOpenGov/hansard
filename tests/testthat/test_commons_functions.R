@@ -14,12 +14,12 @@ test_that("commons functions return expected format", {
     # Divisions
 
     xcd <- hansard_commons_divisions(division_id = 694163, summary = FALSE, verbose=TRUE)
-    expect_length(xcd, 6)
+    expect_length(xcd, 7)
     expect_type(xcd, "list")
     expect_true(tibble::is_tibble(xcd))
 
     xcds <- hansard_commons_divisions(division_id = 694163, summary = TRUE, verbose=TRUE)
-    expect_length(xcds, 17)
+    expect_length(xcds, 13)
     expect_type(xcds, "list")
     expect_true(tibble::is_tibble(xcds))
 
@@ -36,16 +36,15 @@ test_that("commons functions return expected format", {
     expect_equal(nrow(cdd), 5)
 
     ## Questions
-    xcoqt <- hansard_commons_oral_question_times(session = "2016/17", question_id = "685697", verbose=TRUE)
-    expect_length(xcoqt, 14)
+    xcoqt <- hansard_commons_oral_question_times(session = "2016/17", question_id = "685697", verbose=TRUE) #
+    expect_length(xcoqt, 16)
     expect_type(xcoqt, "list")
     expect_true(tibble::is_tibble(xcoqt))
 
     xcoqs <- hansard_commons_oral_question_times(session = "2015/16", verbose=TRUE)
-    expect_length(xcoqs, 14)
+    expect_length(xcoqs, 15)
     expect_type(xcoqs, "list")
     expect_true(tibble::is_tibble(xcoqs))
-    expect_equal(nrow(xcoqs), 313)
 
     xcoqe <- hansard_commons_oral_questions(mp_id=c(4019,4051,4588),answering_department = c('education', 'health'), verbose=TRUE, tidy_style = "period.case")
     expect_length(xcoqe, 24)

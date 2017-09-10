@@ -95,12 +95,30 @@
     </div>
 
     <div class="contents">
-    <div id="hansard-0-5-4" class="section level1">
+    <div id="hansard-0-5-4-9002" class="section level1">
 <h1 class="hasAnchor">
-<a href="#hansard-0-5-4" class="anchor"></a>hansard 0.5.4</h1>
+<a href="#hansard-0-5-4-9002" class="anchor"></a>hansard 0.5.4.9002</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<p>Ensure that <code><a href="../reference/commons_oral_question_times.html">commons_oral_question_times()</a></code> only returns one question ID.</p>
+<p><code><a href="../reference/sessions_info.html">sessions_info()</a></code> is now better.</p>
+</div>
 <div id="general-improvements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general-improvements" class="anchor"></a>General improvements</h2>
+<p>Tidying with <code><a href="../reference/commons_divisions.html">commons_divisions()</a></code> now separates vote number from division ID, and the function no longer returns two rows to summarise a division when only one is needed.</p>
+<p>Changes to syntax for <code><a href="../reference/constituencies.html">constituencies()</a></code>. The <code>current</code> parameter can now distinguish between current constituencies (<code>TRUE</code>), former (<code>FALSE</code>) and all constituencies (<code>NULL</code>).</p>
+<p>Simplification of some internal code, which may have a marginal effect on speed, and will make maintenance and adding features easier going forward.</p>
+<p>Switch from using <code>stringr</code> to <code>stringi</code> for internal string processing.</p>
+</div>
+</div>
+    <div id="hansard-0-5-4" class="section level1">
+<h1 class="hasAnchor">
+<a href="#hansard-0-5-4" class="anchor"></a>hansard 0.5.4</h1>
+<div id="general-improvements-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#general-improvements-1" class="anchor"></a>General improvements</h2>
 <p>Speeding up of some tests.</p>
 <p>Better tidying on <code><a href="../reference/lords_interests.html">lords_interests()</a></code>.</p>
 <p>Changes to structure of <code><a href="../reference/lord_vote_record.html">lord_vote_record()</a></code> to make it slightly faster and more consistent with other functions.</p>
@@ -115,18 +133,18 @@
 <p><code><a href="../reference/all_answered_questions.html">all_answered_questions()</a></code>, <code><a href="../reference/commons_answered_questions.html">commons_answered_questions()</a></code>, <code><a href="../reference/commons_oral_questions.html">commons_oral_questions()</a></code>, <code><a href="../reference/commons_written_questions.html">commons_written_questions()</a></code>, <code><a href="../reference/lords_written_questions.html">lords_written_questions()</a></code> now accept arrays of member IDs and department names.</p>
 <p>Added <code>verbose</code> parameter to all functions. If <code>verbose</code>=TRUE, messages displaying the progress of the API call are sent to the console.</p>
 </div>
-<div id="general-improvements-1" class="section level2">
+<div id="general-improvements-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#general-improvements-1" class="anchor"></a>General improvements</h2>
+<a href="#general-improvements-2" class="anchor"></a>General improvements</h2>
 <p>Sped up edm details retrieval in <code><a href="../reference/mp_edms.html">mp_edms()</a></code> where <code>full_data</code>==TRUE and there are multiple MP IDs.</p>
 <p>Major increase in speed for <code><a href="../reference/constituencies.html">constituencies(current=TRUE)</a></code>.</p>
 <p>Small increase in speed for all functions.</p>
 <p><code><a href="../reference/all_answered_questions.html">all_answered_questions()</a></code> can now handle departmental ID numbers passed as characters.</p>
 <p>Now uses the <code>stringr</code> package to remove case sensitivity from queries.</p>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <p>Fixed bug that prevented <code><a href="../reference/lords_written_questions.html">lords_written_questions()</a></code> from retrieving more than 500 results at a time.</p>
 </div>
 </div>
@@ -139,9 +157,9 @@
 <p><code><a href="../reference/mp_edms.html">mp_edms()</a></code> now accepts lists and character vectors of MP IDs, and returns them all in one tibble.</p>
 <p><code><a href="../reference/mp_edms.html">mp_edms()</a></code> now includes <code>start_date</code> and <code>end_date</code> parameters</p>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <p>Fixed <code><a href="../reference/mp_edms.html">mp_edms()</a></code> to return more useful error if the requested MP does not have any Early Day Motions that meet the search parameters.</p>
 <p>The <code>signatory</code> parameter in <code><a href="../reference/mp_edms.html">mp_edms()</a></code> is now behaving properly.</p>
 </div>
@@ -160,9 +178,9 @@
 <p>All functions have a wrapper function with the same name, but with <code>hansard_</code> prefixed. Existing names have remained untouched.</p>
 <p>Addition of <code>house</code> and <code>answering_body</code> parameters to <code><a href="../reference/all_answered_questions.html">all_answered_questions()</a></code> function.</p>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <p>Fixed bug in <code><a href="../reference/lord_vote_record.html">lord_vote_record()</a></code> which produced an error if requesting both lobbies, but a peer had only voted in one of the lobbies.</p>
 </div>
 </div>
@@ -174,9 +192,9 @@
 <a href="#new-features-3" class="anchor"></a>New features</h2>
 <p>Party name columns in <code><a href="../reference/election_candidates.html">election_candidates()</a></code> and <code><a href="../reference/election_results.html">election_results(all_data=TRUE)</a></code> are now in alphabetical order.</p>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <p>Fixed bug in <code><a href="../reference/all_answered_questions.html">all_answered_questions()</a></code> that wasn’t returning results when <code>tabling_mp_id</code> is a parameter.</p>
 </div>
 <div id="documentation-changes" class="section level2">
@@ -205,9 +223,9 @@
 <p>Additional URL stripping from variable values if <code>tidy</code>=TRUE.</p>
 <p>Added <code>tabling_mp_id</code> parameter to <code><a href="../reference/all_answered_questions.html">all_answered_questions()</a></code>.</p>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <p>Fixed bug in <code><a href="../reference/members.html">members()</a></code> where looking up a single member returned a tibble with two rows.</p>
 <p>Fixed bug in <code><a href="../reference/mp_edms.html">mp_edms()</a></code> where additional data was not being returned if <code>full_data</code>=TRUE.</p>
 <p>Fixed bug in <code><a href="../reference/election_results.html">election_results()</a></code> where it did not return data if <code>constit_details</code>=TRUE.</p>
@@ -225,9 +243,9 @@
 <p>The <code>tidy</code> parameter now changes date values to POSIXct class with <code>as.POSIXct()</code> when the API returns date information, or to POSIXct with the <code>parse_date_time</code> from the <code>lubridate</code> package where the API returns both date and time information.</p>
 <p><code>tidy</code> parameter now strips out more unneeded character strings from API response.</p>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <p>Updated <code><a href="../reference/elections.html">elections()</a></code> to work with new API syntax.</p>
 </div>
 </div>
@@ -253,9 +271,9 @@
 <a href="#constituency-details" class="anchor"></a>Constituency details</h2>
 <p>Added optional <code>constit_details</code> parameter to <code>election_result()</code> function. If TRUE, <code>constit_details</code> retrieves additional constituency details from <code><a href="../reference/constituencies.html">constituencies()</a></code>, most notably including GSS code.</p>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <p>Fixed bug on <code><a href="../reference/commons_oral_question_times.html">commons_oral_question_times()</a></code> where some calls did not return tibbles.</p>
 <p>Fixed bug in <code>lords_divisons()</code> that did prevented vote summary queries from being returned.</p>
 <p>Removed superfluous <code>x</code> from names in <code><a href="../reference/elections.html">elections()</a></code> when tidy=TRUE.</p>
@@ -322,9 +340,9 @@
     <div id="hansard-0-3-4" class="section level1">
 <h1 class="hasAnchor">
 <a href="#hansard-0-3-4" class="anchor"></a>hansard 0.3.4</h1>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
 <p>The <code><a href="../reference/lords_attendance.html">lords_attendance()</a></code> function was not working. It was returning empty data frames when searching by date and failing entirely when trying to retrieve all attendance. This was due to url encoding issues, which have now been identified and fixed. (#4, @meenaparam)</p>
 <p>Fixed spelling of amendments, so that <code><a href="../reference/lords_ammendments.html">lords_ammendments()</a></code> is now <code>lords_amendments(0</code>. The <code><a href="../reference/lords_ammendments.html">lords_ammendments()</a></code> function has been deprecated, and will be removed in a future release.</p>
 </div>
@@ -332,17 +350,17 @@
     <div id="hansard-0-3-3" class="section level1">
 <h1 class="hasAnchor">
 <a href="#hansard-0-3-3" class="anchor"></a>hansard 0.3.3</h1>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h2>
 </div>
 </div>
     <div id="hansard-0-3-2" class="section level1">
 <h1 class="hasAnchor">
 <a href="#hansard-0-3-2" class="anchor"></a>hansard 0.3.2</h1>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug Fixes</h2>
 </div>
 </div>
     <div id="hansard-0-3-0" class="section level1">
@@ -358,9 +376,9 @@
 <p><code><a href="../reference/mp_edms.html">mp_edms()</a></code></p>
 <p>The option to use console input has been preserved in <code><a href="../reference/commons_divisions.html">commons_divisions()</a></code>, <code><a href="../reference/lords_divisions.html">lords_divisions()</a></code>, <code><a href="../reference/commons_written_questions.html">commons_written_questions()</a></code> and <code><a href="../reference/commons_oral_questions.html">commons_oral_questions()</a></code>, along with other features not available in the new functions.</p>
 </div>
-<div id="bug-fixes-10" class="section level2">
+<div id="bug-fixes-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-11" class="anchor"></a>Bug fixes</h2>
 <p>This update fixes an issue with <code><a href="../reference/lords_written_questions.html">lords_written_questions()</a></code> and <code><a href="../reference/commons_written_questions.html">commons_written_questions()</a></code> where the functions returned a 404 error on some requests.</p>
 </div>
 </div>
@@ -381,6 +399,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#hansard-0-5-4-9002">0.5.4.9002</a></li>
         <li><a href="#hansard-0-5-4">0.5.4</a></li>
         <li><a href="#hansard-0-5-3">0.5.3</a></li>
         <li><a href="#hansard-0-5-2">0.5.2</a></li>

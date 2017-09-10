@@ -94,7 +94,7 @@
     </div>
 
     
-    <p>A semi-generic function for the parliamentary API. Provides greater flexibility, including any newly released features or data not yet included in the individual functions of the hansard package. Users must specify '.json' in their path.</p>
+    <p>A semi-generic function for the parliamentary API. Provides greater flexibility, including any newly released features or data not yet included in the individual functions of the hansard package.</p>
     
 
     <pre class="usage"><span class='fu'>hansard_generic</span>(<span class='no'>path</span>)</pre>
@@ -108,18 +108,26 @@
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Users must specify '.json?' in their path. The function uses the default of 10 items per page, to include more include <code>'&amp;_pageSize=[number]'</code>, e.g. <code>'&amp;_pageSize=500'</code> to specifiy the maximum amount of 500 items per page.</p>
+<p>This function does not tidy any variable names.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
- <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>hansard_generic</span>(<span class='st'>'elections.json'</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>hansard_generic</span>(<span class='st'>'elections.json?'</span>)
 
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>hansard_generic</span>(<span class='st'>'elections.json?electionType=General Election'</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#details">Details</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

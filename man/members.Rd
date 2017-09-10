@@ -7,7 +7,7 @@
 \alias{hansard_commons_members}
 \alias{lords_members}
 \alias{hansard_lords_members}
-\title{Members of Both Houses}
+\title{Members of both houses}
 \usage{
 members(ID = NULL, extra_args = NULL, tidy = TRUE,
   tidy_style = "snake_case", verbose = FALSE)
@@ -28,18 +28,18 @@ hansard_lords_members(extra_args = NULL, tidy = TRUE,
   tidy_style = "snake_case", verbose = FALSE)
 }
 \arguments{
-\item{ID}{The ID of a member of the House of Commons or the House of Lords to return data on. If \code{NULL}, returns a tibble of all members. Defaults to \code{NULL}.}
+\item{ID}{The ID of a member of the House of Commons or the House of Lords to return data on. If \code{NULL}, returns a tibble of all members of both houses. Defaults to \code{NULL}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to \code{NULL}.}
+\item{extra_args}{Additional parameters to pass to API. See the \href{http://explore.data.parliament.uk/}{API documentation} or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.}
 
 \item{tidy_style}{The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.}
 
 \item{verbose}{If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.}
 }
 \value{
-A tibble with data on members of the House of Commons and/or the House of Lords.
+A tibble with data on members of the House of Commons (\code{commons_members()}), the House of Lords, (\code{lords_members()}), or both (\code{members()}).
 }
 \description{
 Imports basic details on current and former Members of Parliament including the Lords and the Commons.
@@ -50,21 +50,23 @@ For more details on a given member see \code{\link[mnis]{mnis_full_biog}}.
 \section{Member details functions}{
 
 \describe{
-\item{members}{Basic details on a given member}
-\item{commons_members}{MPs in the House of Commons}
-\item{lords_members}{Peers in the House of Lords}
+\item{\code{members}}{Basic details on a given member from either house}
+\item{\code{commons_members}}{MPs in the House of Commons}
+\item{\code{lords_members}}{Peers in the House of Lords}
 }
 }
 
 \examples{
 \dontrun{
+a <- members()
+
 x <- members(172)
 
-x <- commons_members()
+y <- commons_members()
 
-x <- lords_members()
+z <- lords_members()
 }
 }
 \seealso{
-\code{\link{members}}
+\code{\link{members_search}}
 }

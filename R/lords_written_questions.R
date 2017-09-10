@@ -5,17 +5,13 @@
 #' Imports data on House of Lords written questions asked by a given peer(s), and/or directed to a given department.
 #'
 #'
-#' @param peer_id Accepts a member ID or vector of IDs, and returns a tibble with all written questions asked by that member or members. If \code{NULL}, peer_id is not included in the query to the API and so all written questions are returned subject to other function parameters. Defaults to \code{NULL}.
-#' @param answering_department Accepts a string with a department name or partial name or a vector of departmental names, and returns all written questions by that department. The query acts as a search, so entering \code{'health'} will return all questions answered by the Department of Health. If \code{NULL}, answering_department is not included as a query parameter. Defaults to \code{NULL}.
-#' @param start_date The earliest date to include in the tibble. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to \code{'1900-01-01'}.
-#' @param end_date The latest date to include in the tibble. Defaults to \code{'1900-01-01'}. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to the current system date.
-#' @param extra_args Additional parameters to pass to API. Defaults to \code{NULL}.
-#' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.
-#' @param tidy_style The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.
-#' @param verbose If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.
+#' @param peer_id Accepts a member ID or list of IDs, and returns a tibble with all written questions asked by that member or members. If \code{NULL}, peer_id is not included in the query to the API and so all written questions are returned subject to other function parameters. Defaults to \code{NULL}.
+#' @param answering_department Accepts a string with a department name or partial name or a list of departmental names, and returns all written questions by that department. The query acts as a search, so entering \code{'health'} will return all questions answered by the Department of Health. If \code{NULL}, answering_department is not included as a query parameter. Defaults to \code{NULL}.
+#' @param start_date Only includes questions tabled on or after this date. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to \code{'1900-01-01'}.
+#' @param end_date Only includes questions tabled on or before this date. Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else than can be coerced to a date with \code{as.Date()}. Defaults to the current system date.
+#' @inheritParams all_answered_questions
 #' @return A tibble with details on written questions in the House of Lords.
 #'
-### @keywords House of Lords Written Questions
 #' @seealso \code{\link{all_answered_questions}}
 #' @seealso \code{\link{commons_answered_questions}}
 #' @seealso \code{\link{commons_oral_questions}}
@@ -24,15 +20,13 @@
 #' @seealso \code{\link{mp_questions}}
 #' @export
 #' @examples \dontrun{
-#' # Returns all written questions ever
-#' x <- lords_written_questions()
+#' x <- lords_written_questions() # Returns all written questions ever
 #'
 #' x <- lords_written_questions(peer_id = c(3526,4176),
 #'                              answering_department = c('cabinet', 'Transport'))
-#'
 #' }
 
-lords_written_questions <- function(peer_id = NULL, answering_department = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose=FALSE) {
+lords_written_questions <- function(peer_id = NULL, answering_department = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose = FALSE) {
 
   if (length(answering_department)> 1 || length(peer_id) > 1 )  {
 
@@ -46,21 +40,19 @@ lords_written_questions <- function(peer_id = NULL, answering_department = NULL,
 
         peer_id <- utils::URLencode(paste0("&tablingMember=http://data.parliament.uk/members/", peer_id))
 
-    } else{
+    } else {
 
-      peer_id <- NULL
+        peer_id <- NULL
 
     }
 
     if (is.null(answering_department) == FALSE  && is.na(answering_department) == FALSE) {
 
-        query <- "/answeringdepartment"
-
-        answering_department <- utils::URLencode(paste0("q=", answering_department))
+        query <- utils::URLencode(paste0("/answeringdepartment.json?q=", answering_department))
 
     } else {
 
-        query <- NULL
+        query <- ".json?"
 
     }
 
@@ -68,14 +60,14 @@ lords_written_questions <- function(peer_id = NULL, answering_department = NULL,
 
     if(verbose==TRUE){message("Connecting to API")}
 
-    writ <- jsonlite::fromJSON(paste0(baseurl, query, ".json?", answering_department, peer_id, dates, extra_args), flatten = TRUE)
+    writ <- jsonlite::fromJSON(paste0(baseurl, query, peer_id, dates, extra_args), flatten = TRUE)
 
     jpage <- floor(writ$result$totalResults/500)
 
     pages <- list()
 
     for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, query, ".json?", answering_department, peer_id, dates, "&_pageSize=500&_page=", i, extra_args), flatten = TRUE)
+        mydata <- jsonlite::fromJSON(paste0(baseurl, query, peer_id, dates, extra_args, "&_pageSize=500&_page=", i), flatten = TRUE)
         if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
         pages[[i + 1]] <- mydata$result$items
     }
@@ -85,7 +77,9 @@ lords_written_questions <- function(peer_id = NULL, answering_department = NULL,
   }
 
     if (nrow(df) == 0 && verbose==TRUE) {
+
         message("The request did not return any data. Please check your search parameters.")
+
     } else {
 
         if (tidy == TRUE) {
@@ -102,9 +96,9 @@ lords_written_questions <- function(peer_id = NULL, answering_department = NULL,
 
 #' @rdname lords_written_questions
 #' @export
-hansard_lords_written_questions <- function(peer_id = NULL, answering_department = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose=FALSE) {
+hansard_lords_written_questions <- function(peer_id = NULL, answering_department = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose = FALSE) {
 
-  df <- lords_written_questions(peer_id = peer_id, answering_department = answering_department, start_date = start_date, end_date = end_date, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style, verbose=verbose)
+  df <- lords_written_questions(peer_id = peer_id, answering_department = answering_department, start_date = start_date, end_date = end_date, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style, verbose = verbose)
 
   df
 

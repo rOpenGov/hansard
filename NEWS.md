@@ -1,4 +1,22 @@
 
+# hansard 0.5.4.9002
+
+## Bug Fixes
+
+Ensure that `commons_oral_question_times()` only returns one question ID.
+
+`sessions_info()` is now better.
+
+## General improvements
+
+Tidying with `commons_divisions()` now separates vote number from division ID, and the function no longer returns two rows to summarise a division when only one is needed.
+
+Changes to syntax for `constituencies()`. The `current` parameter can now distinguish between current constituencies (`TRUE`), former (`FALSE`) and all constituencies (`NULL`).
+
+Simplification of some internal code, which may have a marginal effect on speed, and will make maintenance and adding features easier going forward.
+
+Switch from using `stringr` to `stringi` for internal string processing.
+
 # hansard 0.5.4
 
 ## General improvements

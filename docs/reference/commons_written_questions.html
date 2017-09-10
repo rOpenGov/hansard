@@ -110,27 +110,27 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mp_id</th>
-      <td><p>Accepts a member ID or a vector of member IDs and returns a tibble with all written questions asked by that MP or vector of MPs. If <code>NULL</code>, mp_id is not included as a query parameter. Defaults to <code>NULL</code>.</p></td>
+      <td><p>Accepts a member ID or a list of member IDs and returns a tibble with all written questions asked by that MP or list of MPs. If <code>NULL</code>, mp_id is not included as a query parameter. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>answering_department</th>
-      <td><p>Accepts a string with a department name or partial name, or a vector of such strings. The query acts as a search, so passing <code>'health'</code> will return all questions answered by the Department of Health. If <code>NULL</code>, answering_department is not included as a query parameter. Defaults to <code>NULL</code>.</p></td>
+      <td><p>Accepts a string with a department name or partial name, or a list of such strings. The query acts as a search, so passing <code>'health'</code> will return all questions answered by the Department of Health. If <code>NULL</code>, answering_department is not included as a query parameter. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>start_date</th>
-      <td><p>The earliest date to include in the tibble. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>. Defaults to <code>'1900-01-01'</code>.</p></td>
+      <td><p>Only includes questions tabled on or after this date. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>. Defaults to <code>'1900-01-01'</code>.</p></td>
     </tr>
     <tr>
       <th>end_date</th>
-      <td><p>The latest date to include in the tibble. Defaults to <code>'1900-01-01'</code>. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>. Defaults to the current system date.</p></td>
+      <td><p>Only includes questions tabled on or before this date. Accepts character values in <code>'YYYY-MM-DD'</code> format, and objects of class <code>Date</code>, <code>POSIXt</code>, <code>POSIXct</code>, <code>POSIXlt</code> or anything else than can be coerced to a date with <code>as.Date()</code>. Defaults to the current system date.</p></td>
     </tr>
     <tr>
       <th>extra_args</th>
-      <td><p>Additional parameters to pass to API. Defaults to <code>NULL</code>.</p></td>
+      <td><p>Additional parameters to pass to API. See the <a href='http://explore.data.parliament.uk/'>API documentation</a> or the package vignette for more details. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>tidy</th>
-      <td><p>Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to <code>TRUE</code>.</p></td>
+      <td><p>Logical parameter. If <code>TRUE</code>, fixes the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>tidy_style</th>

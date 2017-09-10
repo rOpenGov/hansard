@@ -68,7 +68,7 @@
       <h1>Introduction to hansard</h1>
                         <h4 class="author">Evan Odell</h4>
             
-            <h4 class="date">2017-08-26</h4>
+            <h4 class="date">2017-09-10</h4>
           </div>
 
     
@@ -98,12 +98,37 @@ devtools::install_github("EvanOdell/hansard")</code></pre>
 <div id="using-hansard" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-hansard" class="anchor"></a>Using hansard</h2>
-<p><code>hansard</code> contains functions for calling data for the UK Parliament API. The functions are designed to call data from a specific <a href="http://www.data.parliament.uk/" class="uri">http://www.data.parliament.uk/</a> API. The parameter options for each function vary, depending on the specific information available from each API, but there are three constant parameters in every function (with the exception of the <code><a href="../reference/hansard_generic.html">hansard_generic()</a></code> and <code><a href="../reference/research_briefings_lists.html">research_topics_list()</a></code> functions <a href="#special-functions">described below</a>): <code>tidy</code>, <code>tidy_style</code> and <code>verbose</code>.</p>
+<p><code>hansard</code> contains functions for calling data for the UK Parliament API. The functions are designed to call data from a specific <a href="http://www.data.parliament.uk/" class="uri">http://www.data.parliament.uk/</a> API. The parameter options for each function vary, depending on the specific information available from each API, but there are four constant parameters in every function (with the exception of the <code><a href="../reference/hansard_generic.html">hansard_generic()</a></code> and <code><a href="../reference/research_briefings_lists.html">research_topics_list()</a></code> functions <a href="#special-functions">described below</a>): <code>extra_args</code>, <code>tidy</code>, <code>tidy_style</code> and <code>verbose</code>.</p>
+<div id="extra_args" class="section level4">
+<h4 class="hasAnchor">
+<a href="#extra_args" class="anchor"></a><code>extra_args</code>
+</h4>
+<p>The <code>extra_args</code> parameters allows additional arguments and queries to be passed to the API. This can include searching, limiting the parameters actually returned and ordering data. <code>extra_args</code> queries must follow the syntax used by the API, which requires an ampersand at the beginning of each argument e.g. <code>&amp;_search=education</code>. Multiple arguments can be included, e.g. <code>&amp;_search=education&amp;_sort=title</code>. See the <a href="API%20documentation%20for%20more%20details.">http://explore.data.parliament.uk/</a></p>
+</div>
+<div id="tidy" class="section level4">
+<h4 class="hasAnchor">
+<a href="#tidy" class="anchor"></a><code>tidy</code>
+</h4>
 <p><code>tidy</code> is a logical parameter accepting either <code>TRUE</code> or <code>FALSE</code>, defaulting to <code>TRUE</code>. If <code>TRUE</code>, <code>hansard</code> will fix variable names, which by default contain non alpha-numeric characters and appear to use an inconsistent/idiosyncratic naming convention, at least by the standards of the various naming conventions used in R. Dates and datetimes are converted to POSIXct class. Some extra URL data included in the API is also stripped out.</p>
+</div>
+<div id="tidy_style" class="section level4">
+<h4 class="hasAnchor">
+<a href="#tidy_style" class="anchor"></a><code>tidy_style</code>
+</h4>
 <p>The naming convention for variables used if <code>tidy==TRUE</code> is indicated by <code>tidy_style</code>. <code>tidy_style</code> accepts one of <code>"snake_case"</code>, <code>"camelCase"</code> and <code>"period.case"</code>, defaulting to <code>"snake_case"</code>. All variable names will be converted to match the given naming convention.</p>
+</div>
+<div id="verbose" class="section level4">
+<h4 class="hasAnchor">
+<a href="#verbose" class="anchor"></a><code>verbose</code>
+</h4>
 <p><code>verbose</code> is a logical parameter accepting either <code>TRUE</code> or <code>FALSE</code>, defaulting to <code>FALSE</code>. If <code>TRUE</code>, the function will print the progress of the API query to the console.</p>
+</div>
+<div id="hansard_-prefixes" class="section level4">
+<h4 class="hasAnchor">
+<a href="#hansard_-prefixes" class="anchor"></a><code>hansard_</code> prefixes</h4>
 <p>In addition to the more generic sounding function names, each function in hansard has a wrapper where the name is prefixed with <code>hansard_</code>. For example, both <code><a href="../reference/bills.html">bills()</a></code> and <code><a href="../reference/bills.html">hansard_bills()</a></code> will return the same result.</p>
 <p>Almost all <code>hansard</code> functions (the exceptions being the functions that retrieve more reference style data: <code><a href="../reference/bill_stage_types.html">bill_stage_types()</a></code>, <code><a href="../reference/commons_division_date.html">commons_division_date()</a></code>, <code><a href="../reference/commons_terms.html">commons_terms()</a></code> <code><a href="../reference/constituencies.html">constituencies()</a></code>, <code><a href="../reference/election_candidates.html">election_candidates()</a></code>, <code><a href="../reference/election_results.html">election_results()</a></code>, <code><a href="../reference/members.html">members()</a></code>, <code><a href="../reference/members_search.html">members_search()</a></code>, <code>research_briefings_lists()</code> and <code><a href="../reference/hansard_generic.html">hansard_generic()</a></code>) include a <code>start_date</code> and <code>end_date</code> parameter, which can be used to set the earliest (<code>start_date</code>) and latest (<code>end_date</code>) data to be returned from the API.</p>
+</div>
 <div id="example-using-the-commons_divisions-and-mp_vote_record-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-using-the-commons_divisions-and-mp_vote_record-functions" class="anchor"></a>Example using the <code><a href="../reference/commons_divisions.html">commons_divisions()</a></code> and <code><a href="../reference/mp_vote_record.html">mp_vote_record()</a></code> functions</h3>
@@ -123,35 +148,32 @@ tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/commons_divisions.html">commons_divisions</a></span>(<span class="dv">722300</span>)
 tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/glimpse">glimpse</a></span>(x)</code></pre></div>
 <pre><code>## Observations: 535
-## Variables: 6
-## $ vote_id              &lt;chr&gt; "722300/vote/1", "722300/vote/10", "72230...
+## Variables: 7
+## $ number               &lt;chr&gt; "1", "10", "100", "101", "102", "103", "1...
 ## $ member_party         &lt;chr&gt; "Labour", "Labour", "Labour", "Labour (Co...
 ## $ type                 &lt;chr&gt; "aye_vote", "aye_vote", "aye_vote", "aye_...
 ## $ member_printed_value &lt;chr&gt; "Ms Diane Abbott", "Dr Rosena Allin-Khan"...
+## $ vote_id              &lt;chr&gt; "722300", "722300", "722300", "722300", "...
 ## $ about                &lt;chr&gt; "172", "4573", "1579", "4088", "3950", "1...
 ## $ label_value          &lt;chr&gt; "Biography information for Ms Diane Abbot...</code></pre>
 <p>With the <code>summary</code> parameter, we can return a brief summary table of votes:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="kw"><a href="../reference/commons_divisions.html">commons_divisions</a></span>(<span class="dv">722300</span>, <span class="dt">summary=</span><span class="ot">TRUE</span>)
 tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/glimpse">glimpse</a></span>(y)</code></pre></div>
-<pre><code>## Observations: 2
-## Variables: 17
-## $ about                         &lt;chr&gt; "http://data.parliament.uk/resou...
-## $ abstain_count                 &lt;chr&gt; "0", "0"
-## $ ayes_count                    &lt;chr&gt; "522", "522"
-## $ deferred_vote                 &lt;lgl&gt; FALSE, FALSE
-## $ didnotvotecount               &lt;chr&gt; "0", "0"
-## $ errorvotecount                &lt;chr&gt; "0", "0"
-## $ margin                        &lt;chr&gt; "509", "509"
-## $ noesvotecount                 &lt;chr&gt; "13", "13"
-## $ noneligiblecount              &lt;chr&gt; "0", "0"
-## $ suspendedorexpelledvotescount &lt;chr&gt; "0", "0"
-## $ date                          &lt;dttm&gt; 2017-04-19, 2017-04-19
-## $ division_number               &lt;chr&gt; "196", "196"
-## $ is_primary_topic_of           &lt;chr&gt; "http://lda.data.parliament.uk/c...
-## $ legislature                   &lt;chr&gt; "http://data.parliament.uk/terms...
-## $ session                       &lt;chr&gt; "2016/17", "http://data.parliame...
+<pre><code>## Observations: 1
+## Variables: 13
+## $ abstain_count                 &lt;chr&gt; "0"
+## $ ayes_count                    &lt;chr&gt; "522"
+## $ noesvotecount                 &lt;chr&gt; "13"
+## $ didnotvotecount               &lt;chr&gt; "0"
+## $ errorvotecount                &lt;chr&gt; "0"
+## $ noneligiblecount              &lt;chr&gt; "0"
+## $ suspendedorexpelledvotescount &lt;chr&gt; "0"
+## $ margin                        &lt;chr&gt; "509"
+## $ date                          &lt;dttm&gt; 2017-04-19
+## $ division_number               &lt;chr&gt; "196"
+## $ session                       &lt;chr&gt; "2016/17"
 ## $ title                         &lt;chr&gt; "Early Parliamentary General Ele...
-## $ uin                           &lt;chr&gt; "CD:2017-04-19:264", "CD:2017-04...</code></pre>
+## $ uin                           &lt;chr&gt; "CD:2017-04-19:264"</code></pre>
 <p>The results of votes in the House of Lords can be retrieved with the <code>lords_divisions</code> function. The voting record of individual Lords can be retrieved using the <code>lords_vote_record</code> functions.</p>
 </div>
 <div id="multiple-parameter-functions" class="section level3">
@@ -247,10 +269,10 @@ research_subtopics_list &lt;-<span class="st"> </span><span class="kw"><a href="
 
 <span class="kw">system.time</span>(without_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">subtopic =</span> research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.405   0.084   7.701</code></pre>
+##   0.376   0.082   8.943</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(with_topic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/research_briefings.html">research_briefings</a></span>(<span class="dt">topic =</span> research_topics_list[[<span class="dv">7</span>]], <span class="dt">subtopic=</span>research_subtopics_list[[<span class="dv">7</span>]][<span class="dv">10</span>]))</code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.029   0.002   0.177</code></pre>
+##   0.027   0.002   0.347</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">identical</span>(with_topic, without_topic)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>If a specified subtopic is not a subtopic of the specified topic, the function will not return any data.</p>

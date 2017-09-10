@@ -5,10 +5,7 @@
 #' Imports the parliamentary thesaurus. The API is rate limited to 5500 requests at a time, so some use of parameters is required.
 #' @param search A string to search the parliamentary thesaurus for.
 #' @param class The class of definition to be returned Accepts one of \code{'ID'}, \code{'ORG'}, \code{'SIT'}, \code{'NAME'}, \code{'LEG'},\code{'CTP'}, \code{'PBT'} and \code{'TPG'}.  Defaults to \code{NULL}.
-#' @param extra_args Additional parameters to pass to API. Defaults to \code{NULL}.
-#' @param tidy Fix the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.
-#' @param tidy_style The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.
-#' @param verbose If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.
+#' @inheritParams all_answered_questions
 #' @return A tibble with results from the parliamentary thesaurus.
 #' @export
 #' @examples \dontrun{
@@ -17,7 +14,7 @@
 #' x <- commons_terms(search='estate', class='ORG')
 #'}
 
-commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose=FALSE) {
+commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose = FALSE) {
 
     if (is.null(search) == FALSE) {
 
@@ -61,7 +58,7 @@ commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy =
     pages <- list()
 
     for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, search_query, class_query, "&_page=", i, extra_args, "&_pageSize=500"), flatten = TRUE)
+        mydata <- jsonlite::fromJSON(paste0(baseurl, search_query, class_query, extra_args, "&_pageSize=500&_page=", i), flatten = TRUE)
         if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
         pages[[i + 1]] <- mydata$result$items
     }
@@ -69,8 +66,10 @@ commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy =
     df <- tibble::as_tibble(dplyr::bind_rows(pages))
 
     if (nrow(df) == 0 && verbose==TRUE) {
+
         message("The request did not return any data. Please check your search parameters.")
-    } else {
+
+      } else {
 
         if (tidy == TRUE) {
 
@@ -86,9 +85,9 @@ commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy =
 
 #' @rdname commons_terms
 #' @export
-hansard_commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose=FALSE) {
+hansard_commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose = FALSE) {
 
-  df <- commons_terms(search = search, class = class, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style, verbose=verbose)
+  df <- commons_terms(search = search, class = class, extra_args = extra_args, tidy = tidy, tidy_style = tidy_style, verbose = verbose)
 
   df
 
