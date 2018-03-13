@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,15 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="hansard: Provides Easy Downloading Capabilities for the UK Parliament API — hansard" />
+
+<meta property="og:description" content="Provides functions to request data from the data.parliament.uk APIs.
+Because of the structure of the data.parliament.uk API, there is a named
+function for each type of available data for ease of use. Functions for
+each new API will be added as and when they become available on
+data.parliament.uk. The API is rate limited to returning 5500 rows
+per request in some instances, though this has been inconsistent in testing." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,7 +63,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -94,15 +105,33 @@
     </div>
 
     
-    <p>Provides functions to request data from the data.parliament.uk APIs. Because of the structure of the data.parliament.uk API, there is a named function for each type of available data for ease of use. Functions for each new API will be added as and when they become available on data.parliament.uk. The API is rate limited to returning 5500 rows per request in some instances, although in testing this has been inconsistent.</p>
+    <p>Provides functions to request data from the data.parliament.uk APIs.
+Because of the structure of the data.parliament.uk API, there is a named
+function for each type of available data for ease of use. Functions for
+each new API will be added as and when they become available on
+<a href='data.parliament.uk'>data.parliament.uk</a>. The API is rate limited to returning 5500 rows
+per request in some instances, though this has been inconsistent in testing.</p>
     
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The API is still in beta, and only about half of the planned datasets are currently available. The package name is ironic and hopeful, as the actual contents of the Hansard are not yet available through this API.</p>
-<p>In addition to the more generic function names, each function in hansard has a wrapper where the name is prefixed with <code>'hansard_'</code>. For example, both <code><a href='bills.html'>bills()</a></code> and <code><a href='bills.html'>hansard_bills()</a></code> will return the same result.</p>
-<p>For more details please see the <a href='https://cran.r-project.org/web/packages/hansard/vignettes/introduction.html'>vignette</a>, or the API documentation on <a href='http://explore.data.parliament.uk/'>http://explore.data.parliament.uk/</a>.</p>
+    <p>The API itself is still in beta, and only about half of the planned datasets
+are currently available. The package name is optimistic, as the
+actual contents of the Hansard are not yet available through this API.</p>
+<p>In addition to the standard function names, each function in the
+`hansard` package has a wrapper where the name is prefixed with
+`'hansard_'`. For example, both `bills()` and
+`hansard_bills()` will return the same result. This is because
+function names are taken from the specific API on
+<a href='http://explore.data.parliament.uk/'>http://explore.data.parliament.uk/</a>, but they are often not very
+informative and could clash with functions in other packages (e.g.
+`bills()` is not a term unique to the British parliament).</p>
+<p>For more details please see the
+<a href='http://ropengov.github.io/hansard/articles/introduction.html'>vignette</a>,
+or the API documentation on <a href='http://explore.data.parliament.uk/'>http://explore.data.parliament.uk/</a>.</p>
+<p>This package is in no way officially related to or endorsed by the UK
+Parliamentary Data Service.</p>
     
 
   </div>
@@ -122,7 +151,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -130,3 +159,4 @@
 
   </body>
 </html>
+

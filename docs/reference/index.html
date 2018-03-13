@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,7 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Function reference" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,7 +55,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -92,7 +95,7 @@
     <div class="page-header">
       <h1>
         Reference
-        <small>version&nbsp;0.5.4.9002</small>
+        <small>version&nbsp;0.6.1</small>
       </h1>
     </div>
 
@@ -117,6 +120,19 @@
             <p><code><a href="all_answered_questions.html">all_answered_questions</a></code> <code><a href="all_answered_questions.html">hansard_all_answered_questions</a></code> </p>
           </td>
           <td><p>All answered parliamentary questions</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="bill_publication_types.html">bill_publication_types</a></code> </p>
+          </td>
+          <td><p>A character vector of possible types of bill publications.
+For use with <code><a href='reference/bill_publications.html'>bill_publications</a></code></p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="bill_publications.html">bill_publications</a></code> <code><a href="bill_publications.html">hansard_bill_publications</a></code> </p>
+          </td>
+          <td><p>Bill Publications</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -204,27 +220,27 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="epetition_tibble.html">epetition_tibble</a></code> <code><a href="epetition_tibble.html">hansard_epetition_tibble</a></code> </p>
-          </td>
-          <td><p>Bulk Epetition data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="epetition.html">epetition</a></code> <code><a href="epetition.html">hansard_epetition</a></code> </p>
           </td>
           <td><p>Individual epetitions</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="hansard_generic.html">hansard_generic</a></code> </p>
+            <p><code><a href="epetition_tibble.html">epetition_tibble</a></code> <code><a href="epetition_tibble.html">hansard_epetition_tibble</a></code> </p>
           </td>
-          <td><p>Hansard - Generic API Function</p></td>
+          <td><p>Bulk Epetition data</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="hansard.html">hansard</a></code> </p>
           </td>
           <td><p>hansard: Provides Easy Downloading Capabilities for the UK Parliament API</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="hansard_generic.html">hansard_generic</a></code> </p>
+          </td>
+          <td><p>Hansard - Generic API Function</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -248,7 +264,21 @@
           <td>
             <p><code><a href="lords_attendance.html">lords_attendance</a></code> <code><a href="lords_attendance.html">hansard_lords_attendance</a></code> </p>
           </td>
-          <td><p>House of Lords attendance</p></td>
+          <td><p>House of Lords attendance - Deprecated
+Deprecated function, please see <code><a href='reference/lords_attendance_date.html'>lords_attendance_date</a></code> and
+<code><a href='reference/lords_attendance_session.html'>lords_attendance_session</a></code>.</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="lords_attendance_date.html">lords_attendance_date</a></code> <code><a href="lords_attendance_date.html">hansard_lords_attendance_date</a></code> </p>
+          </td>
+          <td><p>House of Lords attendance by date</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="lords_attendance_session.html">lords_attendance_session</a></code> <code><a href="lords_attendance_session.html">hansard_lords_attendance_session</a></code> </p>
+          </td>
+          <td><p>House of Lords attendance by session</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -264,21 +294,27 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="lords_sessions.html">lords_sessions</a></code> <code><a href="lords_sessions.html">hansard_lords_sessions</a></code> </p>
+          </td>
+          <td><p>Lords sessions</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="lords_written_questions.html">lords_written_questions</a></code> <code><a href="lords_written_questions.html">hansard_lords_written_questions</a></code> </p>
           </td>
           <td><p>House of Lords written questions</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="members_search.html">members_search</a></code> <code><a href="members_search.html">hansard_members_search</a></code> </p>
-          </td>
-          <td><p>Search for an MP or Peer by name and constituency</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="members.html">members</a></code> <code><a href="members.html">hansard_members</a></code> <code><a href="members.html">commons_members</a></code> <code><a href="members.html">hansard_commons_members</a></code> <code><a href="members.html">lords_members</a></code> <code><a href="members.html">hansard_lords_members</a></code> </p>
           </td>
           <td><p>Members of both houses</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="members_search.html">members_search</a></code> <code><a href="members_search.html">hansard_members_search</a></code> </p>
+          </td>
+          <td><p>Search for an MP or Peer by name and constituency</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -312,15 +348,15 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="research_briefings_lists.html">research_topics_list</a></code> <code><a href="research_briefings_lists.html">hansard_research_topics_list</a></code> <code><a href="research_briefings_lists.html">research_subtopics_list</a></code> <code><a href="research_briefings_lists.html">hansard_research_subtopics_list</a></code> <code><a href="research_briefings_lists.html">research_types_list</a></code> <code><a href="research_briefings_lists.html">hansard_research_types_list</a></code> </p>
-          </td>
-          <td><p>Lists of research briefing topics, subtopics and types.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="research_briefings.html">research_briefings</a></code> <code><a href="research_briefings.html">hansard_research_briefings</a></code> </p>
           </td>
           <td><p>Parliamentary Research Briefings</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="research_briefings_lists.html">research_topics_list</a></code> <code><a href="research_briefings_lists.html">hansard_research_topics_list</a></code> <code><a href="research_briefings_lists.html">research_subtopics_list</a></code> <code><a href="research_briefings_lists.html">hansard_research_subtopics_list</a></code> <code><a href="research_briefings_lists.html">research_types_list</a></code> <code><a href="research_briefings_lists.html">hansard_research_types_list</a></code> </p>
+          </td>
+          <td><p>Lists of research briefing topics, subtopics and types.</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -353,7 +389,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -361,3 +397,4 @@
 
   </body>
 </html>
+

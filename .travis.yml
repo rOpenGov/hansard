@@ -4,11 +4,12 @@ language: r
 r:
   - devel
 sudo: required
-#cache: packages
+cache: packages
 
-r_github_packages:
-   - jimhester/robustr
-   - jimhester/covr
+r_packages:
+  - devtools
+  - withr
+  - covr
 
 after_success:
   - Rscript -e 'covr::codecov(quiet=FALSE)'

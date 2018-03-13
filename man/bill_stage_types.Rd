@@ -5,17 +5,22 @@
 \alias{hansard_bill_stage_types}
 \title{Bill Stage Types}
 \usage{
-bill_stage_types(tidy = TRUE, tidy_style = "snake_case", verbose = FALSE)
+bill_stage_types(tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 
 hansard_bill_stage_types(tidy = TRUE, tidy_style = "snake_case",
-  verbose = FALSE)
+  verbose = TRUE)
 }
 \arguments{
-\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
 
-\item{tidy_style}{The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
 
-\item{verbose}{If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.}
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
 }
 \value{
 A tibble of bill stage types.
@@ -30,4 +35,6 @@ x <- bill_stage_types()
 }
 \seealso{
 \code{\link{bills}}
+
+\code{\link{bill_publications}}
 }

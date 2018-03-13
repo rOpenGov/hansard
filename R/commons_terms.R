@@ -2,9 +2,12 @@
 
 #' Parliamentary Thesaurus
 #'
-#' Imports the parliamentary thesaurus. The API is rate limited to 5500 requests at a time, so some use of parameters is required.
+#' Imports the parliamentary thesaurus. The API is rate limited to 5500
+#' requests at a time, so some use of parameters is required.
 #' @param search A string to search the parliamentary thesaurus for.
-#' @param class The class of definition to be returned Accepts one of \code{'ID'}, \code{'ORG'}, \code{'SIT'}, \code{'NAME'}, \code{'LEG'},\code{'CTP'}, \code{'PBT'} and \code{'TPG'}.  Defaults to \code{NULL}.
+#' @param class The class of definition to be returned Accepts one of
+#' \code{'ID'}, \code{'ORG'}, \code{'SIT'}, \code{'NAME'}, \code{'LEG'},
+#' \code{'CTP'}, \code{'PBT'} and \code{'TPG'}.  Defaults to \code{NULL}.
 #' @inheritParams all_answered_questions
 #' @return A tibble with results from the parliamentary thesaurus.
 #' @export
@@ -14,26 +17,25 @@
 #' x <- commons_terms(search='estate', class='ORG')
 #'}
 
-commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose = FALSE) {
+commons_terms <- function(search = NULL, class = NULL, extra_args = NULL,
+                          tidy = TRUE, tidy_style = "snake_case",
+                          verbose = TRUE) {
 
-    if (is.null(search) == FALSE) {
-
-        search <- utils::URLencode(search)
-
-        search_query <- paste0("&_search=", search)
-
-    } else {
-
-        search_query <- NULL
-    }
+    search_query <- dplyr::if_else(is.null(search) == FALSE,
+                                   paste0(
+                                     "&_search=", utils::URLencode(search)),
+                                   NULL)
 
     if (is.null(class) == FALSE) {
 
-        class_list <- list("ID", "ORG", "SIT", "NAME", "LEG", "CTP", "PBT", "TPG")
+        class_list <- list("ID", "ORG", "SIT", "NAME", "LEG",
+                           "CTP", "PBT", "TPG")
 
         if (!(class %in% class_list)) {
 
-            stop("Please check your class parameter. It must be one of \"ID\", \"ORG\", \"SIT\", \"NAME\", \"LEG\", \"CTP\", \"PBT\" or\"TPG\"", call. = FALSE)
+            stop("Please check your class parameter.
+                 It must be one of \"ID\", \"ORG\", \"SIT\", \"NAME\",
+                 \"LEG\", \"CTP\", \"PBT\" or\"TPG\"", call. = FALSE)
 
         } else {
 
@@ -47,29 +49,30 @@ commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy =
 
     }
 
-    baseurl <- "http://lda.data.parliament.uk/terms.json?&_view=description"
+    baseurl <- paste0(url_util,  "terms.json?&_view=description")
 
-    if(verbose==TRUE){message("Connecting to API")}
+    if (verbose == TRUE) {
+        message("Connecting to API")
+    }
 
-    terms <- jsonlite::fromJSON(paste0(baseurl, search_query, class_query, extra_args), flatten = TRUE)
+    terms <- jsonlite::fromJSON(paste0(baseurl, search_query,
+                                       class_query, extra_args,
+                                       "&_pageSize=1"),
+                                flatten = TRUE)
 
     jpage <- floor(terms$result$totalResults/500)
 
-    pages <- list()
+    query <- paste0(baseurl, search_query, class_query,
+                    extra_args, "&_pageSize=500&_page=")
 
-    for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, search_query, class_query, extra_args, "&_pageSize=500&_page=", i), flatten = TRUE)
-        if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
-        pages[[i + 1]] <- mydata$result$items
-    }
+    df <- loop_query(query, jpage, verbose)  # in utils-loop.R
 
-    df <- tibble::as_tibble(dplyr::bind_rows(pages))
+    if (nrow(df) == 0) {
 
-    if (nrow(df) == 0 && verbose==TRUE) {
+        message("The request did not return any data.
+                Please check your parameters.")
 
-        message("The request did not return any data. Please check your search parameters.")
-
-      } else {
+    } else {
 
         if (tidy == TRUE) {
 
@@ -77,9 +80,9 @@ commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy =
 
         }
 
-            df
+        df
 
-      }
+    }
 
 }
 
@@ -87,5 +90,3 @@ commons_terms <- function(search = NULL, class = NULL, extra_args = NULL, tidy =
 #' @rdname commons_terms
 #' @export
 hansard_commons_terms <- commons_terms
-
-

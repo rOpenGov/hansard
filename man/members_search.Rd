@@ -6,31 +6,43 @@
 \title{Search for an MP or Peer by name and constituency}
 \usage{
 members_search(search = NULL, tidy = TRUE, tidy_style = "snake_case",
-  verbose = FALSE)
+  verbose = TRUE)
 
 hansard_members_search(search = NULL, tidy = TRUE,
-  tidy_style = "snake_case", verbose = FALSE)
+  tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{search}{Accepts any string. Defaults to \code{NULL}. If \code{NULL}, returns a tibble with all members of both houses of parliament. Searchs are not case sensitive.}
+\item{search}{Accepts any lucene query string, using * as a multiple
+character wildcard, and ? as the single character wildcard. Searchs are
+not case sensitive. If \code{NULL}, returns a tibble with all members of
+both houses of parliament. Defaults to \code{NULL}.}
 
-\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names in the tibble to remove special characters and superfluous text, and converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
 
-\item{tidy_style}{The style to convert variable names to, if \code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'} and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
 
-\item{verbose}{If \code{TRUE}, returns data to console on the progress of the API request. Defaults to \code{FALSE}.}
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
 }
 \value{
 A tibble with the results of the search.
 }
 \description{
-Function searches for the string and returns a tibble with all matches from both houses of parliament. Returns all partial matches in the members' names, constituencies, twitter handle and webpage. The default search is NULL, which returns a tibble of all members of both houses, the same result as \code{members()}.
+Function searches for the string and returns a tibble with all matches from
+both houses of parliament. Returns all partial matches in the members'
+names, constituencies, twitter handle and webpage. The default search is
+\code{NULL}, which returns a tibble of all members of both houses, the
+same result as \code{members()}.
 }
 \examples{
 \dontrun{
-x <- members_search('chris')
+x <- members_search('*chris*')
 
-x <- members_search(search='chris')
+x <- members_search(search='*chris*')
 }
 }
 \seealso{

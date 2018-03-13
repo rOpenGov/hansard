@@ -18,6 +18,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -25,6 +27,12 @@
 <script src="../pkgdown.js"></script>
   
   
+<meta property="og:title" content="Hansard - Generic API Function — hansard_generic" />
+
+<meta property="og:description" content="A semi-generic function for the parliamentary API. Provides greater
+flexibility, including any newly released features or data not yet
+included in the individual functions of the hansard package." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,7 +60,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -94,7 +102,9 @@
     </div>
 
     
-    <p>A semi-generic function for the parliamentary API. Provides greater flexibility, including any newly released features or data not yet included in the individual functions of the hansard package.</p>
+    <p>A semi-generic function for the parliamentary API. Provides greater
+flexibility, including any newly released features or data not yet
+included in the individual functions of the hansard package.</p>
     
 
     <pre class="usage"><span class='fu'>hansard_generic</span>(<span class='no'>path</span>)</pre>
@@ -110,7 +120,10 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Users must specify '.json?' in their path. The function uses the default of 10 items per page, to include more include <code>'&amp;_pageSize=[number]'</code>, e.g. <code>'&amp;_pageSize=500'</code> to specifiy the maximum amount of 500 items per page.</p>
+    <p>Users must specify '.json?' in their path. The function uses the default
+of 10 items per page, to include more include <code>'&amp;_pageSize=[number]'</code>,
+e.g. <code>'&amp;_pageSize=500'</code> to specifiy the maximum amount of
+500 items per page.</p>
 <p>This function does not tidy any variable names.</p>
     
 
@@ -140,7 +153,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -148,3 +161,4 @@
 
   </body>
 </html>
+

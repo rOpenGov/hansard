@@ -6,10 +6,10 @@ test_that("members functions return expected format", {
     skip_on_cran()
 
     # Members search
-    mschris <- hansard_members_search("chris", verbose=TRUE)
-    expect_length(mschris, 12)
-    expect_type(mschris, "list")
-    expect_true(tibble::is_tibble(mschris))
+    msabbot <- hansard_members_search("*abbot*", verbose=TRUE)
+    expect_length(msabbot, 12)
+    expect_type(msabbot, "list")
+    expect_true(tibble::is_tibble(msabbot))
 
     # Lookup by member id
     mabbot <- hansard_members(172, verbose=TRUE)
@@ -36,5 +36,10 @@ test_that("members functions return expected format", {
     expect_length(lint, 8)
     expect_type(lint, "list")
     expect_true(tibble::is_tibble(lint))
+
+
+    a <- members()
+    b <- members_search()
+    expect_equal(a,b)
 
 })

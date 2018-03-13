@@ -1,12 +1,20 @@
 
 #' Parliamentary Research Briefings
 #'
-#' Imports data on  Parliamentary Research Briefings. To see a list of possible topics call \code{\link{research_topics_list}} or \code{\link{research_subtopics_list}} for both topics and subtopics. To see a list of briefing types, call \code{\link{research_types_list}}. This function can return results with newlines in the text of the abstract or description of the research briefing, represented as \code{'\\n'}.
-#' @param topic The topic of the parliamentary briefing. Defaults to \code{NULL}.
-#' @param subtopic The subtopic of the parliamentary briefing. Defaults to \code{NULL}.
+#' Imports data on  Parliamentary Research Briefings. To see a list of possible
+#' topics call \code{\link{research_topics_list}} or
+#' \code{\link{research_subtopics_list}} for both topics and subtopics. To
+#' see a list of briefing types, call \code{\link{research_types_list}}. This
+#' function can return results with newlines in the text of the abstract or
+#' description of the research briefing, represented as \code{'\\n'}.
+#' @param topic The topic of the parliamentary briefing.
+#' Defaults to \code{NULL}.
+#' @param subtopic The subtopic of the parliamentary briefing.
+#' Defaults to \code{NULL}.
 #' @param type The type of research briefing. Defaults to \code{NULL}.
 #' @inheritParams all_answered_questions
-#' @return A tibble with details on parliamentary research briefings on the given topic.
+#' @return A tibble with details on parliamentary research briefings on
+#' the given topic.
 #' @seealso \code{\link{research_subtopics_list}}
 #' @seealso \code{\link{research_types_list}}
 #' @seealso \code{\link{research_topics_list}}
@@ -33,125 +41,92 @@
 #' x <- research_briefings(type = research_types_list[[3]])
 #' }
 
-research_briefings <- function(topic = NULL, subtopic = NULL, type = NULL, extra_args = NULL, tidy = TRUE, tidy_style = "snake_case", verbose = FALSE) {
+research_briefings <- function(topic = NULL, subtopic = NULL, type = NULL,
+                               extra_args = NULL, tidy = TRUE,
+                               tidy_style = "snake_case", verbose = TRUE) {
 
-
-  if(verbose==TRUE){message("Connecting to API")}
+    if (verbose == TRUE) {
+        message("Connecting to API")
+    }
 
     if (is.null(topic) == TRUE & is.null(subtopic) == TRUE) {
 
-        if (is.null(type) == FALSE) {
+        type_query <- dplyr::if_else(is.null(type) == FALSE,
+                                     utils::URLencode(
+                                       paste0("&subType.prefLabel=", type)),
+                                     "")
 
-            query <- utils::URLencode(paste0("&subType.prefLabel=", type))
+        baseurl <- paste0(url_util,  "researchbriefings.json?")
 
-        } else {
-
-            query <- NULL
-
-        }
-
-        baseurl <- "http://lda.data.parliament.uk/researchbriefings.json?"
-
-        research <- jsonlite::fromJSON(paste0(baseurl, query, extra_args), flatten = TRUE)
+        research <- jsonlite::fromJSON(paste0(baseurl, type_query,
+                                              extra_args, "&_pageSize=1"),
+                                       flatten = TRUE)
 
         jpage <- floor(research$result$totalResults/500)
 
-        pages <- list()
+        query <- paste0(baseurl, type_query, extra_args,
+                        "&_pageSize=500&_page=")
 
-        for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, query, extra_args, "&_pageSize=500&_page=", i), flatten = TRUE)
-            if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
-            pages[[i + 1]] <- mydata$result$items
-        }
-
-        df <- tibble::as_tibble(dplyr::bind_rows(pages))
+        df <- loop_query(query, jpage, verbose) # in utils-loop.R
 
     } else {
 
         if (is.null(topic) == TRUE & is.null(subtopic) == FALSE) {
 
-            g <- rep(seq_along(hansard::research_subtopics_list()), sapply(hansard::research_subtopics_list(), length))
-            dex <- g[match(subtopic, unlist(hansard::research_subtopics_list()))]
+            g <- rep(seq_along(hansard::research_subtopics_list()),
+                     lapply(hansard::research_subtopics_list(), length))
+
+            dex <- g[match(subtopic,
+                           unlist(hansard::research_subtopics_list()))]
+
             topic <- names(hansard::research_subtopics_list())[dex]
 
         }
 
-        if (is.null(subtopic) == FALSE) {
+       subtopic_query <- dplyr::if_else(
+         is.null(subtopic) == FALSE,
+         utils::URLencode(paste0("/", subtopic)),
+         "")
 
-            subtopic_query <- utils::URLencode(paste0("/", subtopic))
+       topic_query <- dplyr::if_else(is.null(topic) == FALSE,
+                                    utils::URLencode(topic),
+                                    "")
 
-        } else {
+       null_type_query <- dplyr::if_else(
+         is.null(type) == FALSE, utils::URLencode(
+           paste0("&subType.prefLabel=", type)),
+         "")
 
-            subtopic_query <- NULL
+       baseurl <- paste0(url_util,  "researchbriefings/bridgeterm/")
 
-        }
-
-        if (is.null(topic) == FALSE) {
-
-            topic_query <- utils::URLencode(topic)
-
-        }
-
-        if (is.null(type) == FALSE) {
-
-            query <- utils::URLencode(paste0("&subType.prefLabel=", type))
-
-        } else {
-
-            query <- NULL
-
-        }
-
-        baseurl <- "http://lda.data.parliament.uk/researchbriefings/bridgeterm/"
-
-        research <- jsonlite::fromJSON(paste0(baseurl, topic_query, subtopic_query, ".json?", query, extra_args), flatten = TRUE)
+       research <- jsonlite::fromJSON(paste0(baseurl, topic_query,
+                                              subtopic_query, ".json?",
+                                              null_type_query, extra_args,
+                                              "&_pageSize=1"),
+                                       flatten = TRUE)
 
         jpage <- floor(research$result$totalResults/500)
 
-        pages <- list()
+        query <- paste0(baseurl, topic_query, subtopic_query,
+                        ".json?", null_type_query, extra_args,
+                        "&_pageSize=500&_page=")
 
-        for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, topic_query, subtopic_query, ".json?", query, "&_pageSize=500&_page=", i, extra_args), flatten = TRUE)
-            if(verbose==TRUE){message("Retrieving page ", i + 1, " of ", jpage + 1)}
-            pages[[i + 1]] <- mydata$result$items
-        }
-
-        df <- tibble::as_tibble(dplyr::bind_rows(pages))
+        df <- loop_query(query, jpage, verbose) # in utils-loop.R
 
     }
 
-    if (nrow(df) == 0 && verbose==TRUE) {
-        message("The request did not return any data. Please check your search parameters.")
+    if (nrow(df) == 0) {
+        message("The request did not return any data.
+                Please check your parameters.")
     } else {
 
-        if (tidy == TRUE) {##move to external utils file?
+        if (tidy == TRUE) {
 
-            df$date._value <- gsub("T", " ", df$date._value)
-
-            df$date._value <- lubridate::parse_date_time(df$date._value, "Y-m-d H:M:Sz!*")
-
-            df$date._datatype <- "POSIXct"
-
-            df$description <- as.character(df$description)
-
-            df$description[df$description == "NULL"] <- NA
-
-            for (i in 1:nrow(df)) {
-
-                if (is.null(df$section[[i]]) == FALSE) {
-
-                  df$section[[i]] <- hansard_tidy(df$section[[i]], tidy_style)
-
-                }
-            }
-
-            df <- hansard_tidy(df, tidy_style)
-
-        } else {
-
-            df
+          df <- research_tidy(df, tidy_style) ##in utils-research.R
 
         }
+
+          df
 
     }
 

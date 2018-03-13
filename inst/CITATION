@@ -8,5 +8,3 @@ bibentry(bibtype = "Manual",
          note = note,
          doi = "10.5281/zenodo.591264",
          url = "https://cran.r-project.org/package=hansard")
-
-
