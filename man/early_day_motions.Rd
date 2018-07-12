@@ -2,37 +2,81 @@
 % Please edit documentation in R/early_day_motions.R
 \name{early_day_motions}
 \alias{early_day_motions}
-\title{early_day_motions}
+\alias{hansard_early_day_motions}
+\title{Early day motion data}
 \usage{
 early_day_motions(edm_id = NULL, session = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), signatures = 1,
-  extra_args = NULL, tidy = TRUE)
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
+
+hansard_early_day_motions(edm_id = NULL, session = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), signatures = 1,
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
 }
 \arguments{
-\item{edm_id}{Accepts the ID number of an early day motion, and returns data on that motion. Note that EDM numbers reset each parliamentary session, so using this as the only parameter will return multiple early day motions. Defaults to NULL.}
+\item{edm_id}{Accepts the ID number of an early day motion, and returns
+data on that motion. If \code{NULL}, returns all available Early Day
+Motions. Note that there, are as of 2017-06-15, 43,330 early day motions
+on listed in the API, so requesting all early day motions without other
+parameters is slow and very demanding on the API itself.
+Defaults to \code{NULL}.}
 
-\item{session}{Accepts a parliamentary session, in yyyy/yy format. Defaults to NULL.}
+\item{session}{Accepts a parliamentary session, in \code{'yyyy/yy'} format.
+Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the data frame, if calling all early day motions. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes early day motions tabled on or after
+this date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+objects of class \code{Date}, \code{POSIXt}, \code{POSIXct},
+\code{POSIXlt} or anything else that can be coerced to a date with
+\code{as.Date()}. Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame, if calling all early day motions. Defaults to current system date.}
+\item{end_date}{Only includes early day motions tabled on or before
+this date. Accepts character values in \code{'YYYY-MM-DD'} format,
+and objects of class \code{Date}, \code{POSIXt}, \code{POSIXct},
+\code{POSIXlt} or anything else that can be coerced to a date with
+\code{as.Date()}. Defaults to the current system date.}
 
-\item{signatures}{The minimum number of signatures required for inclusion in the data frame. Defaults to 1.}
+\item{signatures}{The minimum number of signatures required for inclusion
+in the tibble. Defaults to 1.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on the content, signatories and sponsors of
+all or a specified early day motions.
 }
 \description{
-Imports data on early day motions
+Includes the content, signatories, and sponsors of early day motions.
+}
+\details{
+Early Day Motion IDs reset for each parliamentary session, so not including
+a query for \code{session} but including an \code{edm_id} will return
+multiple early day motions with the same ID code from different
+parliamentary sessions.
 }
 \examples{
 \dontrun{
-
 x <- early_day_motions(edm_id = 1073)
 
 x <- early_day_motions(edm_id = 1073, session='2015/16')
-
 }
 }
-\keyword{EDM}
+\seealso{
+\code{\link{mp_edms}}
+}

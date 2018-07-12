@@ -1,126 +1,140 @@
 
-
-#' mp_edms
+#' Early Day Motions by MP or Peer
 #'
-#' Imports data on early day motions
-#' @param mp_id The ID number of an MP. Required parameter.
-#' @param primary_sponsor Returns a data frame of all early day motions where the given member is the primary sponsor. Defaults to TRUE.
-#' @param sponsor Returns a data frame of early day motions where the given member is the primary sponsor or a sponsor. Defaults to FALSE.
-#' @param signatory Returns a data frame of all early day motions signed by the given member. Because of the structure of the API, there is less information contained in the data frame return if signatory is TRUE, unless full_data is also TRUE. Defaults to FALSE.
-#' @param full_data Requests all available data on the EDMs signed or sponsored by a member. Defaults to FALSE. Note that this can be a very slow process.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords Early Day Motion
+#' Imports data on early day motions signed, sponsored or primarily sponsored
+#' by a given MP or Peer.
+#' @param mp_id The ID number of an MP or Peer. Required parameter, Defaults
+#' to \code{NULL}. Accepts single IDs in numerical or character format, or a
+#' list, data.frame column, etc. If given multiple IDs, the results are
+#' combined into a single tibble.
+#' @param primary_sponsor Includes all early day motions where the given
+#' member is the primary sponsor in the tibble. Defaults to \code{TRUE}.
+#' @param sponsor Includes all early day motions where the given member a
+#' sponsor (but not the primary sponsor) in the tibble.
+#' Defaults to \code{TRUE}.
+#' @param signatory Includes all early day motions signed (but not sponsored
+#' or primarily sponsored) by the given member in the tibble.
+#' Defaults to \code{TRUE}.
+#' @param full_data If \code{TRUE}, returns all available data on the EDMs
+#' signed or sponsored by a member. Defaults to \code{FALSE}. Note that
+#' this can be a very slow process compared to other \code{hansard} functions.
+#' @param start_date Only includes early day motions signed on or after this
+#' date. Accepts character values in \code{'YYYY-MM-DD'} format, and objects
+#' of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+#' anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to \code{'1900-01-01'}.
+#' @param end_date Only includes early day motions signed on or before this
+#' date. Accepts character values in \code{'YYYY-MM-DD'} format, and objects
+#' of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+#' anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to the current system date.
+#' @inheritParams all_answered_questions
+#' @return A tibble with information on the tibbles signed, sponsored
+#' and/or primarily sponsored by the given MP.
+#'
+#' @seealso \code{\link{early_day_motions}}
 #' @export
 #' @examples \dontrun{
-#' x <- mp_edms(mp_id=3967, primary_sponsor=TRUE, sponsor = FALSE, signatory=FALSE)
+#' x <- mp_edms(mp_id=3967, primary_sponsor=TRUE,
+#'              sponsor = TRUE, signatory=TRUE)
 #'
-#' x <- mp_edms(mp_id=3967, primary_sponsor=TRUE, sponsor = FALSE, signatory=TRUE, full_data=TRUE)
-#'
+#' x <- mp_edms(mp_id=3967, primary_sponsor=TRUE,
+#'              sponsor = TRUE, signatory=FALSE, full_data=TRUE)
 #' }
 
 
-mp_edms <- function(mp_id = NULL, primary_sponsor = TRUE, sponsor = FALSE, signatory = FALSE, full_data = FALSE, extra_args = NULL, 
-    tidy = TRUE) {
-    
+mp_edms <- function(mp_id = NULL, primary_sponsor = TRUE, sponsor = TRUE,
+                    signatory = TRUE, full_data = FALSE,
+                    start_date = "1900-01-01", end_date = Sys.Date(),
+                    extra_args = NULL, tidy = TRUE,
+                    tidy_style = "snake_case", verbose = TRUE) {
+
+    dates <- paste0("&max-dateSigned=", as.Date(end_date),
+                    "&min-dateSigned=", as.Date(start_date))
+
     if (is.null(mp_id) == TRUE) {
+
         stop("mp_id must not be empty", call. = FALSE)
+
     }
-    
-    query_primary_sponsor <- paste0("&isPrimarySponsor=", tolower(primary_sponsor))
-    
-    query_sponsor <- paste0("&isSponsor=", tolower(sponsor))
-    
-    query <- paste0("&member=http://data.parliament.uk/members/", mp_id)
-    
-    baseurl <- "http://lda.data.parliament.uk/edmsignatures.json?"
-    
-    message("Connecting to API")
-    
-    edms <- jsonlite::fromJSON(paste0(baseurl, query, query_primary_sponsor, query_sponsor, "&_pageSize=500", extra_args), 
-        flatten = TRUE)
-    
-    if (edms$result$totalResults > edms$result$itemsPerPage) {
-        
-        jpage <- round(edms$result$totalResults/edms$result$itemsPerPage, digits = 0)
-        
+
+    if (length(mp_id) > 1) {
+
+        df <- multi_mp_edms(mp_id, extra_args, primary_sponsor, sponsor,
+                            signatory, end_date, start_date, verbose)
+
     } else {
-        
-        jpage <- 0
-    }
-    
-    pages <- list()
-    
-    for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, query, query_primary_sponsor, query_sponsor, "&_pageSize=500&_page=", 
-            i, extra_args), flatten = TRUE)
-        message("Retrieving page ", i + 1, " of ", jpage + 1)
-        pages[[i + 1]] <- mydata$result$items
-    }
-    
-    df <- dplyr::bind_rows(pages)
-    
-    df$dateSigned._value <- as.Date(df$dateSigned._value)
-    
-    if (full_data == TRUE) {
-        
-        names(df)[names(df) == "_about"] <- "about"
-        
-        df$about <- gsub("http://data.parliament.uk/resources/", "", df$about)
-        
-        df$about <- gsub("/signatures/.*", "", df$about)
-        
-        search_list <- as.list(df$about)
-        
-        baseurl <- "http://lda.data.parliament.uk/resources/"
-        
-        dat <- list()
-        
-        message("Retrieving EDM data")
-        
-        for (i in search_list) {
-            
-            search <- jsonlite::fromJSON(paste0(baseurl, i, ".json?"), flatten = TRUE)
-            
-            search_df <- data.frame(about = search$result$primaryTopic$`_about`, creator_label = search$result$primaryTopic$creator$`_about`, 
-                date = search$result$primaryTopic$date$`_value`, dateTabled = search$result$primaryTopic$dateTabled$`_value`, 
-                edmNumber = search$result$primaryTopic$edmNumber$`_value`, edmStatus = search$result$primaryTopic$edmStatus$`_value`, 
-                externalLocation = search$result$primaryTopic$externalLocation, humanIndexable = search$result$primaryTopic$humanIndexable$`_value`, 
-                identifier = search$result$primaryTopic$identifier$`_value`, isPrimaryTopicOf = search$result$primaryTopic$isPrimaryTopicOf, 
-                legislature = search$result$primaryTopic$legislature$prefLabel._value, motionText = search$result$primaryTopic$motionText, 
-                numberOfSignatures = search$result$primaryTopic$numberOfSignatures, primarySponsor = search$result$primaryTopic$primarySponsor$`_about`, 
-                primarySponsorPrinted = search$result$primaryTopic$primarySponsorPrinted, published = search$result$primaryTopic$published$`_value`, 
-                publisher = search$result$primaryTopic$publisher$prefLabel$`_value`, session = search$result$primaryTopic$session, 
-                sessionNumber = search$result$primaryTopic$sessionNumber$`_value`, title = search$result$primaryTopic$title)
-            
-            dat[[i]] <- search_df
-        }
-        
-        message("Joining data")
-        
-        df2 <- do.call(rbind, dat)
-        
-        df2$about <- as.character(df2$about)
-        
-        df <- dplyr::left_join(df, df2, by = "about")
-        
-    }
-    
-    if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
-    } else {
-        
-        if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
+
+        z <- c(sponsor, primary_sponsor, signatory)
+
+        if (length(z[z == TRUE]) > 1) {
+
+            df <- sig_type(mp_id, primary_sponsor, sponsor, signatory,
+                           end_date, start_date, extra_args, verbose)
+
         } else {
-            
-            df
-            
+
+            z_query <- paste0("member=http://data.parliament.uk/members/",
+                              mp_id,
+                            "&isPrimarySponsor=", tolower(primary_sponsor),
+                            "&isSponsor=", tolower(sponsor))
+
+            baseurl <- paste0(url_util,  "edmsignatures.json?")
+
+            edms <- jsonlite::fromJSON(paste0(baseurl, z_query, dates,
+                                              extra_args, "&_pageSize=1"),
+                                       flatten = TRUE)
+
+            jpage <- floor(edms$result$totalResults/500)
+
+            query <- paste0(baseurl, z_query, dates, extra_args,
+                            "&_pageSize=500&_page=")
+
+            df <- loop_query(query, jpage, verbose) # in utils-loop.R
+
+            if (nrow(df) > 0) {
+
+                names(df)[names(df) == "_about"] <- "about"
+
+            }
+
         }
-        
+
     }
+
+    if (full_data == TRUE) {
+
+        df2 <- edm_search(df, verbose)
+
+        df <- dplyr::left_join(df, df2)
+
+    }
+
+    if (tidy == TRUE) {
+
+        if (full_data == FALSE) {
+
+            df$about <- stringi::stri_replace_all_fixed(df$about,
+            "http://data.parliament.uk/resources/", "",
+             vectorize_all = FALSE)
+
+            df$about <- stringi::stri_replace_all_fixed(df$about,
+             "/signatures/.*", "",
+              vectorize_all = FALSE)
+
+        }
+
+        df <- hansard_tidy(df, tidy_style)
+
+    }
+
+    df
+
 }
+
+
+
+
+#' @export
+#' @rdname mp_edms
+hansard_mp_edms <- mp_edms

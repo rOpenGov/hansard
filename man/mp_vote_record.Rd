@@ -2,26 +2,63 @@
 % Please edit documentation in R/mp_vote_record.R
 \name{mp_vote_record}
 \alias{mp_vote_record}
-\title{mp_vote_record}
+\alias{hansard_mp_vote_record}
+\title{Individual MP voting records}
 \usage{
-mp_vote_record(mp_id = NULL, lobby = "all", start_date = "1900-01-01",
-  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
+mp_vote_record(mp_id = NULL, lobby = "all", session = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_mp_vote_record(mp_id = NULL, lobby = "all", session = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
 \item{mp_id}{The ID number of a member of the House of Commons.}
 
-\item{lobby}{Accepts one of 'all', 'aye' or 'no'. 'aye' returns votes where the MP voted 'aye', 'no' returns votes where the MP voted 'no', 'all' returns all available votes by the MP. Defaults to 'all'.}
+\item{lobby}{Accepts one of \code{'all'}, \code{'aye'} or \code{'no'}.
+\code{'aye'} returns votes where the MP voted \code{'aye'}, \code{'no'}
+returns votes where the MP voted \code{'no'}, \code{'all'} returns all
+available votes by the MP. This parameter is not case sensitive.
+Defaults to \code{'all'}.}
 
-\item{start_date}{The earliest date to include in the data frame. Defaults to '1900-01-01'.}
+\item{session}{The parliamentary session to return votes from, in
+\code{'YYYY/YY'} format. Defaults to \code{NULL}.}
 
-\item{end_date}{The latest date to include in the data frame. Defaults to current system date.}
+\item{start_date}{Only includes divisions on or after this date. Accepts
+character values in \code{'YYYY-MM-DD'} format, and objects of class
+\code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+else that can be coerced to a date with \code{as.Date()}. Defaults to
+\code{'1900-01-01'}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{end_date}{Only includes divisions on or before this date. Accepts
+character values in \code{'YYYY-MM-DD'} format, and objects of class
+\code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+else that can be coerced to a date with \code{as.Date()}. Defaults to
+the current system date.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
+
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on the voting record of the given MP.
 }
 \description{
-Accepts an ID number for a member of the House of Commons, and returns a data frame of their votes.
+Accepts an ID number for a member of the House of Commons, and returns a
+tibble of their votes.
 }
 \examples{
 \dontrun{
@@ -31,11 +68,6 @@ x <- mp_vote_record(172, lobby='aye')
 
 x <- mp_vote_record(172, lobby='no')
 
-# the extra_args parameter allows the inclusion of additional arguments or
-# queries that are not available through the function's parameters
-x <- mp_vote_record(172, extra_args = '&session=2016/17')
-
-
+x <- mp_vote_record(172, session = '2016/17')
 }
 }
-\keyword{divisions}

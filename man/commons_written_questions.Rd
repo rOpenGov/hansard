@@ -2,37 +2,71 @@
 % Please edit documentation in R/commons_written_questions.R
 \name{commons_written_questions}
 \alias{commons_written_questions}
-\title{commons_written_questions}
+\alias{hansard_commons_written_questions}
+\title{House of Commons Written Questions}
 \usage{
 commons_written_questions(mp_id = NULL, answering_department = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_commons_written_questions(mp_id = NULL, answering_department = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{mp_id}{Requests a member ID and returns a data frame with all written questions asked by that member.}
+\item{mp_id}{Accepts a member ID or a list of member IDs and returns a
+tibble with all written questions asked by that MP or list of MPs. If
+\code{NULL}, mp_id is not included as a query parameter.
+Defaults to \code{NULL}.}
 
-\item{answering_department}{Accepts a string with a department name or partial name, and returns all written questions by that department. The query acts as a search, so entering <health> will return all questions answered by the Department of Health.}
+\item{answering_department}{Accepts a string with a department name or
+partial name, or a list of such strings. The query acts as a search, so
+passing \code{'health'} will return all questions answered by the
+Department of Health. If \code{NULL}, answering_department is not included
+as a query parameter. Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes questions tabled on or after this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to current system date.}
+\item{end_date}{Only includes questions tabled on or before this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on written questions in the House of Commons.
 }
 \description{
-Imports data on House of Commons written questions.
+Imports data in a tibble on House of Commons written questions.
 }
 \examples{
 \dontrun{
-
 x <- commons_written_questions(mp_id=410, 'cabinet office')
+# Returns a tibble with written questions from Jon Trickett,
+# answered by the Cabinet Office.
 
+x <- commons_written_questions(mp_id=c(410,172), c('cabinet','home'))
+# Returns a tibble with written questions from Jon Trickett or Diane Abbott,
+# and answered by the Cabinet Office or the Home Office.
 }
 }
-\keyword{Commons}
-\keyword{House}
-\keyword{Questions}
-\keyword{Written}
-\keyword{of}

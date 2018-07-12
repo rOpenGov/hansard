@@ -3,30 +3,39 @@ context("elections")
 
 
 test_that("election functions return expected format", {
-  skip_on_cran()
 
-  elect <- elections()
-  expect_length(elect, 5)
-  expect_type(elect, "list")
-  expect_is(elect, "data.frame")
+    skip_on_cran()
 
-  electid <- elections(517994)
-  expect_length(electid, 6)
-  expect_type(electid, "list")
-  expect_is(electid, "data.frame")
-  expect_equal(nrow(electid),1)
+    elect <- hansard_elections(verbose=TRUE)
+    expect_length(elect, 5)
+    expect_type(elect, "list")
+    expect_true(tibble::is_tibble(elect))
 
-  elre <- election_results()
-  expect_length(elre, 9)
-  expect_type(elre, "list")
-  expect_is(elre, "data.frame")
+    electid <- hansard_elections(ID = 517994, verbose=TRUE)
+    expect_length(electid, 6)
+    expect_type(electid, "list")
+    expect_true(tibble::is_tibble(electid))
+    expect_equal(nrow(electid), 1)
 
+    elreidperc <- hansard_election_results(ID = 517994,
+                                           calculate_percent = TRUE,
+                                           verbose=TRUE)
+    expect_length(elreidperc, 11)
+    expect_type(elreidperc, "list")
+    expect_true(tibble::is_tibble(elreidperc))
 
-  elre2010 <- election_results(382037)
-  expect_length(elre2010, 9)
-  expect_type(elre2010, "list")
-  expect_is(elre2010, "data.frame")
-  expect_equal(nrow(elre2010), 650)
+    electall <- hansard_election_results(verbose=TRUE)
+    expect_length(electall, 9)
+    expect_type(electall, "list")
+    expect_true(tibble::is_tibble(electall))
+
+    electcons <- hansard_election_results(ID=730039,
+                                          calculate_percent = TRUE,
+                                          constit_details = TRUE,
+                                          verbose=TRUE)
+    expect_length(electcons, 19)
+    expect_type(electcons, "list")
+    expect_true(tibble::is_tibble(electcons))
+    expect_true(nrow(electcons)==650)
 
 })
-

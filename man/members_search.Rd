@@ -2,30 +2,49 @@
 % Please edit documentation in R/members_search.R
 \name{members_search}
 \alias{members_search}
-\title{members_search}
+\alias{hansard_members_search}
+\title{Search for an MP or Peer by name and constituency}
 \usage{
-members_search(search = NULL, tidy = TRUE)
+members_search(search = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
+
+hansard_members_search(search = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{search}{Accepts any string. Defaults to NULL.}
+\item{search}{Accepts any lucene query string, using * as a multiple
+character wildcard, and ? as the single character wildcard. Searchs are
+not case sensitive. If \code{NULL}, returns a tibble with all members of
+both houses of parliament. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with the results of the search.
 }
 \description{
-Search for an MP or Lord by name and constituency
-}
-\details{
-Function searches for the string and returns a data frame with all matches from both houses of parliament. Returns all partial matches in the members' names, constituencies, twitter handle and webpage. The default search is NULL, which returns a data frame of all members of both houses, the same result as members('all').
+Function searches for the string and returns a tibble with all matches from
+both houses of parliament. Returns all partial matches in the members'
+names, constituencies, twitter handle and webpage. The default search is
+\code{NULL}, which returns a tibble of all members of both houses, the
+same result as \code{members()}.
 }
 \examples{
 \dontrun{
+x <- members_search('*chris*')
 
-x <- members_search('chris')
-
-x <- members_search(Search='chris')
+x <- members_search(search='*chris*')
 }
 }
-\keyword{All}
-\keyword{Members}
-\keyword{Parliament}
-\keyword{of}
+\seealso{
+\code{\link{members}}
+}

@@ -1,116 +1,96 @@
 
-#' bills
+
+#' Bill data
 #'
-#' Imports data on House of Commons and House of Lords bills
-#' @param ID The ID of a given bill to return data on. If NULL, returns all bills, subject to other parameters. Defaults to NULL.
-#' @param amendments If TRUE, returns all bills with amendments. Defaults to FALSE.
-#' @param start_date The earliest date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame. Defaults to current system date.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords bills
+#' Imports data on House of Commons and House of Lords bills.
+#'
+#' @param ID The ID of a given bill to return data on. If \code{NULL},
+#' returns all bills, subject to other parameters. Defaults to \code{NULL}.
+#' @param amendments If \code{TRUE}, returns all bills with amendments,
+#' subject to other parameters. Defaults to \code{FALSE}.
+#' @param start_date Only includes bills introduced on or after this date.
+#' Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+#' class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+#' anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to \code{'1900-01-01'}.
+#' @param end_date Only includes bills introduced on or before this date.
+#' Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+#' class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+#' anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to the current system date.
+#' @inheritParams all_answered_questions
+#' @return A tibble with details on bills before the House of Lords
+#' and the House of Commons.
+#' @seealso \code{\link{bill_stage_types}}
+#' @seealso \code{\link{bill_publications}}
 #' @export
 #' @examples \dontrun{
-#'
 #' x <- bills()
 #'
 #' x <- bills(amendments=TRUE)
 #'
 #' x <- bills(1719)
 #'
-#'
+#' x <- bills(start_date ='2016-01-01')
 #' }
 
-bills <- function(ID = NULL, amendments = FALSE, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
-    
-    dates <- paste0("&_properties=date&max-date=", end_date, "&min-date=", start_date)
-    
-    if (is.null(ID) == FALSE) {
-        id_query <- paste0("&identifier=", ID)
-    } else {
-        id_query <- NULL
+bills <- function(ID = NULL, amendments = FALSE, start_date = "1900-01-01",
+                  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+                  tidy_style = "snake_case", verbose = TRUE) {
+
+    dates <- paste0("&_properties=date&max-date=",
+                    as.Date(end_date),
+                    "&min-date=",
+                    as.Date(start_date))
+
+    id_query <- dplyr::case_when(
+      is.null(ID) == FALSE ~ paste0("&identifier=", ID),
+      TRUE ~ ""
+    )
+
+    amend_query <- dplyr::case_when(
+      amendments == TRUE ~ "withamendments.json?",
+      TRUE ~ ".json?"
+    )
+
+    baseurl <- paste0(url_util,  "bills")
+
+    if (verbose == TRUE) {
+        message("Connecting to API")
     }
-    
-    baseurl <- "http://lda.data.parliament.uk/bills"
-    
-    if (amendments == TRUE) {
-        query <- "withamendments.json?_pageSize=500"
-    } else {
-        query <- ".json?_pageSize=500"
-    }
-    
-    message("Connecting to API")
-    
-    bills <- jsonlite::fromJSON(paste0(baseurl, query, dates, id_query, extra_args), flatten = TRUE)
-    
-    jpage <- round(bills$result$totalResults/bills$result$itemsPerPage, digits = 0)
-    
-    pages <- list()
-    
-    for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, query, dates, id_query, extra_args, "&_page=", i), flatten = TRUE)
-        message("Retrieving page ", i + 1, " of ", jpage + 1)
-        pages[[i + 1]] <- mydata$result$items
-    }
-    
-    df <- dplyr::bind_rows(pages)
-    
+
+    bills <- jsonlite::fromJSON(paste0(baseurl, amend_query, dates,
+                                       id_query, extra_args, "&_pageSize=1"),
+                                flatten = TRUE)
+
+    jpage <- floor(bills$result$totalResults/500)
+
+    query <- paste0(baseurl, amend_query,
+                    dates, id_query, extra_args,
+                    "&_pageSize=500&_page=")
+
+    df <- loop_query(query, jpage, verbose) # in utils-loop.R
+
     if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
+
+        message("The request did not return any data.
+                Please check your parameters.")
+
     } else {
-        
+
         if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
-        } else {
-            
-            df
-            
+
+            df <- bills_tidy(df, tidy_style)  ### in utils-bills.R
+
         }
-        
+
+        df
+
     }
+
 }
 
 
-
-#' bill_stage_types
-#'
-#' Returns a data frames with all possible bill stage types.
-#' @keywords bills
 #' @rdname bills
 #' @export
-#' @examples \dontrun{
-#' x <- bill_stage_types()
-#' }
-#'
-
-
-bill_stage_types <- function(tidy = TRUE) {
-    
-    stages <- jsonlite::fromJSON("http://lda.data.parliament.uk/billstagetypes.json?_pageSize=500", flatten = TRUE)
-    
-    df <- stages$result$items
-    
-    if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
-    } else {
-        
-        if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
-        } else {
-            
-            df
-            
-        }
-        
-    }
-    
-}
+hansard_bills <- bills

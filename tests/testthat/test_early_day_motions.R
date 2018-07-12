@@ -3,27 +3,28 @@ context("early day motions")
 
 test_that("edm functions return expected format", {
 
+    skip_on_cran()
 
-  xedmid <- early_day_motions(edm_id = 1073)
-  expect_length(xedmid, 11)
-  expect_type(xedmid, "list")
-  expect_is(xedmid, "data.frame")
+    # xedmid <- hansard_early_day_motions(edm_id = 1073)
+    # expect_length(xedmid, 11)
+    # expect_type(xedmid, "list")
+    # expect_true(tibble::is_tibble(xedmid))
 
-  xedmids <- early_day_motions(edm_id = 1073, session="2015/16")
-  expect_length(xedmids, 11)
-  expect_type(xedmids, "list")
-  expect_is(xedmids, "data.frame")
-  expect_equal(nrow(xedmids),1)
+    xedmids <- hansard_early_day_motions(edm_id = 1073,
+                                         session = "2015/16", verbose=TRUE)
+    expect_length(xedmids, 11)
+    expect_type(xedmids, "list")
+    expect_true(tibble::is_tibble(xedmids))
+    expect_equal(nrow(xedmids), 1)
 
-  xedmid_full <- mp_edms(mp_id=3967, primary_sponsor=TRUE, sponsor = FALSE, signatory=TRUE, full_data=TRUE)
+    xedmid_full <- hansard_mp_edms(mp_id = 3967, primary_sponsor = TRUE,
+                                   sponsor = FALSE, signatory = FALSE,
+                                   full_data = TRUE, end_date = "2015-02-11",
+                                   start_date = "2015-02-10", verbose=TRUE)
+    expect_length(xedmid_full, 21)
+    expect_true(tibble::is_tibble(xedmid_full))
+    expect_equal(nrow(xedmid_full),2)
 
-  expect_length(xedmid_full, 30)
-  expect_type(xedmid_full, "list")
-  expect_is(xedmid_full, "data.frame")
+
 
 })
-
-
-
-
-

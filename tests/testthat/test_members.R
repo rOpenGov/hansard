@@ -2,45 +2,44 @@ library(hansard)
 context("members")
 
 test_that("members functions return expected format", {
-  skip_on_cran()
 
-  # Members search
+    skip_on_cran()
 
-  mschris <- members_search('chris')
+    # Members search
+    msabbot <- hansard_members_search("*abbot*", verbose=TRUE)
+    expect_length(msabbot, 12)
+    expect_type(msabbot, "list")
+    expect_true(tibble::is_tibble(msabbot))
 
-  expect_length(mschris, 12)
-  expect_type(mschris, "list")
-  expect_is(mschris, "data.frame")
+    # Lookup by member id
+    mabbot <- hansard_members(172, verbose=TRUE)
+    expect_length(mabbot, 13)
+    expect_type(mabbot, "list")
+    expect_true(tibble::is_tibble(mabbot))
 
-  #Lookup by member id
+    memempt <- hansard_members(verbose = TRUE)
+    expect_length(memempt, 12)
+    expect_type(memempt, "list")
+    expect_true(tibble::is_tibble(memempt))
 
-  mabbot <- members(172)
+    camem <- hansard_commons_members(verbose=TRUE)
+    expect_length(camem, 12)
+    expect_type(camem, "list")
+    expect_true(tibble::is_tibble(camem))
 
-  expect_length(mabbot, 13)
-  expect_type(mabbot, "list")
-  expect_is(mabbot, "data.frame")
+    lamem <- hansard_lords_members(verbose=TRUE)
+    expect_length(lamem, 9)
+    expect_type(lamem, "list")
+    expect_true(tibble::is_tibble(lamem))
 
-  memempt <- members()
-  expect_length(memempt, 12)
-  expect_type(memempt, "list")
-  expect_is(memempt, "data.frame")
+    lint <- hansard_lords_interests(530, verbose=TRUE)
+    expect_length(lint, 8)
+    expect_type(lint, "list")
+    expect_true(tibble::is_tibble(lint))
 
-  camem <- commons_members()
 
-  expect_length(camem, 12)
-  expect_type(camem, "list")
-  expect_is(camem, "data.frame")
-
-  lamem <- lords_members()
-
-  expect_length(lamem, 9)
-  expect_type(lamem, "list")
-  expect_is(lamem, "data.frame")
-
-  lint <- lords_interests(530)
-
-  expect_length(lint, 8)
-  expect_type(lint, "list")
-  expect_is(lint, "data.frame")
+    a <- members()
+    b <- members_search()
+    expect_equal(a,b)
 
 })

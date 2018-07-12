@@ -2,46 +2,98 @@
 % Please edit documentation in R/tv_programmes.R
 \name{tv_programmes}
 \alias{tv_programmes}
+\alias{hansard_tv_programmes}
 \alias{tv_clips}
+\alias{hansard_tv_clips}
 \alias{tv_channels}
-\title{tv_programmes}
+\alias{hansard_tv_channels}
+\title{TV broadcast data}
 \usage{
 tv_programmes(legislature = NULL, start_date = "1900-01-01",
-  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
+
+hansard_tv_programmes(legislature = NULL, start_date = "1900-01-01",
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 
 tv_clips(mp_id = NULL, start_date = "1900-01-01", end_date = Sys.Date(),
-  extra_args = NULL, tidy = TRUE)
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
 
-tv_channels(tidy = TRUE)
+hansard_tv_clips(mp_id = NULL, start_date = "1900-01-01",
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
+
+tv_channels(tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_tv_channels(tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
 }
 \arguments{
-\item{legislature}{Accepts one of either 'commons' or 'lords'. If NULL, returns all TV programmes for all chambers.}
+\item{legislature}{Accepts one of either \code{'commons'} or
+\code{'lords'}. If \code{NULL}, returns all TV programmes for
+all chambers.}
 
-\item{start_date}{The earliest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes broadcasts on or after this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to current system date.}
+\item{end_date}{Only includes broadcasts on or before this date. Accepts
+character values in \code{'YYYY-MM-DD'} format, and objects of class
+\code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+else that can be coerced to a date with \code{as.Date()}. Defaults to
+the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
 
-\item{mp_id}{Accepts the ID of an MP or peer, and returns all clips featuring that MP or peer. If NULL, returns data on all available clips. Defaults to NULL.}
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+
+\item{mp_id}{Accepts the ID of an MP or peer, and returns all clips
+featuring that MP or peer. If \code{NULL}, returns data on all available
+clips. Defaults to \code{NULL}.}
+}
+\value{
+A tibble with details on TV broadcasts.
+
+A tibble with details on TV broadcasts featuring the given MP,
+or all available clips.
+
+A tibble with details on the different broadcasting channels.
 }
 \description{
-Imports data on TV broadcasts. To import information on TV channel options,
-
-Imports data on TV broadcasts. To import information on TV channel options,
-
-Imports data on TV broadcasts
+Imports data on TV broadcasts, clips of individual members and
+parliamentary TV channels.
 }
+\section{TV Programme functions}{
+
+\describe{
+\item{tv_programmes}{TV programmse broadcast, per legislature and date}
+\item{tv_clips}{Clips of a given MP or Peer}
+\item{tv_channels}{Details on the different parliamentary TV channels}
+}
+}
+
 \examples{
 \dontrun{
-
-x <- tv_programmes('commons', start_date='2016-11-01')
-
+x <- tv_programmes('commons', start_date ='2016-11-01',
+                   end_date='2016-12-01')
 }
 \dontrun{
 x <- tv_clips(4591)
 }
 }
-\keyword{TV}

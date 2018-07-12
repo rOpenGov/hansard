@@ -2,33 +2,90 @@
 % Please edit documentation in R/commons_answered_questions.R
 \name{commons_answered_questions}
 \alias{commons_answered_questions}
-\title{commons_answered_questions}
+\alias{hansard_commons_answered_questions}
+\title{House of Commons answered questions}
 \usage{
 commons_answered_questions(answering_department = NULL, answered_by = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_commons_answered_questions(answering_department = NULL,
+  answered_by = NULL, start_date = "1900-01-01", end_date = Sys.Date(),
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
 }
 \arguments{
-\item{answering_department}{Returns a data frame with all answered questions in the House of Commons from the given department. Defaults to NULL.}
+\item{answering_department}{Accepts the name of a department or a
+list of department names.  Returns a tibble with all answered questions
+in the House of Commons from the given department. Defaults to \code{NULL}.}
 
-\item{answered_by}{Returns a data frame with all answered questions in the House of Commons by the given MP. Defaults to NULL.}
+\item{answered_by}{Accepts the ID of an MP, or a list of IDs. Returns a
+tibble with all answered questions in the House of Commons by the given
+MP(s). Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the data frame. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes questions answered introduced on or after
+this date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt}
+or anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame. Defaults to current system date.}
+\item{end_date}{Only includes questions answered on or before this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on all answered questions in the
+House of Commons.
 }
 \description{
-Imports data on House of Commons answered questions. If all parameters are left empty, imports all available answered questions in a data frame.
+Imports data on House of Commons answered questions. If all
+parameters are left empty, imports all available answered questions in a
+tibble.
+
+If \code{answering_department} and/or \code{answered_by} are
+given a vector with multiple deparments/IDs, all possible combination of
+those criteria are returned.
 }
 \examples{
 \dontrun{
+x <- commons_answered_questions(
+     answering_department = c('health','education'),
+     answered_by = c('4019', '1542', '111'),
+     start_date = '2017-01-01'
+     )
 
-x <- commons_answered_questions(answering_department = 'health', answered_by = '4019')
-
+y <- commons_answered_questions(start_date = '2017-03-26',
+                                end_date='2017-04-01')
 }
 }
-\keyword{bills}
+\seealso{
+\code{\link{all_answered_questions}}
+
+\code{\link{commons_oral_questions}}
+
+\code{\link{commons_oral_question_times}}
+
+\code{\link{commons_written_questions}}
+
+\code{\link{lords_written_questions}}
+
+\code{\link{mp_questions}}
+}

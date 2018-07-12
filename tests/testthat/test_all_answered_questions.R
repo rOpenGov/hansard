@@ -3,18 +3,38 @@ context("all_answered_questions")
 
 test_that("all_answered_questions return expected format", {
 
-  skip_on_cran()
+    skip_on_cran()
 
-  aaqx <- all_answered_questions(4019, start_date = "2017-01-01")
+    aaqx <- hansard_all_answered_questions(mp_id = c(4019, 3980), answering_body = c("health", "justice"), house = "commons", start_date = "2016-12-18", end_date = "2017-01-15", verbose = TRUE)
+    expect_length(aaqx, 40)
+    expect_type(aaqx, "list")
+    expect_true(tibble::is_tibble(aaqx))
+    expect_equal(nrow(aaqx), 165)
 
-  expect_length(aaqx, 17)
-  expect_type(aaqx, "list")
-  expect_is(aaqx, "data.frame")
+    aaq <- hansard_all_answered_questions(start_date = "2017-03-01", end_date = "2017-03-01", verbose=TRUE)
+    expect_length(aaq, 38)
+    expect_type(aaq, "list")
+    expect_true(tibble::is_tibble(aaq))
 
-  aaq <- all_answered_questions(start_date = "2017-03-01", end_date = "2017-03-02")
+    xaaqda <- hansard_all_answered_questions(tabling_mp_id=172, start_date ='2016-12-18', end_date="2017-03-02", verbose=TRUE)
+    expect_length(xaaqda, 30)
+    expect_type(xaaqda, "list")
+    expect_true(tibble::is_tibble(xaaqda))
+    expect_equal(nrow(xaaqda),6)
 
-  expect_length(aaq, 37)
-  expect_type(aaq, "list")
-  expect_is(aaq, "data.frame")
+    anameid <- hansard_all_answered_questions(house="lords", answering_body=60, start_date ='2017-03-01', end_date='2017-03-20', verbose=TRUE)
+    expect_length(anameid, 32)
+    expect_type(anameid, "list")
+    expect_true(tibble::is_tibble(anameid))
+    expect_equal(nrow(anameid),38)
+
+    bidname <- hansard_all_answered_questions(house=2, answering_body="Education", start_date ='2017-03-01', end_date='2017-03-20', verbose=TRUE)
+    expect_length(bidname, 32)
+    expect_type(bidname, "list")
+    expect_true(tibble::is_tibble(bidname))
+    expect_equal(nrow(bidname),38)
+    expect_true(names(bidname[1])==names(anameid[1]))
+    expect_equivalent(names(bidname), names(anameid))
+    expect_equal(nrow(bidname), nrow(anameid))
 
 })

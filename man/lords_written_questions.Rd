@@ -2,39 +2,85 @@
 % Please edit documentation in R/lords_written_questions.R
 \name{lords_written_questions}
 \alias{lords_written_questions}
-\title{lords_written_questions}
+\alias{hansard_lords_written_questions}
+\title{House of Lords written questions}
 \usage{
 lords_written_questions(peer_id = NULL, answering_department = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_lords_written_questions(peer_id = NULL, answering_department = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{peer_id}{Requests a member ID and returns a data frame with all written questions asked by that member.}
+\item{peer_id}{Accepts a member ID or list of IDs, and returns a tibble
+with all written questions asked by that member or members. If \code{NULL},
+peer_id is not included in the query to the API and so all written
+questions are returned subject to other function parameters.
+Defaults to \code{NULL}.}
 
-\item{answering_department}{Accepts a string with a department name or partial name, and returns all written questions by that department. The query acts as a search, so entering <health> will return all questions answered by the Department of Health.}
+\item{answering_department}{Accepts a string with a department name or
+partial name or a list of departmental names, and returns all written
+questions by that department. The query acts as a search, so entering
+\code{'health'} will return all questions answered by the Department of
+Health. If \code{NULL}, answering_department is not included as a query
+parameter. Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes questions tabled on or after this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to current system date.}
+\item{end_date}{Only includes questions tabled on or before this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on written questions in the House of Lords.
 }
 \description{
-Imports data on House of Lords written questions
+Imports data on House of Lords written questions asked by a given peer(s),
+and/or directed to a given department.
 }
 \examples{
 \dontrun{
-# Returns all written questions ever
-x <- lords_written_questions()
+x <- lords_written_questions() # Returns all written questions ever
 
-x <- lords_written_questions(peer_id = 3526, answering_department = 'cabinet')
-
+x <- lords_written_questions(peer_id = c(3526,4176),
+                             answering_department = c('cabinet',
+                                                      'Transport'))
 }
 }
-\keyword{House}
-\keyword{Lords}
-\keyword{Questions}
-\keyword{Written}
-\keyword{of}
+\seealso{
+\code{\link{all_answered_questions}}
+
+\code{\link{commons_answered_questions}}
+
+\code{\link{commons_oral_questions}}
+
+\code{\link{commons_oral_question_times}}
+
+\code{\link{commons_written_questions}}
+
+\code{\link{mp_questions}}
+}

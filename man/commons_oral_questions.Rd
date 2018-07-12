@@ -2,33 +2,78 @@
 % Please edit documentation in R/commons_oral_questions.R
 \name{commons_oral_questions}
 \alias{commons_oral_questions}
-\title{commons_oral_questions}
+\alias{hansard_commons_oral_questions}
+\title{House of Commons Oral Questions}
 \usage{
 commons_oral_questions(mp_id = NULL, answering_department = NULL,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_commons_oral_questions(mp_id = NULL, answering_department = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{mp_id}{The ID of a given MP. Defaults to NULL.}
+\item{mp_id}{The ID of a given MP asking an oral question, or a list of
+MP Ids. Defaults to \code{NULL}.}
 
-\item{answering_department}{The department that answers a question}
+\item{answering_department}{The name of a department, or a list of
+departments. Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest date to include in the data frame. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes questions answered on or after this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+else that can be coerced to a date with \code{as.Date()}. Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame. Defaults to current system date.}
+\item{end_date}{Only includes questions answered on or before this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of class
+\code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything else
+that can be coerced to a date with \code{as.Date()}. Defaults to the current
+system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on all oral questions in the House of Commons.
 }
 \description{
-Imports data on House of Commons oral questions
+Imports data on House of Commons oral questions, based on the asking MP,
+the answering department and the date. The \code{mp_id} and
+\code{answering_department} parameters accept a single ID or department
+names, or a list of IDs or department names, respectively.
 }
 \examples{
 \dontrun{
-
 x <- commons_oral_questions(mp_id=4019, answering_department = 'education')
 
+x <- commons_oral_questions(mp_id=c(4019,4051,4588),
+                            answering_department = c('education', 'health'))
 }
 }
-\keyword{questions}
+\seealso{
+\code{\link{all_answered_questions}}
+
+\code{\link{commons_answered_questions}}
+
+\code{\link{commons_oral_question_times}}
+
+\code{\link{commons_written_questions}}
+
+\code{\link{lords_written_questions}}
+
+\code{\link{mp_questions}}
+}

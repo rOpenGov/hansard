@@ -2,24 +2,53 @@
 % Please edit documentation in R/research_briefings.R
 \name{research_briefings}
 \alias{research_briefings}
-\title{research_briefings}
+\alias{hansard_research_briefings}
+\title{Parliamentary Research Briefings}
 \usage{
 research_briefings(topic = NULL, subtopic = NULL, type = NULL,
-  extra_args = NULL, tidy = TRUE)
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
+
+hansard_research_briefings(topic = NULL, subtopic = NULL, type = NULL,
+  extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
 }
 \arguments{
-\item{topic}{The topic of the parliamentary briefing.}
+\item{topic}{The topic of the parliamentary briefing.
+Defaults to \code{NULL}.}
 
-\item{subtopic}{The subtopic of the parliamentary briefing.}
+\item{subtopic}{The subtopic of the parliamentary briefing.
+Defaults to \code{NULL}.}
 
-\item{type}{The type of research briefing.}
+\item{type}{The type of research briefing. Defaults to \code{NULL}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on parliamentary research briefings on
+the given topic.
 }
 \description{
-Imports data on  Parliamentary Research Briefings. To see a list of possible topics call \code{\link{research_topics_list}} or \code{\link{research_subtopics_list}} for both topics and subtopics. To see a list of briefing types, call \code{\link{research_types_list}}.
+Imports data on  Parliamentary Research Briefings. To see a list of possible
+topics call \code{\link{research_topics_list}} or
+\code{\link{research_subtopics_list}} for both topics and subtopics. To
+see a list of briefing types, call \code{\link{research_types_list}}. This
+function can return results with newlines in the text of the abstract or
+description of the research briefing, represented as \code{'\\n'}.
 }
 \examples{
 \dontrun{
@@ -27,20 +56,27 @@ x <- research_briefings('Housing and planning')
 
 # Requests can be made using lists created using `research_topics_list`
 # and `research_subtopics_list`
+
+research_topics_list <- research_topics_list()
+
 x <- research_briefings(topic = research_topics_list[[7]])
+
+research_subtopics_list <- research_subtopics_list()
 
 x <- research_briefings(subtopic = research_subtopics_list[[7]][10])
 
 # Requests for certain briefing types can also be made using lists
-# created with 'research_types_list'.
+# created with `research_types_list`.
+
+research_types_list <- research_types_list()
+
 x <- research_briefings(type = research_types_list[[3]])
-
-
 }
 }
 \seealso{
-research_topics
+\code{\link{research_subtopics_list}}
+
+\code{\link{research_types_list}}
+
+\code{\link{research_topics_list}}
 }
-\keyword{Briefings}
-\keyword{Parliamentary}
-\keyword{Research}

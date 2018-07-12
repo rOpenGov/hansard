@@ -2,47 +2,82 @@
 % Please edit documentation in R/members.R
 \name{members}
 \alias{members}
+\alias{hansard_members}
 \alias{commons_members}
+\alias{hansard_commons_members}
 \alias{lords_members}
-\alias{lords_interests}
-\title{members}
+\alias{hansard_lords_members}
+\title{Members of both houses}
 \usage{
-members(ID = NULL, extra_args = NULL, tidy = TRUE)
+members(ID = NULL, extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 
-commons_members(extra_args = NULL, tidy = TRUE)
+hansard_members(ID = NULL, extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 
-lords_members(extra_args = NULL, tidy = TRUE)
+commons_members(extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
 
-lords_interests(peer_id = NULL, extra_args = NULL, tidy = TRUE)
+hansard_commons_members(extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
+
+lords_members(extra_args = NULL, tidy = TRUE, tidy_style = "snake_case",
+  verbose = TRUE)
+
+hansard_lords_members(extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{ID}{The ID of a member of the House of Commons or the House of Lords. Defaults to NULL. If NULL, returns a data frame of all members. If not NULL, returns a data frame with basic information on that member.}
+\item{ID}{The ID of a member of the House of Commons or the House of Lords
+to return data on. If \code{NULL}, returns a tibble of all members of both
+houses. Defaults to \code{NULL}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
 
-\item{peer_id}{The ID of a member of the house of lords. If NULL, returns a data frame with all listed financial interests for all members. Defaults to NULL.}
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with data on members of the House of Commons
+(\code{commons_members()}), the House of Lords, (\code{lords_members()}),
+or both (\code{members()}).
 }
 \description{
-Imports data on all current and former Members of Parliament including the Lords and the Commons
-
-Imports data on all current and former MPs
-
-Imports data on all current and former peers
+Imports basic details on current and former Members of Parliament including
+the Lords and the Commons. For more details on a given member see
+\link[mnis]{mnis_full_biog} from the \link[mnis]{mnis} package.
 }
+\section{Member details functions}{
+
+\describe{
+\item{\code{members}}{Basic details on a given member from either house}
+\item{\code{commons_members}}{MPs in the House of Commons}
+\item{\code{lords_members}}{Peers in the House of Lords}
+}
+}
+
 \examples{
 \dontrun{
+a <- members()
+
 x <- members(172)
 
-x <- commons_members()
+y <- commons_members()
 
-x <- lords_members()
-
-x <- lords_interests(530)
+z <- lords_members()
 }
 }
-\keyword{All}
-\keyword{Members}
-\keyword{Parliament}
-\keyword{of}
+\seealso{
+\code{\link{members_search}}
+}

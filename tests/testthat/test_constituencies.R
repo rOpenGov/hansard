@@ -1,13 +1,14 @@
 library(hansard)
 context("constituencies")
 
-test_that("constituencies return expected format", {
-  skip_on_cran()
+test_that("constituencies functions return expected format", {
 
-  ctx <- constituencies(current=TRUE)
+    skip_on_cran()
 
-  expect_length(ctx, 9)
-  expect_is(ctx, "data.frame")
-  expect_equal(nrow(ctx), 650)
+    ctx <- hansard_constituencies(current = TRUE, verbose=TRUE)
+    expect_length(ctx, 7)
+    expect_true(tibble::is_tibble(ctx))
+    expect_equal(nrow(ctx), 650)
+    expect_true(names(ctx)[6]=="started_date_value")
 
 })

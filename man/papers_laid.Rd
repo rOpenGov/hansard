@@ -2,34 +2,63 @@
 % Please edit documentation in R/papers_laid.R
 \name{papers_laid}
 \alias{papers_laid}
-\title{papers_laid}
+\alias{hansard_papers_laid}
+\title{Papers laid}
 \usage{
 papers_laid(withdrawn = FALSE, house = NULL, start_date = "1900-01-01",
-  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
+
+hansard_papers_laid(withdrawn = FALSE, house = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{withdrawn}{If TRUE, only returns withdrawn papers. Defaults to FALSE.}
+\item{withdrawn}{If \code{TRUE}, only returns withdrawn papers.
+Defaults to \code{FALSE}.}
 
-\item{house}{The house the paper was laid in. Accepts 'commons' and 'lords'. If NULL, returns both House of Commons and House of Lords. Defaults to NULL.}
+\item{house}{The house the paper was laid in. Accepts \code{'commons'}
+and \code{'lords'}. If \code{NULL}, returns both House of Commons and
+House of Lords. This parameter is case-insensitive. Defaults to \code{NULL}.}
 
-\item{start_date}{The earliest paper laying date to include in the data frame. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes papers laid before the House on or after
+this date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt}
+or anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest paper laying date to include in the data frame. Defaults to current system date.}
+\item{end_date}{Only includes papers laid before the House on or before
+this date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt}
+or anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on papers laid before the given House.
 }
 \description{
-Imports data on Papers Laid
+Imports data on papers laid before the House.
 }
 \examples{
 \dontrun{
 x <- papers_laid(withdrawn = FALSE, house = 'commons')
 
-x <- papers_laid(withdrawn = TRUE, house = NULL,)
+x <- papers_laid(withdrawn = TRUE, house = NULL)
 }
-
 }
-\keyword{Laid}
-\keyword{Papers}

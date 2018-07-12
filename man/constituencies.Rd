@@ -2,28 +2,47 @@
 % Please edit documentation in R/constituencies.R
 \name{constituencies}
 \alias{constituencies}
-\title{constituencies}
+\alias{hansard_constituencies}
+\title{House of Commons constituencies}
 \usage{
-constituencies(current = TRUE, extra_args = NULL, tidy = TRUE)
+constituencies(current = NULL, extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
+
+hansard_constituencies(current = NULL, extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{current}{If TRUE, returns only current constituencies. If FALSE, returns all current and former constituencies. Due to the structure of the API, this function has to request all available data, and then subset that data.}
+\item{current}{If \code{TRUE}, returns only current constituencies. If
+\code{FALSE}, returns only former constituencies. If \code{NULL}, returns
+all current and former constituencies. Defaults to \code{NULL}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details of Westminster constituencies.
 }
 \description{
-Imports data on House of Commons constituencies, returning a data frame of all current and former Westminster constituencies.
+Imports data on House of Commons constituencies, returning a tibble of all
+current and/or former Westminster constituencies, subject to parameters.
 }
 \examples{
 \dontrun{
-
 x <- constituencies()
 
-x <- constituencies(current = FALSE)
-
+y <- constituencies(current = FALSE)
 }
-
 }
-\keyword{Constituencies}

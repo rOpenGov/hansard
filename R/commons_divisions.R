@@ -1,161 +1,129 @@
 
-
-#' commons_divisions
+#' House of Commons divisions
 #'
-#' Imports data on House of Commons divisions.
-#' @param division_id The id of a particular vote. If empty, returns a data frame with information on all commons divisions. Defaults to NULL.
-#' @param summary If TRUE, returns a small data frame summarising a division outcome. Otherwise returns a data frame with details on how each MP voted. Has no effect if `division_id` is empty. Defaults to FALSE.
-#' @param start_date The earliest date to include in the data frame, if calling all divisions. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame, if calling all divisions. Defaults to current system date.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords divisions
+#' Imports data on House of Commons divisions (votes), either full details
+#' on how each member voted, or a summary of vote totals.
+#'
+#' @param division_id The id of a particular vote. If empty, returns a
+#' tibble with information on all commons divisions, subject to all other
+#' parameters. Defaults to \code{NULL}. Only accepts a single division ID
+#' at a time, but to return details on a list of division IDs use with
+#' \code{lapply}.
+#' @param summary If \code{TRUE}, returns a small tibble summarising a
+#' division outcome. Otherwise returns a tibble with details on how each
+#' MP voted. Has no effect if `division_id` is empty. Defaults to \code{FALSE}.
+#' @param start_date Only includes divisions on or after this date. Accepts
+#' character values in \code{'YYYY-MM-DD'} format, and objects of class
+#' \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+#' else that can be coerced to a date with \code{as.Date()}. Defaults
+#' to \code{'1900-01-01'}.
+#' @param end_date Only includes divisions on or before this date. Accepts
+#' character values in \code{'YYYY-MM-DD'} format, and objects of class
+#' \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+#' else that can be coerced to a date with \code{as.Date()}. Defaults to
+#' the current system date.
+#' @inheritParams all_answered_questions
+#' @return A tibble with the results of divisions in the House of Commons.
 #' @export
 #' @examples \dontrun{
-#'
 #' x <- commons_divisions()
 #'
 #' x <- commons_divisions(division_id = 694163, summary = FALSE)
-#'
 #' }
 
-commons_divisions <- function(division_id = NULL, summary = FALSE, start_date = "1900-01-01", end_date = Sys.Date(), 
-    extra_args = NULL, tidy = TRUE) {
-    
-    dates <- paste0("&_properties=date&max-date=", end_date, "&min-date=", start_date)
-    
+commons_divisions <- function(division_id = NULL, summary = FALSE,
+                              start_date = "1900-01-01",
+                              end_date = Sys.Date(), extra_args = NULL,
+                              tidy = TRUE, tidy_style = "snake_case",
+                              verbose = TRUE) {
+
+    dates <- paste0("&_properties=date&max-date=",
+                    as.Date(end_date), "&min-date=",
+                    as.Date(start_date))
+
     if (is.null(division_id) == TRUE) {
-        
-        baseurl <- "http://lda.data.parliament.uk/commonsdivisions"
-        
-        message("Connecting to API")
-        
-        divis <- jsonlite::fromJSON(paste0(baseurl, ".json?_pageSize=500", dates, extra_args))
-        
-        jpage <- round(divis$result$totalResults/divis$result$itemsPerPage, digits = 0)
-        
-        pages <- list()
-        
-        for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, ".json?_pageSize=500", dates, "&_page=", i, extra_args), flatten = TRUE)
-            message("Retrieving page ", i + 1, " of ", jpage + 1)
-            pages[[i + 1]] <- mydata$result$items
+
+        baseurl <- paste0(url_util,  "commonsdivisions")
+
+        if (verbose == TRUE) {
+            message("Connecting to API")
         }
-        
-        df <- dplyr::bind_rows(pages)
-        
-        
-    } else if (is.null(division_id) == FALSE) {
-        
-        division_id <- as.character(division_id)
-        
-        baseurl <- "http://lda.data.parliament.uk/commonsdivisions/id/"
-        
-        message("Connecting to API")
-        
-        divis <- jsonlite::fromJSON(paste0(baseurl, division_id, ".json?", dates, extra_args), flatten = TRUE)
-        
+
+        divis <- jsonlite::fromJSON(paste0(baseurl, ".json?",
+                                           dates, extra_args, "&_pageSize=1"),
+                                    flatten = TRUE)
+
+        jpage <- floor(divis$result$totalResults/500)
+
+        query <- paste0(baseurl, ".json?",
+                        dates, extra_args,
+                        "&_pageSize=500&_page=")
+
+        df <- loop_query(query, jpage, verbose) # in utils-loop.R
+
+    } else {
+
+        baseurl <- paste0(url_util,  "commonsdivisions/id/")
+
+        if (verbose == TRUE) {
+            message("Connecting to API")
+        }
+
+        divis <- jsonlite::fromJSON(paste0(baseurl, division_id, ".json?",
+                                           dates, extra_args),
+                                    flatten = TRUE)
+
         if (summary == TRUE) {
-            
-            df <- divis$result$primaryTopic
-            
-            df$AbstainCount <- df$AbstainCount$`_value`
-            df$AyesCount <- df$AyesCount$`_value`
-            df$Didnotvotecount <- df$Didnotvotecount$`_value`
-            df$Errorvotecount <- df$Errorvotecount$`_value`
-            df$Noesvotecount <- df$Noesvotecount$`_value`
-            df$Noneligiblecount <- df$Noneligiblecount$`_value`
-            df$vote <- NULL
-            df$Margin <- df$Margin$`_value`
-            df$Suspendedorexpelledvotescount <- df$Suspendedorexpelledvotescount$`_value`
-            df$date <- df$date$`_value`
-            
-            df <- as.data.frame(df)
-            
+
+          df <- tibble::tibble(
+            abstainCount = divis$result$primaryTopic$AbstainCount$`_value`,
+            ayesCount = divis$result$primaryTopic$AyesCount$`_value`,
+            noesVoteCount = divis$result$primaryTopic$Noesvotecount$`_value`,
+            didNotVoteCount =
+              divis$result$primaryTopic$Didnotvotecount$`_value`,
+            errorVoteCount =
+              divis$result$primaryTopic$Errorvotecount$`_value`,
+            nonEligibleCount =
+              divis$result$primaryTopic$Noneligiblecount$`_value`,
+            suspendedOrExpelledVotesCount =
+              divis$result$primaryTopic$Suspendedorexpelledvotescount$`_value`,
+            margin = divis$result$primaryTopic$Margin$`_value`,
+            date = divis$result$primaryTopic$date$`_value`,
+            divisionNumber = divis$result$primaryTopic$divisionNumber,
+            session = divis$result$primaryTopic$session[[1]],
+            title = divis$result$primaryTopic$title,
+            uin = divis$result$primaryTopic$uin
+            )
+
         } else {
-            df <- as.data.frame(divis$result$primaryTopic$vote)
-            
+
+            df <- tibble::as_tibble(divis$result$primaryTopic$vote)
+
         }
-        
+
     }
-    
+
     if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
+
+        message("The request did not return any data.
+                Please check your parameters.")
+
     } else {
-        
+
         if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
-        } else {
-            
-            df
-            
+
+            df <- cd_tidy(df, tidy_style, division_id, summary)
+            ## in utils-commons.R
+
         }
-        
+
+        df
+
     }
-    
+
 }
 
 
-#' commons_division_date
-#'
-#' Returns a data frames with the dates of House of Commons divisions.
-#' @param date Returns all divisions on a given date. Defaults to NULL.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords divisions
+#' @rdname commons_divisions
 #' @export
-#' @examples \dontrun{
-#' x <- commons_division_date('2016-10-12')
-#' }
-#'
-
-commons_division_date <- function(date = NULL, extra_args = NULL, tidy = TRUE) {
-    
-    if (is.null(date) == TRUE) {
-        df <- commons_divisions()
-    } else {
-        date <- as.character(date)
-        date <- paste0("&date=", date)
-        
-        baseurl <- "http://lda.data.parliament.uk/commonsdivisions"
-        
-        message("Connecting to API")
-        
-        divis <- jsonlite::fromJSON(paste0(baseurl, ".json?_pageSize=500", date, extra_args))
-        
-        jpage <- round(divis$result$totalResults/divis$result$itemsPerPage, digits = 0)
-        
-        pages <- list()
-        
-        for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, ".json?_pageSize=500", date, "&_page=", i, extra_args), flatten = TRUE)
-            message("Retrieving page ", i + 1, " of ", jpage + 1)
-            pages[[i + 1]] <- mydata$result$items
-        }
-        
-        df <- dplyr::bind_rows(pages)
-        
-        if (nrow(df) == 0) {
-            message("The request did not return any data. Please check your search parameters.")
-        } else {
-            
-            if (tidy == TRUE) {
-                
-                df <- hansard_tidy(df)
-                
-                df
-                
-            } else {
-                
-                df
-                
-            }
-            
-        }
-    }
-    
-}
+hansard_commons_divisions <- commons_divisions

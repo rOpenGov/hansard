@@ -2,31 +2,49 @@
 % Please edit documentation in R/commons_terms.R
 \name{commons_terms}
 \alias{commons_terms}
-\title{commons_terms}
+\alias{hansard_commons_terms}
+\title{Parliamentary Thesaurus}
 \usage{
 commons_terms(search = NULL, class = NULL, extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_commons_terms(search = NULL, class = NULL, extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
 \item{search}{A string to search the parliamentary thesaurus for.}
 
-\item{class}{The class of definition to be returned Accepts one of 'ID', 'ORG', 'SIT', 'NAME', 'LEG','CTP', 'PBT' and 'TPG'.  Defaults to NULL}
+\item{class}{The class of definition to be returned Accepts one of
+\code{'ID'}, \code{'ORG'}, \code{'SIT'}, \code{'NAME'}, \code{'LEG'},
+\code{'CTP'}, \code{'PBT'} and \code{'TPG'}.  Defaults to \code{NULL}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with results from the parliamentary thesaurus.
 }
 \description{
-Imports the parliamentary thesaurus. The API is rate limited to 5500 requests at a time, so some use of parameters is required.
+Imports the parliamentary thesaurus. The API is rate limited to 5500
+requests at a time, so some use of parameters is required.
 }
 \examples{
 \dontrun{
-
 x <- commons_terms(search='estate')
 
 x <- commons_terms(search='estate', class='ORG')
-
 }
 }
-\keyword{parliamentary}
-\keyword{thesaurus}

@@ -2,46 +2,72 @@
 % Please edit documentation in R/bills.R
 \name{bills}
 \alias{bills}
-\alias{bill_stage_types}
-\title{bills}
+\alias{hansard_bills}
+\title{Bill data}
 \usage{
 bills(ID = NULL, amendments = FALSE, start_date = "1900-01-01",
-  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 
-bill_stage_types(tidy = TRUE)
+hansard_bills(ID = NULL, amendments = FALSE, start_date = "1900-01-01",
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{ID}{The ID of a given bill to return data on. If NULL, returns all bills, subject to other parameters. Defaults to NULL.}
+\item{ID}{The ID of a given bill to return data on. If \code{NULL},
+returns all bills, subject to other parameters. Defaults to \code{NULL}.}
 
-\item{amendments}{If TRUE, returns all bills with amendments. Defaults to FALSE.}
+\item{amendments}{If \code{TRUE}, returns all bills with amendments,
+subject to other parameters. Defaults to \code{FALSE}.}
 
-\item{start_date}{The earliest date to include in the data frame. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes bills introduced on or after this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame. Defaults to current system date.}
+\item{end_date}{Only includes bills introduced on or before this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details on bills before the House of Lords
+and the House of Commons.
 }
 \description{
-Imports data on House of Commons and House of Lords bills
-
-Returns a data frames with all possible bill stage types.
+Imports data on House of Commons and House of Lords bills.
 }
 \examples{
 \dontrun{
-
 x <- bills()
 
 x <- bills(amendments=TRUE)
 
 x <- bills(1719)
 
+x <- bills(start_date ='2016-01-01')
+}
+}
+\seealso{
+\code{\link{bill_stage_types}}
 
+\code{\link{bill_publications}}
 }
-\dontrun{
-x <- bill_stage_types()
-}
-
-}
-\keyword{bills}

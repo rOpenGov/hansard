@@ -2,29 +2,65 @@
 % Please edit documentation in R/publication_logs.R
 \name{publication_logs}
 \alias{publication_logs}
-\title{publication_logs}
+\alias{hansard_publication_logs}
+\title{House publications}
 \usage{
-publication_logs(ID = NULL, start_date = "1900-01-01",
-  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE)
+publication_logs(ID = NULL, house = NULL, start_date = "1900-01-01",
+  end_date = Sys.Date(), extra_args = NULL, tidy = TRUE,
+  tidy_style = "snake_case", verbose = TRUE)
+
+hansard_publication_logs(ID = NULL, house = NULL,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{ID}{Publication ID. Defaults to NULL. If not null, requests a data frame with information on the given publication.}
+\item{ID}{Publication ID. Defaults to \code{NULL}. If not \code{NULL},
+requests a tibble with information on the given publication.}
 
-\item{start_date}{The earliest date to include in the data frame. Defaults to '1900-01-01'.}
+\item{house}{The house that produced the particular publication. Accepts
+\code{'commons'} and \code{'lords'}. If \code{NULL} or not \code{'commons'}
+or \code{'lords'}, returns publications from both House of Commons and
+House of Lords. This parameter is case-insensitive. Defaults to \code{NULL}.}
 
-\item{end_date}{The latest date to include in the data frame. Defaults to current system date.}
+\item{start_date}{Only includes publications issued on or after this date.
+Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+anything else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{end_date}{Only includes publications issued on or before this
+date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+objects of class \code{Date}, \code{POSIXt}, \code{POSIXct},
+\code{POSIXlt} or anything else that can be coerced to a date with
+\code{as.Date()}. Defaults to the current system date.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
+
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with details from publications in the House of
+Commons and House of Lords
 }
 \description{
-Imports data on Publication Logs
+Imports data on House of Commons and House of Lords publications.
 }
 \examples{
 \dontrun{
-# x <- publication_logs(683267)
+x <- publication_logs(house='commons')
+
+x <- publication_logs(683267)
 }
 }
-\keyword{Logs}
-\keyword{Publication}

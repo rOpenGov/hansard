@@ -1,80 +1,104 @@
 
-#' papers_laid
+
+#' Papers laid
 #'
-#' Imports data on Papers Laid
-#' @param withdrawn If TRUE, only returns withdrawn papers. Defaults to FALSE.
-#' @param house The house the paper was laid in. Accepts 'commons' and 'lords'. If NULL, returns both House of Commons and House of Lords. Defaults to NULL.
-#' @param start_date The earliest paper laying date to include in the data frame. Defaults to '1900-01-01'.
-#' @param end_date The latest paper laying date to include in the data frame. Defaults to current system date.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords Papers Laid
+#' Imports data on papers laid before the House.
+#' @param withdrawn If \code{TRUE}, only returns withdrawn papers.
+#' Defaults to \code{FALSE}.
+#' @param house The house the paper was laid in. Accepts \code{'commons'}
+#' and \code{'lords'}. If \code{NULL}, returns both House of Commons and
+#' House of Lords. This parameter is case-insensitive. Defaults to \code{NULL}.
+#' @param start_date Only includes papers laid before the House on or after
+#' this date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+#' objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt}
+#' or anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to \code{'1900-01-01'}.
+#' @param end_date Only includes papers laid before the House on or before
+#' this date. Accepts character values in \code{'YYYY-MM-DD'} format, and
+#' objects of class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt}
+#' or anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to the current system date.
+#' @inheritParams all_answered_questions
+#' @return A tibble with details on papers laid before the given House.
 #' @export
 #' @examples \dontrun{
 #' x <- papers_laid(withdrawn = FALSE, house = 'commons')
 #'
-#' x <- papers_laid(withdrawn = TRUE, house = NULL,)
+#' x <- papers_laid(withdrawn = TRUE, house = NULL)
 #' }
-#'
 
-papers_laid <- function(withdrawn = FALSE, house = NULL, start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL, 
-    tidy = TRUE) {
-    
+papers_laid <- function(withdrawn = FALSE, house = NULL,
+                        start_date = "1900-01-01", end_date = Sys.Date(),
+                        extra_args = NULL, tidy = TRUE,
+                        tidy_style = "snake_case", verbose = TRUE) {
+
     house <- tolower(house)
-    
-    if (house == "commons") {
-        house <- "&legislature.prefLabel=House of Commons"
-        house <- utils::URLencode(house)
-    } else if (house == "lords") {
-        house <- "&legislature.prefLabel=House of Lords"
-        house <- utils::URLencode(house)
-    } else {
-        house <- NULL
+
+    house_query <- dplyr::case_when(
+      house == "commons" ~ "&legislature.prefLabel=House%20of%20Commons",
+      house == "lords" ~ "&legislature.prefLabel=House%20of%20Lords",
+      TRUE ~ "")
+
+    withdrawn_query <- dplyr::if_else(withdrawn == TRUE,
+                                      "&withdrawn=true",
+                                      "&withdrawn=false")
+
+    dates <- paste0("&max-ddpModified=", as.Date(end_date),
+                    "&min-ddpModified=", as.Date(start_date))
+
+    baseurl <- paste0(url_util,  "paperslaid.json?")
+
+    if (verbose == TRUE) {
+        message("Connecting to API")
     }
-    
-    if (withdrawn == TRUE) {
-        query <- "&withdrawn=true"
-    } else {
-        query <- "&withdrawn=false"
-    }
-    
-    dates <- paste0("&max-ddpModified=", end_date, "&min-ddpModified=", start_date)
-    
-    baseurl <- "http://lda.data.parliament.uk/paperslaid.json?_pageSize=500"
-    
-    message("Connecting to API")
-    
-    papers <- jsonlite::fromJSON(paste0(baseurl, query, house, dates, extra_args), flatten = TRUE)
-    
-    jpage <- round(papers$result$totalResults/papers$result$itemsPerPage, digits = 0)
-    
-    pages <- list()
-    
-    for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, query, house, dates, "&_page=", i, extra_args), flatten = TRUE)
-        message("Retrieving page ", i + 1, " of ", jpage + 1)
-        pages[[i + 1]] <- mydata$result$items
-    }
-    
-    df <- dplyr::bind_rows(pages)
-    
+
+    papers <- jsonlite::fromJSON(paste0(baseurl, withdrawn_query, house_query,
+                                        dates, extra_args, "&_pageSize=1"),
+                                 flatten = TRUE)
+
+    jpage <- floor(papers$result$totalResults/500)
+
+    query <- paste0(baseurl, withdrawn_query, house_query, dates,
+                    extra_args, "&_pageSize=500&_page=")
+
+    df <- loop_query(query, jpage, verbose) # in utils-loop.R
+
     if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
+
+        message("The request did not return any data.
+                Please check your parameters.")
+
     } else {
-        
-        if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
-        } else {
-            
-            df
-            
+
+        if (tidy == TRUE) { ### move this to external utils file?
+
+            df$dateLaid._value <- as.POSIXct(df$dateLaid._value)
+
+            df$dateLaid._datatype <- "POSIXct"
+
+            if (withdrawn == TRUE) {
+
+                df$dateWithdrawn._value <- gsub("T", " ",
+                                                df$dateWithdrawn._value)
+
+                df$dateWithdrawn._value <- as.POSIXct(
+                  lubridate::parse_date_time(df$dateWithdrawn._value,
+                                             "Y-m-d H:M:S"))
+
+                df$dateWithdrawn._datatype <- "POSIXct"
+
+            }
+
+            df <- hansard_tidy(df, tidy_style)
+
         }
-        
+
+        df
+
     }
 }
 
 
+#' @rdname papers_laid
+#' @export
+hansard_papers_laid <- papers_laid

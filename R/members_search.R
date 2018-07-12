@@ -1,65 +1,81 @@
 
-#' members_search
+
+#' Search for an MP or Peer by name and constituency
 #'
-#' Search for an MP or Lord by name and constituency
+#' Function searches for the string and returns a tibble with all matches from
+#' both houses of parliament. Returns all partial matches in the members'
+#' names, constituencies, twitter handle and webpage. The default search is
+#' \code{NULL}, which returns a tibble of all members of both houses, the
+#' same result as \code{members()}.
 #'
-#'Function searches for the string and returns a data frame with all matches from both houses of parliament. Returns all partial matches in the members' names, constituencies, twitter handle and webpage. The default search is NULL, which returns a data frame of all members of both houses, the same result as members('all').
-#' @param search Accepts any string. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords All Members of Parliament
+#' @param search Accepts any lucene query string, using * as a multiple
+#' character wildcard, and ? as the single character wildcard. Searchs are
+#' not case sensitive. If \code{NULL}, returns a tibble with all members of
+#' both houses of parliament. Defaults to \code{NULL}.
+#'
+#' @inheritParams all_answered_questions
+#' @return A tibble with the results of the search.
+#' @seealso \code{\link{members}}
 #' @export
 #' @examples \dontrun{
+#' x <- members_search('*chris*')
 #'
-#' x <- members_search('chris')
-#'
-#' x <- members_search(Search='chris')
+#' x <- members_search(search='*chris*')
 #' }
 
-members_search <- function(search = NULL, tidy = TRUE) {
-    
+members_search <- function(search = NULL, tidy = TRUE,
+                           tidy_style = "snake_case", verbose = TRUE) {
+
     if (is.null(search)) {
-        df <- members("all")
+
+        df <- members(tidy = tidy, tidy_style = tidy_style, verbose = verbose)
+
+        df
+
     } else {
-        
+
         search <- utils::URLencode(search)
-        
-        baseurl <- "http://lda.data.parliament.uk/members.json?_pageSize=500&_search=*"
-        
-        message("Connecting to API")
-        
-        results <- jsonlite::fromJSON(paste0(baseurl, search, "*"))
-        
-        jpage <- round(results$result$totalResults/results$result$itemsPerPage, digits = 0)
-        
-        pages <- list()
-        
-        for (i in 0:jpage) {
-            mydata <- jsonlite::fromJSON(paste0(baseurl, search, "*", "&_page=", i), flatten = TRUE)
-            message("Retrieving page ", i + 1, " of ", jpage + 1)
-            pages[[i + 1]] <- mydata$result$items
+
+        baseurl <- paste0(url_util,  "members.json?_search=")
+
+        if (verbose == TRUE) {
+            message("Connecting to API")
         }
-        
-        df <- dplyr::bind_rows(pages)
-        
-    }
-    
+
+        results <- jsonlite::fromJSON(paste0(baseurl, search))
+
+        jpage <- floor(results$result$totalResults/500)
+
+        query <- paste0(baseurl, search, "*", "&_pageSize=500&_page=")
+
+        df <- loop_query(query, jpage, verbose) # in utils-loop.R
+
     if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
+
+        message("The request did not return any data.
+                Please check your parameters.")
+
     } else {
-        
+
         if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
-        } else {
-            
-            df
-            
+
+            names(df)[names(df) == "_about"] <- "mnis_id"
+
+            df$mnis_id <- stringi::stri_replace_all_fixed(df$mnis_id,
+            "http://data.parliament.uk/members/", "",
+            vectorize_all = FALSE)
+
+            df <- hansard_tidy(df, tidy_style)
+
         }
-        
+
+      df
+
     }
-    
+  }
+
 }
 
+#' @rdname members_search
+#' @export
+hansard_members_search <- members_search

@@ -7,17 +7,25 @@
 hansard_generic(path)
 }
 \arguments{
-\item{path}{The url path to the data you wish to retrieve}
+\item{path}{The url path to the data you wish to retrieve.}
 }
 \description{
-A semi-generic function for the parliamentary API. Provides greater flexibility, including any newly released features or data not yet included in the individual functions of the hansard package. Users must specify '.json' in their path.
+A semi-generic function for the parliamentary API. Provides greater
+flexibility, including any newly released features or data not yet
+included in the individual functions of the hansard package.
+}
+\details{
+Users must specify '.json?' in their path. The function uses the default
+of 10 items per page, to include more include \code{'&_pageSize=[number]'},
+e.g. \code{'&_pageSize=500'} to specifiy the maximum amount of
+500 items per page.
+
+This function does not tidy any variable names.
 }
 \examples{
 \dontrun{
+x <- hansard_generic('elections.json?')
 
- x <- hansard_generic('elections.json')
-
+y <- hansard_generic('elections.json?electionType=General Election')
 }
 }
-\keyword{API}
-\keyword{Hansard}

@@ -2,13 +2,14 @@
 
 language: r
 r:
-  - release
-sudo: false
-
+  - devel
+sudo: required
 cache: packages
 
 r_packages:
+  - devtools
+  - withr
   - covr
 
 after_success:
-  - Rscript -e 'library(covr); codecov()'
+  - Rscript -e 'covr::codecov(quiet=FALSE)'

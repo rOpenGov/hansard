@@ -1,81 +1,118 @@
 
-#' commons_written_questions
+#' House of Commons Written Questions
 #'
-#' Imports data on House of Commons written questions.
-#' @param mp_id Requests a member ID and returns a data frame with all written questions asked by that member.
-#' @param answering_department Accepts a string with a department name or partial name, and returns all written questions by that department. The query acts as a search, so entering <health> will return all questions answered by the Department of Health.
-#' @param start_date The earliest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to '1900-01-01'.
-#' @param end_date The latest date to include in the data frame, if calling all divisions, using the date the question was tabled. Defaults to current system date.
-#' @param extra_args Additional parameters to pass to API. Defaults to NULL.
-#' @param tidy Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.
-#' @keywords House of Commons Written Questions
+#' Imports data in a tibble on House of Commons written questions.
+#'
+#' @param mp_id Accepts a member ID or a list of member IDs and returns a
+#' tibble with all written questions asked by that MP or list of MPs. If
+#' \code{NULL}, mp_id is not included as a query parameter.
+#' Defaults to \code{NULL}.
+#' @param answering_department Accepts a string with a department name or
+#' partial name, or a list of such strings. The query acts as a search, so
+#' passing \code{'health'} will return all questions answered by the
+#' Department of Health. If \code{NULL}, answering_department is not included
+#' as a query parameter. Defaults to \code{NULL}.
+#' @param start_date Only includes questions tabled on or after this date.
+#' Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+#' class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+#' anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to \code{'1900-01-01'}.
+#' @param end_date Only includes questions tabled on or before this date.
+#' Accepts character values in \code{'YYYY-MM-DD'} format, and objects of
+#' class \code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or
+#' anything else that can be coerced to a date with \code{as.Date()}.
+#' Defaults to the current system date.
+#' @inheritParams all_answered_questions
+#' @return A tibble with details on written questions in the House of Commons.
 #' @export
 #' @examples \dontrun{
-#'
 #' x <- commons_written_questions(mp_id=410, 'cabinet office')
+#' # Returns a tibble with written questions from Jon Trickett,
+#' # answered by the Cabinet Office.
 #'
+#' x <- commons_written_questions(mp_id=c(410,172), c('cabinet','home'))
+#' # Returns a tibble with written questions from Jon Trickett or Diane Abbott,
+#' # and answered by the Cabinet Office or the Home Office.
 #' }
 
-commons_written_questions <- function(mp_id = NULL, answering_department = NULL, start_date = "1900-01-01", end_date = Sys.Date(), 
-    extra_args = NULL, tidy = TRUE) {
-    
-    dates <- paste0("&_properties=dateTabled&max-dateTabled=", end_date, "&min-dateTabled=", start_date)
-    
-    if (is.null(mp_id) == FALSE) {
-        mp_id <- paste0("&tablingMember=http://data.parliament.uk/members/", mp_id)
-        
-        mp_id <- utils::URLencode(mp_id)
-    }
-    
-    if (is.null(answering_department) == FALSE) {
-        
-        query <- "/answeringdepartment"
-        
-        answering_department <- paste0("q=", answering_department)
-        
-        answering_department <- utils::URLencode(answering_department)
-        
+commons_written_questions <- function(mp_id = NULL,
+                                      answering_department = NULL,
+                                      start_date = "1900-01-01",
+                                      end_date = Sys.Date(),
+                                      extra_args = NULL,
+                                      tidy = TRUE,
+                                      tidy_style = "snake_case",
+                                      verbose = TRUE) {
+
+    if (length(mp_id) > 1 || length(answering_department) > 1) {
+        ## For lists queries
+
+        df <- commons_written_questions_multi(mp_id, answering_department,
+                                              start_date, end_date,
+                                              extra_args, verbose)
+
     } else {
-        
-        query <- NULL
-        
-    }
-    
-    baseurl <- "http://lda.data.parliament.uk/commonswrittenquestions"
-    
-    message("Connecting to API")
-    
-    writ <- jsonlite::fromJSON(paste0(baseurl, query, ".json?", answering_department, mp_id, dates, "&_pageSize=500", 
-        extra_args), flatten = TRUE)
-    
-    jpage <- round(writ$result$totalResults/writ$result$itemsPerPage, digits = 0)
-    
-    pages <- list()
-    
-    for (i in 0:jpage) {
-        mydata <- jsonlite::fromJSON(paste0(baseurl, query, ".json?", answering_department, mp_id, dates, "&_pageSize=500&_page=", 
-            i, extra_args), flatten = TRUE)
-        message("Retrieving page ", i + 1, " of ", jpage + 1)
-        pages[[i + 1]] <- mydata$result$items
-    }
-    
-    df <- dplyr::bind_rows(pages)
-    
-    if (nrow(df) == 0) {
-        message("The request did not return any data. Please check your search parameters.")
-    } else {
-        
-        if (tidy == TRUE) {
-            
-            df <- hansard_tidy(df)
-            
-            df
-            
-        } else {
-            
-            df
-            
+
+        dates <- paste0("&_properties=dateTabled&max-dateTabled=",
+                        as.Date(end_date),
+                        "&min-dateTabled=",
+                        as.Date(start_date))
+
+        mp_id_query <- dplyr::if_else(
+          is.null(mp_id) == FALSE &&
+            is.na(mp_id) == FALSE,
+          utils::URLencode(
+            paste0(
+              "&tablingMember=http://data.parliament.uk/members/", mp_id)
+            ),
+          "")
+
+        json_query <- dplyr::if_else(
+          is.null(answering_department) == FALSE &&
+            is.na(answering_department) == FALSE,
+          utils::URLencode(
+            paste0("/answeringdepartment.json?q=", answering_department)),
+                                     ".json?")
+
+        baseurl <- paste0(url_util,  "commonswrittenquestions")
+
+        if (verbose == TRUE) {
+            message("Connecting to API")
         }
-        
+
+        writ <- jsonlite::fromJSON(paste0(baseurl, json_query, mp_id_query,
+                                          dates, extra_args, "&_pageSize=1"),
+                                   flatten = TRUE)
+
+        jpage <- floor(writ$result$totalResults/500)
+
+        query <- paste0(baseurl, json_query, mp_id_query, dates,
+                        extra_args, "&_pageSize=500&_page=")
+
+        df <- loop_query(query, jpage, verbose) # in utils-loop.R
+
     }
+
+    if (nrow(df) == 0) {
+
+        message("The request did not return any data.
+                Please check your parameters.")
+
+    } else {
+
+        if (tidy == TRUE) {
+
+            df <- cwq_tidy(df, tidy_style)  ## in utils-commons.R
+
+        }
+
+        df
+
+    }
+
 }
+
+
+#' @rdname commons_written_questions
+#' @export
+hansard_commons_written_questions <- commons_written_questions

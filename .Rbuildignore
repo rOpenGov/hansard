@@ -8,3 +8,10 @@
 ^README-.*\.png$
 ^data-raw$
 ^codecov\.yml$
+^docs$
+^mp_edms_cleanbit\.txt$
+^_pkgdown\.yml$
+^README\.html$
+^appveyor\.yml$
+^testing\.R$
+^code for wrappers$

@@ -2,39 +2,71 @@
 % Please edit documentation in R/lords_divisions.R
 \name{lords_divisions}
 \alias{lords_divisions}
-\title{lords_divisions}
+\alias{hansard_lords_divisions}
+\title{House of Lords divisions}
 \usage{
 lords_divisions(division_id = NULL, summary = FALSE,
   start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
-  tidy = TRUE)
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
+
+hansard_lords_divisions(division_id = NULL, summary = FALSE,
+  start_date = "1900-01-01", end_date = Sys.Date(), extra_args = NULL,
+  tidy = TRUE, tidy_style = "snake_case", verbose = TRUE)
 }
 \arguments{
-\item{division_id}{The id of a particular vote. If empty, returns a data frame with information on all lords divisions. Defaults to NULL.}
+\item{division_id}{The id of a particular vote. If empty, returns a tibble
+with information on all lords divisions. Defaults to \code{NULL}.}
 
-\item{summary}{If TRUE, returns a small data frame summarising a division outcome. Otherwise returns a data frame with details on how each peer voted. Has no effect if `division_id` is empty. Defaults to FALSE.}
+\item{summary}{If \code{TRUE}, returns a small tibble summarising a
+division outcome. Otherwise returns a tibble with details on how each peer
+voted. Has no effect if \code{division_id} is empty.
+Defaults to \code{FALSE}.}
 
-\item{start_date}{The earliest date to include in the data frame, if calling all divisions. Defaults to '1900-01-01'.}
+\item{start_date}{Only includes divisions on or after this date. Accepts
+character values in \code{'YYYY-MM-DD'} format, and objects of class
+\code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+else that can be coerced to a date with \code{as.Date()}.
+Defaults to \code{'1900-01-01'}.}
 
-\item{end_date}{The latest date to include in the data frame, if calling all divisions. Defaults to current system date.}
+\item{end_date}{Only includes divisions on or before this date. Accepts
+character values in \code{'YYYY-MM-DD'} format, and objects of class
+\code{Date}, \code{POSIXt}, \code{POSIXct}, \code{POSIXlt} or anything
+else that can be coerced to a date with \code{as.Date()}.
+Defaults to the current system date.}
 
-\item{extra_args}{Additional parameters to pass to API. Defaults to NULL.}
+\item{extra_args}{Additional parameters and queries to pass to API. These
+queries must be strings and start with "&". See the
+\href{http://explore.data.parliament.uk/}{API documentation}
+or the package vignette for more details. Defaults to \code{NULL}.}
 
-\item{tidy}{Fix the variable names in the data frame to remove extra characters, superfluous text and convert variable names to snake_case. Defaults to TRUE.}
+\item{tidy}{Logical parameter. If \code{TRUE}, fixes the variable names
+in the tibble to remove special characters and superfluous text, and
+converts the variable names to a consistent style. Defaults to \code{TRUE}.}
+
+\item{tidy_style}{The style to convert variable names to, if
+\code{tidy = TRUE}. Accepts one of \code{'snake_case'}, \code{'camelCase'}
+and \code{'period.case'}. Defaults to \code{'snake_case'}.}
+
+\item{verbose}{If \code{TRUE}, returns data to console on the progress
+of the API request. Defaults to \code{TRUE}.}
+}
+\value{
+A tibble with the results of divisions in the House of Lords.
 }
 \description{
-Imports data on House of Lords divisions
+Imports data on House of Lords divisions. Either a general query subject to
+parameters, or the results of a specific division. Individual divisions can
+be queried to return a short summary of the votes, or details on how each
+peer voted.
 }
 \examples{
 \dontrun{
-
 x <- lords_divisions(division_id = 705891, summary = TRUE)
 
 x <- lords_divisions(division_id = 705891, summary = FALSE)
 
 # Return all lords divisions in 2016
-x <- lords_divisions(NULL, FALSE, start_date = '2016-01-01', end_date = '2016-12-31')
-
+x <- lords_divisions(NULL, FALSE, start_date = '2016-01-01',
+                     end_date = '2016-12-31')
 }
 }
-\keyword{Divisions}
-\keyword{Lords}
