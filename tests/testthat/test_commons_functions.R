@@ -78,6 +78,28 @@ test_that("commons functions return expected format", {
   expect_type(xcoqe, "list")
   expect_true(tibble::is_tibble(xcoqe))
 
+  # Commons Terms
+
+  xcte <- hansard_commons_terms(search = "estate", verbose = TRUE)
+  expect_length(xcte, 20)
+  expect_type(xcte, "list")
+  expect_true(tibble::is_tibble(xcte))
+
+  xctec <- hansard_commons_terms(
+    search = "estate",
+    class = "ORG", verbose = TRUE
+  )
+  expect_length(xctec, 19)
+  expect_type(xctec, "list")
+  expect_true(tibble::is_tibble(xctec))
+
+})
+
+test_that("commons written questions", {
+  skip_on_ci()
+  skip_on_covr()
+  skip_on_os("windows")
+
   xcwq <- hansard_commons_written_questions(
     mp_id = c(410, 172), c("cabinet", "home"), verbose = TRUE,
     start_date = "2017-02-01", end_date = "2017-03-18"
@@ -103,18 +125,4 @@ test_that("commons functions return expected format", {
   expect_s3_class(xcwq_single, "tbl")
   expect_equal(xcwq_single$tabling_member_printed[[1]], "Paul Howell")
 
-  # Commons Terms
-
-  xcte <- hansard_commons_terms(search = "estate", verbose = TRUE)
-  expect_length(xcte, 20)
-  expect_type(xcte, "list")
-  expect_true(tibble::is_tibble(xcte))
-
-  xctec <- hansard_commons_terms(
-    search = "estate",
-    class = "ORG", verbose = TRUE
-  )
-  expect_length(xctec, 19)
-  expect_type(xctec, "list")
-  expect_true(tibble::is_tibble(xctec))
 })

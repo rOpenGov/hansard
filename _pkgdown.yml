@@ -1,13 +1,11 @@
 template:
-  params:
-   bootswatch: journal
-   ganalytics: UA-90706059-1
-
-
+  package: rogtemplate
+  opengraph:
+    twitter:
+      site: '@rOpenGov'
 authors:
   Evan Odell:
     href: https://evanodell.com
-
 name:
 navbar:
   left:
@@ -24,7 +22,6 @@ navbar:
       menu:
         - text: "Documentation Home"
           href: http://docs.evanodell.com
-
   right:
     - icon: fa-github fa-lg
       href: https://github.com/EvanOdell/hansard

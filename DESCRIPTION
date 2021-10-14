@@ -1,37 +1,43 @@
-Package: hansard
 Type: Package
+Package: hansard
 Title: Provides Easy Downloading Capabilities for the UK Parliament API
 Version: 0.8.0.9000
-Authors@R: person("Evan Odell", email="evanodell91@gmail.com",
-  role=c("aut", "cre"),
-  comment = c(ORCID='0000-0003-1845-808X'))
+Authors@R: 
+    person("Evan Odell", , , "evanodell91@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-1845-808X"))
 Maintainer: Evan Odell <evanodell91@gmail.com>
-Description: Provides functions to download data from the 
-  <http://www.data.parliament.uk/> APIs. Because of the structure of the API, 
-  there is a named function for each type of available data for ease of use, 
-  as well as some functions designed to retrieve specific pieces of commonly 
-  used data. Functions for each new API will be added as and when they become
-  available.
-URL: https://docs.evanodell.com/hansard
-BugReports: https://github.com/EvanOdell/hansard/issues
+Description: Provides functions to download data from the
+    <http://www.data.parliament.uk/> APIs. Because of the structure of the
+    API, there is a named function for each type of available data for
+    ease of use, as well as some functions designed to retrieve specific
+    pieces of commonly used data. Functions for each new API will be added
+    as and when they become available.
 License: MIT + file LICENSE
-LazyData: TRUE
-Depends: R(>= 3.2.0)
+URL: https://docs.evanodell.com/hansard,
+    https://ropengov.github.io/hansard/,
+    https://github.com/rOpenGov/hansard
+BugReports: https://github.com/EvanOdell/hansard/issues
+Depends: 
+    R (>= 3.2.0)
 Imports:
-    jsonlite,
     dplyr,
-    tibble,
+    httr,
+    jsonlite,
     lubridate,
-    tidyr,
     snakecase,
-    httr
-RoxygenNote: 7.1.1
-Roxygen: list(markdown = TRUE)
-Encoding: UTF-8
+    tibble,
+    tidyr
 Suggests: 
-    knitr,
-    rmarkdown,
-    testthat,
     covr,
-    methods
-VignetteBuilder: knitr
+    knitr,
+    methods,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: TRUE
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+X-schema.org-isPartOf: http://ropengov.org/
+X-schema.org-keywords: ropengov

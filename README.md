@@ -1,25 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# hansard: Accessing Westminster Parliament Data
+# hansard: Accessing Westminster Parliament Data <img src='man/figures/logo.png' align="right" height="139" />
 
 <!-- badges: start -->
 
+[![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/hansard)](https://cran.r-project.org/package=hansard)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/hansard)](https://cran.r-project.org/package=hansard)
 [![GitHub
 tag](https://img.shields.io/github/tag/evanodell/hansard.svg)](https://github.com/evanodell/hansard)
 [![CRAN
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hansard)](https://cran.r-project.org/package=hansard)
 [![DOI](https://zenodo.org/badge/72111315.svg)](https://zenodo.org/badge/latestdoi/72111315)
-[![R build
-status](https://github.com/EvanOdell/hansard/workflows/R-CMD-check/badge.svg)](https://github.com/EvanOdell/hansard/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/EvanOdell/hansard/branch/master/graph/badge.svg)](https://codecov.io/gh/EvanOdell/hansard?branch=master)
-[![R-CMD-check](https://github.com/EvanOdell/hansard/workflows/R-CMD-check/badge.svg)](https://github.com/EvanOdell/hansard/actions)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/EvanOdell/hansard?branch=master&svg=true)](https://ci.appveyor.com/project/EvanOdell/hansard)
+[![R-CMD-check](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/ropengov/hansard/branch/main/graph/badge.svg)](https://codecov.io/gh/ropengov/hansard)
+[![R-CMD-check](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 An R package to automatically fetch data from the UK Parliament API.
