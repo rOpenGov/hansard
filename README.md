@@ -15,16 +15,14 @@ tag](https://img.shields.io/github/tag/evanodell/hansard.svg)](https://github.co
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/hansard)](https://cran.r-project.org/package=hansard)
 [![DOI](https://zenodo.org/badge/72111315.svg)](https://zenodo.org/badge/latestdoi/72111315)
 [![R-CMD-check](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/ropengov/hansard/branch/main/graph/badge.svg)](https://codecov.io/gh/ropengov/hansard)
-[![R-CMD-check](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rOpenGov/hansard/actions/workflows/R-CMD-check.yaml)
-
+[![codecov](https://codecov.io/gh/ropengov/hansard/branch/master/graph/badge.svg?token=p4LfEWcPSP)](https://app.codecov.io/gh/ropengov/hansard)
 <!-- badges: end -->
 
 An R package to automatically fetch data from the UK Parliament API.
 Ironically, Hansard data (as in speeches) is not yet accessible through
 the API. To explore all available data see
 <http://www.data.parliament.uk/>. Documentation for the API itself is
-available [here](http://explore.data.parliament.uk/).
+available [here](https://explore.data.parliament.uk/).
 
 Like the UK parliament API, this package is a work in progress.
 Additional functionalities will be added to the package as they are
