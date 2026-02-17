@@ -89,7 +89,7 @@ test_that("commons functions return expected format", {
     search = "estate",
     class = "ORG", verbose = TRUE
   )
-  expect_length(xctec, 19)
+  expect_length(xctec, 21)
   expect_type(xctec, "list")
   expect_true(tibble::is_tibble(xctec))
 
