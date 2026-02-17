@@ -6,27 +6,24 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to hansard • hansard</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
+<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/B612_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to hansard">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=B612+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Roboto+Mono:ital,wght@0,100..700;1,100..700&amp;display=swap" rel="stylesheet">
 <!-- rogtemplate style sheet --><link href="../BS5/rogtemplate.min.css" rel="stylesheet">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-dark" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">hansard</a>
 
@@ -68,7 +65,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Introduction to hansard</h1>
                         <h4 data-toc-skip class="author">Evan Odell</h4>
             
-            <h4 data-toc-skip class="date">2024-07-08</h4>
+            <h4 data-toc-skip class="date">2026-02-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rOpenGov/hansard/blob/master/vignettes/introduction.Rmd" class="external-link"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="d-none name"><code>introduction.Rmd</code></div>
@@ -268,37 +265,37 @@ Ministry of Justice, between 2016-12-18 and 2017-03-12.</p>
 <span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="co">## need to fix this</span></span></code></pre></div>
 <pre><code><span><span class="co">## Rows: 23</span></span>
 <span><span class="co">## Columns: 31</span></span>
-<span><span class="co">## $ about                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "705625", "705626", "705627", "678…</span></span>
-<span><span class="co">## $ answering_body                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Department of Health", "Departmen…</span></span>
+<span><span class="co">## $ about                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "705625"<span style="color: #949494;">, </span>"705626"<span style="color: #949494;">, </span>"705627"<span style="color: #949494;">, </span>"678…</span></span>
+<span><span class="co">## $ answering_body                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Department of Health"<span style="color: #949494;">, </span>"Departmen…</span></span>
 <span><span class="co">## $ question_text                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "To ask the Secretary of State for…</span></span>
-<span><span class="co">## $ tabling_member_printed              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Keith Vaz", "Keith Vaz", "Keith V…</span></span>
-<span><span class="co">## $ uin                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "65590", "65591", "65592", "61355"…</span></span>
-<span><span class="co">## $ attachment                          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [&lt;data.frame[2 x 3]&gt;], [&lt;data.fra…</span></span>
-<span><span class="co">## $ grouped_question_uin                <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> "list(c(\"65591\", \"65592\"))", …</span></span>
+<span><span class="co">## $ tabling_member_printed              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Keith Vaz"<span style="color: #949494;">, </span>"Keith Vaz"<span style="color: #949494;">, </span>"Keith V…</span></span>
+<span><span class="co">## $ uin                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "65590"<span style="color: #949494;">, </span>"65591"<span style="color: #949494;">, </span>"65592"<span style="color: #949494;">, </span>"61355"…</span></span>
+<span><span class="co">## $ attachment                          <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [&lt;data.frame[2 x 3]&gt;]<span style="color: #949494;">, </span>[&lt;data.fra…</span></span>
+<span><span class="co">## $ grouped_question_uin                <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> "list(c(\"65591\", \"65592\"))"<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">## $ answer_text_value                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "&lt;p&gt;73 clinical commissioning grou…</span></span>
-<span><span class="co">## $ answering_member_about              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "4019", "4019", "4019", "4019", "4…</span></span>
+<span><span class="co">## $ answering_member_about              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "4019"<span style="color: #949494;">, </span>"4019"<span style="color: #949494;">, </span>"4019"<span style="color: #949494;">, </span>"4019"<span style="color: #949494;">, </span>"4…</span></span>
 <span><span class="co">## $ answering_member_label_value        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Biography information for Barones…</span></span>
-<span><span class="co">## $ answering_member_constituency_value <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Oxford West and Abingdon", "Oxfor…</span></span>
-<span><span class="co">## $ answering_member_printed_value      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Nicola Blackwood", "Nicola Blackw…</span></span>
-<span><span class="co">## $ date_of_answer_value                <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2017-03-07, 2017-03-07, 2017-03-0…</span></span>
-<span><span class="co">## $ answer_date_time                    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2017-03-07 17:15:39, 2017-03-07 1…</span></span>
-<span><span class="co">## $ date_of_answer_datatype             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "POXIXct", "POXIXct", "POXIXct", "…</span></span>
-<span><span class="co">## $ is_ministerial_correction_value     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "false", "false", "false", "false"…</span></span>
-<span><span class="co">## $ is_ministerial_correction_datatype  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "boolean", "boolean", "boolean", "…</span></span>
-<span><span class="co">## $ answering_dept_id_value             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "17", "17", "17", "17", "17", "17"…</span></span>
-<span><span class="co">## $ answering_dept_short_name_value     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Health", "Health", "Health", "Hea…</span></span>
-<span><span class="co">## $ answering_dept_sort_name_value      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Health", "Health", "Health", "Hea…</span></span>
-<span><span class="co">## $ date_value                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2017-02-27", "2017-02-27", "2017-…</span></span>
-<span><span class="co">## $ date_datatype                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "dateTime", "dateTime", "dateTime"…</span></span>
-<span><span class="co">## $ hansard_heading_value               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Diabetes", "Diabetes", "Diabetes"…</span></span>
-<span><span class="co">## $ house_id_value                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1", "1", "1", "1", "1", "1", "1",…</span></span>
-<span><span class="co">## $ registered_interest_value           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "false", "false", "false", "false"…</span></span>
-<span><span class="co">## $ registered_interest_datatype        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "boolean", "boolean", "boolean", "…</span></span>
-<span><span class="co">## $ tabling_member_about                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "338", "338", "338", "338", "338",…</span></span>
+<span><span class="co">## $ answering_member_constituency_value <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Oxford West and Abingdon"<span style="color: #949494;">, </span>"Oxfor…</span></span>
+<span><span class="co">## $ answering_member_printed_value      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Nicola Blackwood"<span style="color: #949494;">, </span>"Nicola Blackw…</span></span>
+<span><span class="co">## $ date_of_answer_value                <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2017-03-07<span style="color: #949494;">, </span>2017-03-07<span style="color: #949494;">, </span>2017-03-0…</span></span>
+<span><span class="co">## $ answer_date_time                    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2017-03-07 17:15:39<span style="color: #949494;">, </span>2017-03-07 1…</span></span>
+<span><span class="co">## $ date_of_answer_datatype             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "POXIXct"<span style="color: #949494;">, </span>"POXIXct"<span style="color: #949494;">, </span>"POXIXct"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">## $ is_ministerial_correction_value     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "false"<span style="color: #949494;">, </span>"false"<span style="color: #949494;">, </span>"false"<span style="color: #949494;">, </span>"false"…</span></span>
+<span><span class="co">## $ is_ministerial_correction_datatype  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "boolean"<span style="color: #949494;">, </span>"boolean"<span style="color: #949494;">, </span>"boolean"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">## $ answering_dept_id_value             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "17"<span style="color: #949494;">, </span>"17"<span style="color: #949494;">, </span>"17"<span style="color: #949494;">, </span>"17"<span style="color: #949494;">, </span>"17"<span style="color: #949494;">, </span>"17"…</span></span>
+<span><span class="co">## $ answering_dept_short_name_value     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Health"<span style="color: #949494;">, </span>"Health"<span style="color: #949494;">, </span>"Health"<span style="color: #949494;">, </span>"Hea…</span></span>
+<span><span class="co">## $ answering_dept_sort_name_value      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Health"<span style="color: #949494;">, </span>"Health"<span style="color: #949494;">, </span>"Health"<span style="color: #949494;">, </span>"Hea…</span></span>
+<span><span class="co">## $ date_value                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2017-02-27"<span style="color: #949494;">, </span>"2017-02-27"<span style="color: #949494;">, </span>"2017-…</span></span>
+<span><span class="co">## $ date_datatype                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "dateTime"<span style="color: #949494;">, </span>"dateTime"<span style="color: #949494;">, </span>"dateTime"…</span></span>
+<span><span class="co">## $ hansard_heading_value               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Diabetes"<span style="color: #949494;">, </span>"Diabetes"<span style="color: #949494;">, </span>"Diabetes"…</span></span>
+<span><span class="co">## $ house_id_value                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">,</span>…</span></span>
+<span><span class="co">## $ registered_interest_value           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "false"<span style="color: #949494;">, </span>"false"<span style="color: #949494;">, </span>"false"<span style="color: #949494;">, </span>"false"…</span></span>
+<span><span class="co">## $ registered_interest_datatype        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "boolean"<span style="color: #949494;">, </span>"boolean"<span style="color: #949494;">, </span>"boolean"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">## $ tabling_member_about                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "338"<span style="color: #949494;">, </span>"338"<span style="color: #949494;">, </span>"338"<span style="color: #949494;">, </span>"338"<span style="color: #949494;">, </span>"338"<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">## $ tabling_member_label_value          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Biography information for Keith V…</span></span>
-<span><span class="co">## $ tabling_member_constituency_value   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Leicester East", "Leicester East"…</span></span>
-<span><span class="co">## $ legislature_pref_label_value        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "House of Commons", "House of Comm…</span></span>
-<span><span class="co">## $ legislature_about                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "25259", "25259", "25259", "25259"…</span></span></code></pre>
+<span><span class="co">## $ tabling_member_constituency_value   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Leicester East"<span style="color: #949494;">, </span>"Leicester East"…</span></span>
+<span><span class="co">## $ legislature_pref_label_value        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "House of Commons"<span style="color: #949494;">, </span>"House of Comm…</span></span>
+<span><span class="co">## $ legislature_about                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "25259"<span style="color: #949494;">, </span>"25259"<span style="color: #949494;">, </span>"25259"<span style="color: #949494;">, </span>"25259"…</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="special-functions">Special functions<a class="anchor" aria-label="anchor" href="#special-functions"></a>
@@ -362,11 +359,11 @@ up to 500 items per page, the default used by <code>hansard</code>.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://evanodell.com" class="external-link">Evan Odell</a>.</p>
+  <p>Developed by <a href="https://evanodell.com" class="external-link">Evan Odell</a>. <br>Part of <a href="http://ropengov.org/" class="external-link"><img src="https://ropengov.github.io/rogtemplate/logo2020_white_orange.svg" height="20" class="d-inline-block mx-1 rog-logo" alt="rOpenGov R package for open government data analytics"></a></p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
@@ -374,7 +371,7 @@ up to 500 items per page, the default used by <code>hansard</code>.</p>
 
 
 
-    <!-- Add ropengov logo -->
-  <script src="../BS5/logo.js"></script>
-</body>
+
+
+  </body>
 </html>
