@@ -3,27 +3,33 @@ template:
   opengraph:
     twitter:
       site: '@rOpenGov'
+ 
 authors:
   Evan Odell:
     href: https://evanodell.com
-name:
+
+
 navbar:
-  left:
-    - text: "Docs Home"
+  structure:
+    left:  [docs, news, reference, introd, paks]
+    right: [search, gh, web, lightswitch]
+  components:
+    docs:
+      text: "Docs Home"
       href: http://docs.evanodell.com
-    - text: "News"
-      href: news/index.html
-    - text: "Reference"
-      href: reference/index.html
-      menu:
-    - text: "Introduction"
+    introd: 
+      text: "Introduction"
       href: articles/introduction.html
-    - text: "Packages"
+    paks:
+      text: "Packages"
       menu:
-        - text: "Documentation Home"
-          href: http://docs.evanodell.com
-  right:
-    - icon: fa-github fa-lg
+      - text: "Documentation Home"
+        href: http://docs.evanodell.com
+    gh:
+      icon: fa-github fa-lg
       href: https://github.com/EvanOdell/hansard
-    - icon: fa-home fa-lg
+      aria-label: GitHub
+    web: 
+      icon: fa-home fa-lg
       href: http://evanodell.com
+      aria-label: Home

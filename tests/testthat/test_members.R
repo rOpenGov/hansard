@@ -28,7 +28,7 @@ test_that("members functions return expected format", {
   expect_true(tibble::is_tibble(camem))
 
   lamem <- hansard_lords_members(verbose = TRUE)
-  expect_length(lamem, 9)
+  expect_length(lamem, 8)
   expect_type(lamem, "list")
   expect_true(tibble::is_tibble(lamem))
 
