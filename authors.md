@@ -12,7 +12,7 @@ Source:
 
 Odell E (2017). *hansard: Provides Easy Downloading Capabilities for the
 UK Parliament API*.
-[doi:10.5281/zenodo.591264](https://doi.org/10.5281/zenodo.591264), R
+[doi:10.5281/zenodo.591264](https://doi.org/10.5281/zenodo.591264). R
 package version 0.8.0.9000,
 <https://cran.r-project.org/package=hansard>.
 
