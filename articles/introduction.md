@@ -100,6 +100,7 @@ use the [`members_search()` function described
 below](#special-functions).
 
 ``` r
+
 library(hansard)
 z <- mp_vote_record(172, "aye", start_date = "2017-01-01",
                     end_date = "2017-02-07", verbose = FALSE)
@@ -129,6 +130,7 @@ Parliamentary General Election bill that dissolved parliament for the
 MP and how they voted:
 
 ``` r
+
 x <- commons_divisions(722300, verbose = FALSE)
 head(x)
 ```
@@ -147,6 +149,7 @@ With the `summary` parameter, we can return a brief summary table of
 votes:
 
 ``` r
+
 y <- commons_divisions(division_id = 722300, summary = TRUE, verbose = FALSE)
 tibble::glimpse(y)
 ```
@@ -194,6 +197,7 @@ or Diane Abbot (172), and covered by the Department for Health or the
 Ministry of Justice, between 2016-12-18 and 2017-03-12.
 
 ``` r
+
 w <- all_answered_questions(mp_id = c(4019, 3980), tabling_mp_id = c(338, 172),
                             answering_body = c("health", "justice"),
                             start_date = "2016-12-18", end_date = "2017-03-12")
@@ -260,6 +264,7 @@ function includes the feature of requesting data using lists created
 using the `research_briefings_lists` functions:
 
 ``` r
+
 research_topics_list <- research_topics_list()
 
 research_topics_list[[7]]
@@ -275,6 +280,7 @@ subtopics to call, although strings can also be used. In the example
 below, `a` and `c` contain the same data.
 
 ``` r
+
 a <- research_briefings(topic = research_topics_list[[7]])
 
 c <- research_briefings(topic = "Defence")
@@ -294,6 +300,7 @@ the API. Information on all the paths available in the API can be found
 on the [DDP Explorer website](http://explore.data.parliament.uk/).
 
 ``` r
+
 x <- hansard_generic("commonsansweredquestions.json")
 ```
 
